@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true">
+    <GridView
+        android:id="@+id/galleryGridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="270dp"
+        android:layout_marginBottom="80dp"
+        android:gravity="center"
+        android:numColumns="2"
+        android:touchscreenBlocksFocus="true"
+        android:padding="2dp"
+        android:stretchMode="columnWidth"
+        android:scrollingCache="false"
+        android:drawSelectorOnTop="false"
+        android:verticalSpacing="2dp">
+    </GridView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="-80dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:id="@+id/done"
+            android:background="@drawable/button_new">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="#FFF"
+                android:text="Done"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:id="@+id/cancel"
+            android:background="@drawable/button_new">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="#FFF"
+                android:text="Cancel"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5fb0c9</color>
+    <color name="colorPrimaryDark">#5fb0c9</color>
+    <color name="colorAccent">#FF4081</color>
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+        <item>@color/dot_light_screen5</item>
+        <item>@color/dot_light_screen6</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+        <item>@color/dot_light_screen5</item>
+        <item>@color/dot_light_screen6</item>
+    </array>
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#FFDDDDDD</color>
+    <color name="dot_dark_screen2">#FFDDDDDD</color>
+    <color name="dot_dark_screen3">#FFDDDDDD</color>
+    <color name="dot_dark_screen4">#FFDDDDDD</color>
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#FFDDDDDD</color>
+    <color name="dot_light_screen2">#FFDDDDDD</color>
+    <color name="dot_light_screen3">#FFDDDDDD</color>
+    <color name="dot_light_screen4">#FFDDDDDD</color>
+    <color name="dot_light_screen5">#FFDDDDDD</color>
+    <color name="dot_light_screen6">#FFDDDDDD</color>
+
+    <color name="camera_bg">#003F75</color>
+    <color name="upload_bg">#680306</color>
+    <color name="add_camera_text">#647E95</color>
+    <color name="add_uploads_text">#A56D6F</color>
+    <color name="bg_color">#B7B7B7</color>
+</resources>

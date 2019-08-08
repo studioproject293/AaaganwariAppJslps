@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Month"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/dark_boder">
+
+                <Spinner
+                    android:id="@+id/sppinermonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#000"
+                    android:padding="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center|left"
+                android:text="Year "
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="26dp"
+                android:background="@drawable/dark_boder">
+
+                <Spinner
+                    android:id="@+id/sppinerYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#000"
+                    android:padding="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableLayout"
+            android:layout_marginTop="10dp">
+
+            <TableRow
+                android:background="@color/colorPrimary"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:paddingRight="2dp"
+                    android:text="Type Of Beneficiary"
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp">
+
+                    <View style="@style/Divider" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+
+                    android:text="No. of Beni."
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp">
+
+                    <View style="@style/Divider" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:text="No. of meal in month"
+
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp">
+
+                    <View style="@style/Divider" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:text="Unit Rate"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp">
+
+                    <View style="@style/Divider" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:text="Amount"
+                    android:textColor="#FFF"
+
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <!-- <TableRow
+                 android:background="#DAE8FC"
+                 android:padding="5dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="6-36 month"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="40"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="25"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <EditText
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:background="@null"
+                     android:backgroundTint="@null"
+                     android:gravity="center"
+                     android:text="8.00"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="8000 /-"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+             </TableRow>
+
+             <TableRow
+                 android:background="#DAE8FC"
+                 android:padding="5dp">
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="6-36 month"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="40"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="25"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <EditText
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:background="@null"
+                     android:backgroundTint="@null"
+                     android:gravity="center"
+                     android:text="8.00"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+
+                 <LinearLayout
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="2dp">
+
+                     <View style="@style/Divider" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="8000 /-"
+                     android:textColor="#000"
+                     android:textStyle="bold" />
+             </TableRow>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewBenifishry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:id="@+id/totalLyout"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total : "
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 16000 /- "
+                android:textColor="#000"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="15dp"
+             android:gravity="center|left">
+
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="left"
+                 android:layout_weight="0.7"
+                 android:gravity="center"
+                 android:text="Upload Receipt"
+                 android:textColor="#000"
+                 android:textSize="16sp" />
+
+             <Button
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="right"
+                 android:layout_weight="0.3"
+                 android:textColor="#000"
+                android:id="@+id/uploadImage"
+                 android:background="@drawable/dark_boder"
+                 android:text="Upload Image" />
+         </LinearLayout>-->
+        <LinearLayout
+            android:id="@+id/image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/attachmentRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/editTextRemarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/dark_boder"
+            android:gravity="top|start"
+            android:hint="Write Your remarks here"
+            android:lines="6"
+            android:maxLength="200"
+            android:maxLines="6"
+            android:padding="5dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:visibility="visible" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/uploadImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:layout_weight="0.6"
+                android:background="#d67601"
+                android:text="Attach Receipt"
+                android:textColor="#FFF" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.4"
+                android:background="#d67601"
+                android:id="@+id/saveData"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginLeft="10dp"
+                android:text="Update Data"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</ScrollView>
