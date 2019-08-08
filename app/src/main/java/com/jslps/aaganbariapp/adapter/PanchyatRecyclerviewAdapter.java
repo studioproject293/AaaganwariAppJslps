@@ -37,6 +37,7 @@ public class PanchyatRecyclerviewAdapter extends RecyclerView.Adapter<PanchyatRe
         if (panchyatDataModelDbs != null && panchyatDataModelDbs.size() > 3) {
             row = LayoutInflater.from(context).inflate(R.layout.pay_options_row, parent, false);
         } else {
+
             row = LayoutInflater.from(context).inflate(R.layout.pay_options_row1, parent, false);
 
         }
