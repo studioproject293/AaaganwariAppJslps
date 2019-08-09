@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragmentEdit;
@@ -48,7 +49,14 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
         holder.noOfBenifishery.setText(benifisheryDataModelDb.getNoofbenf());
         holder.unitRate.setText(benifisheryDataModelDb.getUnitrateofmeal());
         Double total = 0.0;
+        if (Constant.editFlag){
+            holder.noOfBenifishery.setEnabled(true);
+            holder.noofmealinmonth.setEnabled(true);
 
+        }else {
+            holder.noOfBenifishery.setEnabled(false);
+            holder.noofmealinmonth.setEnabled(false);
+        }
         total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDb.getNoofmeal()) *
                 Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
 

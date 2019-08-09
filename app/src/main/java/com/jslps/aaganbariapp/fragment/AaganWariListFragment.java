@@ -54,7 +54,7 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
     }
 
     private void updateList(ArrayList<AanganWariModelDb> panchyatDataModelDbs) {
-        AanganWariRecyclerviewAdapter panchyatRecyclerviewAdapter = new AanganWariRecyclerviewAdapter(getActivity(), panchyatDataModelDbs);
+        AanganWariRecyclerviewAdapter panchyatRecyclerviewAdapter = new AanganWariRecyclerviewAdapter(getActivity(), panchyatDataModelDbs,voListDataModelDbRec);
         panchyatRecyclerviewAdapter.setListner(this);
         recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
     }

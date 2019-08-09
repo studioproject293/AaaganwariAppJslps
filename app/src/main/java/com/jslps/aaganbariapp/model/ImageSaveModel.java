@@ -3,10 +3,10 @@ package com.jslps.aaganbariapp.model;
 import com.orm.SugarRecord;
 
 public class ImageSaveModel extends SugarRecord {
-   private String imgebytes;
-   private String finalnames;
-   private Long finalsizes;
-   private String finaltypes;
+    private String imgebytes;
+    private String finalnames;
+    private Long finalsizes;
+    private String finaltypes;
     private String guid;
     private String panchyatcode;
     private String vocode;

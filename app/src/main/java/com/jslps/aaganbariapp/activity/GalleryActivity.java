@@ -51,7 +51,6 @@ public class GalleryActivity extends AppCompatActivity {
     int alertIndentifierCounter = 0;
     Uri uri;
     Cursor cursor;
-    int column_index_data, column_index_folder_name;
 
 
     @Override
@@ -62,11 +61,15 @@ public class GalleryActivity extends AppCompatActivity {
         GridView gallery = (GridView) findViewById(R.id.galleryGridView);
         LinearLayout cancel = (LinearLayout) findViewById(R.id.cancel);
         LinearLayout done = (LinearLayout) findViewById(R.id.done);
-
+        Constant.finalbytes.clear();
+        Constant.finalnames.clear();
+        Constant.finalsizes.clear();
+        Constant.finaltypes.clear();
         List<String> tempfinalbytes1 = new ArrayList<String>(Constant.finalbytes);
         List<String> tempfinalnames1 = new ArrayList<String>(Constant.finalnames);
         List<Long> tempfinalsizes1 = new ArrayList<Long>(Constant.finalsizes);
         List<String> tempfinaltypes1 = new ArrayList<String>(Constant.finaltypes);
+
         intialSize = tempfinalbytes1.size();
         finalbytes = tempfinalbytes1;
         finalnames = tempfinalnames1;
@@ -120,6 +123,7 @@ public class GalleryActivity extends AppCompatActivity {
                 Log.d(Constant.TAG,TAG+"names"+finalnames.size());
                 Log.d(Constant.TAG,TAG+"sizes"+finalsizes.size());
                 Log.d(Constant.TAG,TAG+"types"+finaltypes.size());*/
+
                 Constant.finalbytes = tempfinalbytes;
                 Constant.finalnames = tempfinalnames;
                 Constant.finalsizes = tempfinalsizes;

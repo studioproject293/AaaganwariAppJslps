@@ -49,7 +49,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Reports"));
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Edit"));
         benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
         ArrayList<String> arrayListString = new ArrayList<>();
@@ -107,7 +107,13 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 }
                 Toast.makeText(getActivity(), "Data delete successfully", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.edit:
+                Constant.editFlag = true;
+                BenifisheryDataModelDbSend benifisheryDataModelDbSend2 = (BenifisheryDataModelDbSend) data;
+                mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend2);
+                break;
             default:
+                Constant.editFlag = false;
                 BenifisheryDataModelDbSend benifisheryDataModelDbSend1 = (BenifisheryDataModelDbSend) data;
                 mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend1);
                 break;

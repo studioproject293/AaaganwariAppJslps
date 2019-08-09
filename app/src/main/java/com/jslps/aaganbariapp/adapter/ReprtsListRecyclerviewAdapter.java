@@ -50,10 +50,16 @@ public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsLi
                 onFragmentListItemSelectListener.onListItemSelected(R.id.edit, benifisheryDataModelDbSend);
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.imageViewView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onFragmentListItemSelectListener.onListItemSelected(R.id.show, benifisheryDataModelDbSend);
+            }
+        });
+        holder.imageViewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFragmentListItemSelectListener.onListItemSelected(R.id.edit, benifisheryDataModelDbSend);
             }
         });
         holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {

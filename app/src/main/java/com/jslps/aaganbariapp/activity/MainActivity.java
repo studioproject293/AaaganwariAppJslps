@@ -6,6 +6,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     Toolbar toolbar_home;
     TextView textheader;
     Button savenewMember;
+    RadioGroup radioGroup;
+    RadioButton button_bank_connection, button_brand_connection;
 
     @Override
     protected void onResume() {
@@ -60,8 +64,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         setContentView(R.layout.activity_main);
         ImageLoader imageLoader = ImageLoader.getInstance();
         toolbar_home = findViewById(R.id.toolbar_home);
+        radioGroup = findViewById(R.id.radioGroup);
         textheader = findViewById(R.id.toolbar_title);
         savenewMember = findViewById(R.id.savenewMember);
+        button_bank_connection = findViewById(R.id.button_bank_connection);
+        button_brand_connection = findViewById(R.id.button_brand_connection);
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
         try {
             copyDatabase();
@@ -73,6 +80,33 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             public void onClick(View view) {
             }
         });
+        if (radioGroup.getCheckedRadioButtonId() == -1) {
+            button_bank_connection.setBackgroundResource(R.drawable.radio_button_style);
+            button_brand_connection.setBackgroundResource(R.drawable.radio_background);
+            button_bank_connection.setTextColor(getResources().getColor(R.color.buttoncolor));
+            button_brand_connection.setTextColor(getResources().getColor(R.color.color_white));
+
+        }
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                if (checkedId == R.id.button_bank_connection) {
+                    button_bank_connection.setBackgroundResource(R.drawable.radio_button_style);
+                    button_brand_connection.setBackgroundResource(R.drawable.radio_background);
+                    button_bank_connection.setTextColor(getResources().getColor(R.color.buttoncolor));
+                    button_brand_connection.setTextColor(getResources().getColor(R.color.color_white));
+
+                } else {
+                    button_bank_connection.setBackgroundResource(R.drawable.radio_background);
+                    button_brand_connection.setBackgroundResource(R.drawable.radio_button_style);
+                    button_bank_connection.setTextColor(getResources().getColor(R.color.color_white));
+                    button_brand_connection.setTextColor(getResources().getColor(R.color.buttoncolor));
+
+
+                }
+            }
+        });
+
     }
 
 
@@ -117,13 +151,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 HeaderData headerData = (HeaderData) data;
                 textheader.setVisibility(View.VISIBLE);
                 textheader.setText(headerData.getText());
-                if (headerData.isLogoRequired())
+                if (headerData.isLogoRequired()) {
                     savenewMember.setVisibility(View.VISIBLE);
-                else
+                    radioGroup.setVisibility(View.GONE);
+                } else {
                     savenewMember.setVisibility(View.GONE);
+                    radioGroup.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -155,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
     public static Boolean copyFile(File sourceFile, File destFile)
             throws IOException {
         //        if (!destFile.exists()) {
@@ -176,20 +215,21 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         //        }
         //        return false;
     }
+
     private void copyDatabase() throws IOException {
 
         File actualFile = new File(new SugarDb(MainActivity.this).getDB().getPath());
-        File cuurentfile  = new File(actualFile.toString());
-        Log.e("actualPath", "vsfkvsk"+actualFile.toString());
+        File cuurentfile = new File(actualFile.toString());
+        Log.e("actualPath", "vsfkvsk" + actualFile.toString());
 
 
-        File newFile = createTempFile("sugarFiles",".db", Environment.getExternalStorageDirectory());
+        File newFile = createTempFile("sugarFiles", ".db", Environment.getExternalStorageDirectory());
 
-        Log.e("newPath","gbgkjfdk"+ newFile.toString());
+        Log.e("newPath", "gbgkjfdk" + newFile.toString());
 
-        boolean yes = copyFile(cuurentfile,newFile);
+        boolean yes = copyFile(cuurentfile, newFile);
 
-        if(yes) {
+        if (yes) {
             Log.e("result", "" + true);
         }
 

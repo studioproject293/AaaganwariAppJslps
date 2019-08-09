@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
@@ -43,11 +43,56 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
+
             android:id="@+id/savenewMember"
             android:background="@drawable/dark_boder"
             android:text="Sync Data" />
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/radio_background"
+            android:checkedButton="@null"
+
+            android:translationZ="5dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/button_bank_connection"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_style"
+                android:button="@null"
+                android:gravity="center"
+                android:text="English"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/button_brand_connection"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Hindi"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+        </RadioGroup>
     </LinearLayout>
 </androidx.appcompat.widget.Toolbar>

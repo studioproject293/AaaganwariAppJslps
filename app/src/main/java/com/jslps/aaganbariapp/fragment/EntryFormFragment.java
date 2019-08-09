@@ -97,7 +97,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
     int SELECT_FILE = 4;
     static AanganWariModelDb aanganWariModelDbrec;
     Switch switchtrue;
-    LinearLayout totalLyout,tableLayout;
+    LinearLayout totalLyout, tableLayout;
+
     public EntryFormFragment() {
         // Required empty public constructor
     }
@@ -132,6 +133,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             }
         }*/
         if (Constant.finalbytes.size() != 0) {
+            Constant.editFlag = true;
             imageLayout.setVisibility(View.VISIBLE);
             CreateAppointmentAttachmentAdapter createAppointmentAttachmentAdapter = new CreateAppointmentAttachmentAdapter(getContext(), Constant.finalbytes,
                     Constant.finalnames, Constant.finalsizes, Constant.finaltypes, arrayListVillage1);
@@ -243,10 +245,10 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         yearSppiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i==0){
-                    yearSelect="2019";
-                }else {
-                    yearSelect="2020";
+                if (i == 0) {
+                    yearSelect = "2019";
+                } else {
+                    yearSelect = "2020";
                 }
             }
 
@@ -255,24 +257,24 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
             }
         });
-       switchtrue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-               if (compoundButton.isChecked()){
-                   tableLayout.setVisibility(View.GONE);
-                   totalLyout.setVisibility(View.GONE);
-                   uploadImage.setVisibility(View.GONE);
-               }else {
-                   tableLayout.setVisibility(View.VISIBLE);
-                   totalLyout.setVisibility(View.VISIBLE);
-                   uploadImage.setVisibility(View.VISIBLE);
-               }
-           }
-       });
+        switchtrue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    tableLayout.setVisibility(View.GONE);
+                    totalLyout.setVisibility(View.GONE);
+                    uploadImage.setVisibility(View.GONE);
+                } else {
+                    tableLayout.setVisibility(View.VISIBLE);
+                    totalLyout.setVisibility(View.VISIBLE);
+                    uploadImage.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (switchtrue.isChecked()){
+                if (switchtrue.isChecked()) {
                     String id = UUID.randomUUID().toString();
                     BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
                     benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
@@ -290,7 +292,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }else {
+                } else {
                     if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
                         ArrayList<ImageSaveModel> imageSaveModelArrayList = new ArrayList<>();
@@ -355,11 +357,15 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
                                 benifisheryDataModelDbSends.get(i).save();
 
-
+                                Constant.finalbytes.clear();
+                                Constant.finalnames.clear();
+                                Constant.finalsizes.clear();
+                                Constant.finaltypes.clear();
                                 Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
+
                             } else {
 
 
@@ -412,8 +418,12 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
                                 benifisheryDataModelDbSend.save();
                                 arrayList.add(benifisheryDataModelDbSend);
-                            }
 
+                            }
+                            Constant.finalbytes.clear();
+                            Constant.finalnames.clear();
+                            Constant.finalsizes.clear();
+                            Constant.finaltypes.clear();
                             Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -472,7 +482,9 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
         }
     }
-    String yearSelect=null;
+
+    String yearSelect = null;
+
     private void attchmemntPopup(final Activity context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.attachment_popup, null);
@@ -650,26 +662,26 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             }
                         }
                     }*/
-                            Constant.finalbytes.add(encodedBase64);
-                            Constant.finalnames.add(System.currentTimeMillis() + "");
-                            Constant.finaltypes.add("jpeg");
-                            Constant.finalsizes.add((long) fileSizeInBytes);
-                        } catch(FileNotFoundException e){
-                            e.printStackTrace();
+                    Constant.finalbytes.add(encodedBase64);
+                    Constant.finalnames.add(System.currentTimeMillis() + "");
+                    Constant.finaltypes.add("jpeg");
+                    Constant.finalsizes.add((long) fileSizeInBytes);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
 
-                        } catch(IOException e){
-                            e.printStackTrace();
-                        } catch(Error e){
-                            //Toaster.toastLong("RAM is running out of memory, Please clear your RAM first.");
-                        }
-                    }
-                } /*else if (requestCode == SELECT_FILE) {
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Error e) {
+                    //Toaster.toastLong("RAM is running out of memory, Please clear your RAM first.");
+                }
+            }
+        } /*else if (requestCode == SELECT_FILE) {
             onSelectFromGalleryResult(data);
         }*/
 
-            }
+    }
 
-            String encodedBase64;
+    String encodedBase64;
 
     /*private void onSelectFromGalleryResult(Intent data) {
         Uri selectedImageUri = data.getData();
@@ -725,56 +737,57 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
     }*/
 
-            public Uri getImageUri (Context inContext, Bitmap inImage){
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-                return Uri.parse(path);
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    private Bitmap decodeFile(File f, int size) {
+        try {
+            //decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+            //Find the correct scale value. It should be the power of 2.
+            final int REQUIRED_SIZE = size;
+            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int scale = 1;
+            while (true) {
+                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+                    break;
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
             }
 
-            public String getRealPathFromURI (Uri uri){
-                Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-                cursor.moveToFirst();
-                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                return cursor.getString(idx);
-            }
-
-            private Bitmap decodeFile (File f,int size){
-                try {
-                    //decode image size
-                    BitmapFactory.Options o = new BitmapFactory.Options();
-                    o.inJustDecodeBounds = true;
-                    BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-
-                    //Find the correct scale value. It should be the power of 2.
-                    final int REQUIRED_SIZE = size;
-                    int width_tmp = o.outWidth, height_tmp = o.outHeight;
-                    int scale = 1;
-                    while (true) {
-                        if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
-                            break;
-                        width_tmp /= 2;
-                        height_tmp /= 2;
-                        scale *= 2;
-                    }
-
-                    //decode with inSampleSize
-                    BitmapFactory.Options o2 = new BitmapFactory.Options();
-                    o2.inSampleSize = scale;
-                    return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-                } catch (FileNotFoundException e) {
-                }
-                return null;
-            }
-
-            @Override
-            public void onDestroyView () {
-                super.onDestroyView();
-                Constant.finalbytes.clear();
-                Constant.finalnames.clear();
-                Constant.finalsizes.clear();
-                Constant.finaltypes.clear();
-            }
-
+            //decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {
         }
+        return null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Constant.finalbytes.clear();
+        Constant.finalnames.clear();
+        Constant.finalsizes.clear();
+        Constant.finaltypes.clear();
+        Constant.editFlag = false;
+    }
+
+}
 

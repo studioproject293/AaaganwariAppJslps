@@ -10,58 +10,56 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
-import com.orm.query.Condition;
-import com.orm.query.Select;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
+public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAdapter.ViewHolder> {
     PrefManager prefManager;
-    private static final String TAG = "AllergyAttachmnertAdapter-->";
-    AttachmentViewHolder attachmentViewHolder;
+    private static final String TAG = "AttachmentImgeAdapter-->";
     private Context context;
-    private List<String> finalbytes = new ArrayList<String>();
-    private List<String> finalnames = new ArrayList<String>();
-    private List<Long> finalsizes = new ArrayList<Long>();
-    private List<String> finaltypes = new ArrayList<String>();
+    private List<String> finalbytes = new ArrayList<String>(2);
+    private List<String> finalnames = new ArrayList<String>(2);
+    private List<Long> finalsizes = new ArrayList<Long>(2);
+    private List<String> finaltypes = new ArrayList<String>(2);
     private ArrayList<ImageSaveModel> imageSaveModels = new ArrayList<ImageSaveModel>();
 
-    public CreateAppointmentAttachmentAdapter(Context context, List<String> finalbytes, List<String> finalnames, List<Long> finalsizes, List<String> finaltypes, ArrayList<ImageSaveModel> arrayListVillage1) {
+    public AttachmentImgeAdapter(Context context, List<String> finalbytes, List<String> finalnames, List<Long> finalsizes, List<String> finaltypes,ArrayList<ImageSaveModel>arrayList) {
         this.context = context;
         this.finalbytes = finalbytes;
         this.finalnames = finalnames;
         this.finalsizes = finalsizes;
         this.finaltypes = finaltypes;
-        this.imageSaveModels = arrayListVillage1;
+        this.imageSaveModels=arrayList;
     }
 
+    @NonNull
     @Override
-    public AttachmentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AttachmentImgeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.attachment_image, parent, false);
-        attachmentViewHolder = new AttachmentViewHolder(view);
-        return attachmentViewHolder;
+        ViewHolder  viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final AttachmentViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final AttachmentImgeAdapter.ViewHolder holder, final int position) {
         ImageSaveModel imageSaveModel = null;
         /*if (imageSaveModels != null && imageSaveModels.size() > 0) {
             imageSaveModel = imageSaveModels.get(position);
         }*/
-
+         finalbytes.add(imageSaveModels.get(position).getImgebytes());
+         finalsizes.add(imageSaveModels.get(position).getFinalsizes());
+         finalnames.add(imageSaveModels.get(position).getFinalnames());
+         finaltypes.add(imageSaveModels.get(position).getFinaltypes());
         try {
-            byte[] byteArray = Base64.decode(finalbytes.get(position), 0);
+            byte[] byteArray = Base64.decode(imageSaveModels.get(position).getImgebytes(), 0);
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             holder.attachmentImage.setImageBitmap(bitmap);
         } catch (Exception e) {
@@ -94,6 +92,7 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
                 finalImageSaveModel.setFinaltypes(null);
                 finalImageSaveModel.setFinalsizes(null);
                 finalImageSaveModel.save();*/
+                imageSaveModels.get(position).delete();
                 finalbytes.remove(position);
                 finalnames.remove(position);
                 finalsizes.remove(position);
@@ -138,7 +137,13 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
 
     @Override
     public int getItemCount() {
-        return finalbytes.size();
+       /* if (finalbytes.size()>1){
+            return 2;
+        }else {
+            return finalbytes.size();
+
+        }*/
+        return imageSaveModels.size();
     }
 
     // Imp should be added
@@ -146,19 +151,15 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
     public int getItemViewType(int position) {
         return position;
     }
-}
 
-
-class AttachmentViewHolder extends RecyclerView.ViewHolder {
-
-    public ImageView attachmentImage;
-    public ImageView removeImage;
-    public ImageView backimage;
-
-    public AttachmentViewHolder(View itemView) {
-        super(itemView);
-        attachmentImage = (ImageView) itemView.findViewById(R.id.attachmentImage);
-        removeImage = (ImageView) itemView.findViewById(R.id.removeImage);
-        /*  backimage = (ImageView) itemView.findViewById(R.id.backimage);*/
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView attachmentImage;
+        public ImageView removeImage;
+        public ImageView backimage;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            attachmentImage = (ImageView) itemView.findViewById(R.id.attachmentImage);
+            removeImage = (ImageView) itemView.findViewById(R.id.removeImage);
+        }
     }
 }

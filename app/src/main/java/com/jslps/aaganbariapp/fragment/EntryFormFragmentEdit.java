@@ -40,12 +40,10 @@ import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.activity.GalleryActivity;
 import com.jslps.aaganbariapp.activity.MainActivity;
+import com.jslps.aaganbariapp.adapter.AttachmentImgeAdapter;
 import com.jslps.aaganbariapp.adapter.BenifisheryRowEditRecyclerviewAdapter;
-import com.jslps.aaganbariapp.adapter.BenifisheryRowRecyclerviewAdapter;
 import com.jslps.aaganbariapp.adapter.CreateAppointmentAttachmentAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
-import com.jslps.aaganbariapp.model.AanganWariModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
@@ -70,9 +68,6 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     ArrayList<String> arrayListMonth;
     ArrayList<String> arrayListYear;
     Button uploadImage;
-    int PICK_IMAGE_MULTIPLE = 1;
-    String imageEncoded;
-    List<String> imagesEncodedList;
     public static RecyclerView attachmentRecycler;
     public static LinearLayout imageLayout;
     private static final int REQUEST_PERMISSIONS = 100;
@@ -84,8 +79,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     Button saveData;
     static BenifisheryDataModelDbSend BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
-    int SELECT_FILE = 4;
-    LinearLayout totalLyout,tableLayout;
+    LinearLayout totalLyout, tableLayout, butonLayout;
+
     public EntryFormFragmentEdit() {
         // Required empty public constructor
     }
@@ -114,23 +109,36 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         }
 
         if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
-            Constant.finalbytes.clear();
-            Constant.finalnames.clear();
-            Constant.finalsizes.clear();
-            Constant.finaltypes.clear();
-            for (int i = 0; i < arrayListVillage1.size(); i++) {
 
-                Constant.finalbytes.add(arrayListVillage1.get(i).getImgebytes());
+            if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                for (int k = 0; k < Constant.finalbytes.size(); k++) {
+                    ImageSaveModel imageSaveModel = new ImageSaveModel();
+                    imageSaveModel.setAaganwaricode(BenifisheryDataModelDbSendRec.getAaganwaricode());
+                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPanchyatcode());
+                    imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
+                    imageSaveModel.setFinalnames(Constant.finalnames.get(k));
+                    imageSaveModel.setImgebytes(Constant.finalbytes.get(k));
+                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
+                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    arrayListVillage1.add(1, imageSaveModel);
+                }
+
+
+            }
+            for (int i = 0; i < arrayListVillage1.size(); i++) {
+                /*Constant.finalbytes.add(arrayListVillage1.get(i).getImgebytes());
                 Constant.finalsizes.add(arrayListVillage1.get(i).getFinalsizes());
                 Constant.finaltypes.add(arrayListVillage1.get(i).getFinaltypes());
-                Constant.finalnames.add(arrayListVillage1.get(i).getFinalnames());
+                Constant.finalnames.add(arrayListVillage1.get(i).getFinalnames());*/
                 imageLayout.setVisibility(View.VISIBLE);
-                CreateAppointmentAttachmentAdapter createAppointmentAttachmentAdapter = new CreateAppointmentAttachmentAdapter(getContext(), Constant.finalbytes,
+                AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext(), Constant.finalbytes,
                         Constant.finalnames, Constant.finalsizes, Constant.finaltypes, arrayListVillage1);
                 attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
             }
+
         } else {
             if (Constant.finalbytes.size() != 0) {
+                Constant.editFlag = true;
                 imageLayout.setVisibility(View.VISIBLE);
                 CreateAppointmentAttachmentAdapter createAppointmentAttachmentAdapter = new CreateAppointmentAttachmentAdapter(getContext(), Constant.finalbytes,
                         Constant.finalnames, Constant.finalsizes, Constant.finaltypes, arrayListVillage1);
@@ -139,8 +147,6 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 imageLayout.setVisibility(View.GONE);
             }
         }
-
-
     }
 
     Double totalAll = 0.0;
@@ -148,7 +154,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     private void updateList(ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbArrayList) {
         tableLayout.setVisibility(View.VISIBLE);
         totalLyout.setVisibility(View.VISIBLE);
-        if (benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()!=null &&benifisheryDataModelDbArrayList.get(0).getNoofmeal()!=null) {
+        if (benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal() != null && benifisheryDataModelDbArrayList.get(0).getNoofmeal() != null) {
             BenifisheryRowEditRecyclerviewAdapter benifisheryRowRecyclerviewAdapter = new BenifisheryRowEditRecyclerviewAdapter(getActivity(), benifisheryDataModelDbArrayList);
             recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
             totalAll = 0.0;
@@ -157,7 +163,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                         Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
             }
             textViewtotalAll.setText(totalAll.toString());
-        }else {
+        } else {
             tableLayout.setVisibility(View.GONE);
             totalLyout.setVisibility(View.GONE);
         }
@@ -169,18 +175,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.layout_input_form_edit, container, false);
         prefManager = PrefManager.getInstance();
-        monthSpiner = rootView.findViewById(R.id.sppinermonth);
-        imageLayout = (LinearLayout) rootView.findViewById(R.id.image_layout);
-        editTextRemarks = (EditText) rootView.findViewById(R.id.editTextRemarks);
-        totalLyout = (LinearLayout) rootView.findViewById(R.id.totalLyout);
-        tableLayout = (LinearLayout) rootView.findViewById(R.id.tableLayout);
-        saveData = (Button) rootView.findViewById(R.id.saveData);
-        textViewtotalAll = (TextView) rootView.findViewById(R.id.totalAll);
-        attachmentRecycler = (RecyclerView) rootView.findViewById(R.id.attachmentRecycler);
-        recyclerViewBenifishery = (RecyclerView) rootView.findViewById(R.id.recyclerviewBenifishry);
-        attachmentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        yearSppiner = rootView.findViewById(R.id.sppinerYear);
-        uploadImage = rootView.findViewById(R.id.uploadImage);
+        setId();
+
         /*imageView1 = rootView.findViewById(R.id.image1);
         imageView2 = rootView.findViewById(R.id.image2);*/
         arrayListMonth = new ArrayList<String>();
@@ -225,6 +221,17 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         } else yearSppiner.setSelection(1);
 
         monthSpiner.setSelection(month);
+        if (Constant.editFlag) {
+            yearSppiner.setEnabled(true);
+            monthSpiner.setEnabled(true);
+            butonLayout.setVisibility(View.VISIBLE);
+            editTextRemarks.setVisibility(View.VISIBLE);
+        } else {
+            yearSppiner.setEnabled(false);
+            monthSpiner.setEnabled(false);
+            butonLayout.setVisibility(View.GONE);
+            editTextRemarks.setVisibility(View.GONE);
+        }
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,40 +259,29 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
 
-                    ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
-                    ArrayList<ImageSaveModel> imageSaveModelArrayList = new ArrayList<>();
-                    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                            .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                                    Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                    Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
-                    if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                        for (int j = 0; j < Constant.finalbytes.size(); j++) {
-                            if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
-                                arrayListVillage1.get(j).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                arrayListVillage1.get(j).setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                arrayListVillage1.get(j).setVocode(prefManager.getPREF_VOCode());
-                                arrayListVillage1.get(j).setFinaltypes(Constant.finaltypes.get(j));
-                                arrayListVillage1.get(j).setFinalnames(Constant.finalnames.get(j));
-                                arrayListVillage1.get(j).setFinalsizes(Constant.finalsizes.get(j));
-                                arrayListVillage1.get(j).setImgebytes(Constant.finalbytes.get(j));
-                                arrayListVillage1.get(j).save();
-                            } else {
-                                ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                imageSaveModel.setFinaltypes(Constant.finaltypes.get(j));
-                                imageSaveModel.setFinalnames(Constant.finalnames.get(j));
-                                imageSaveModel.setFinalsizes(Constant.finalsizes.get(j));
-                                imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
-                                imageSaveModel.save();
 
-                            }
-                            //imageSaveModelArrayList.add(imageSaveModel);
-                        }
+                ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                        .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
+                                Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
+                                Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
+                if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+                    /*for (int k = 1; k < Constant.finalbytes.size(); k++) {
+                        ImageSaveModel imageSaveModel = new ImageSaveModel();
+                        imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                        imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
+                        imageSaveModel.setVocode(prefManager.getPREF_VOCode());
+                        imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                        imageSaveModel.setFinalnames(Constant.finalnames.get(k));
+                        imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
+                        imageSaveModel.setImgebytes(Constant.finalbytes.get(k));
+                        imageSaveModel.save();
+
+                    }*/
+                    for (int i = 0; i < arrayListVillage1.size(); i++) {
+                        arrayListVillage1.get(i).save();
                     }
+
                     for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         String id = UUID.randomUUID().toString();
                         if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
@@ -320,69 +316,29 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             startActivity(intent);
                         }
                     }
-                    /*} else {
 
-
-                     *//* if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
-
-                                if (!benifisheryDataModelDbSends.get(i).getAaganwaricode().equals(prefManager.getPrefAaganwariCode())) {
-                                    benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                }
-                                if (!benifisheryDataModelDbSends.get(i).getVocode().equals(prefManager.getPREF_VOCode())) {
-                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
-                                }
-                                if (!benifisheryDataModelDbSends.get(i).getPanchyatcode().equals(prefManager.getPrefPanchyatCode())) {
-                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPrefPanchyatCode());
-                                }
-                                benifisheryDataModelDbSends.get(i).setMonth(month + "");
-                                benifisheryDataModelDbSends.get(i).setYear("2019");
-                                benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
-                                benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                                benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                                benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                                benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                benifisheryDataModelDbSends.get(i).save();
-
-                        } else {*//*
-                            BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
-                            benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                            benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                            benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
-                       *//* if (Constant.finalbytes.size() > 1) {
-                            benifisheryDataModelDbSend.setImage1(Constant.finalbytes.get(0));
-                            benifisheryDataModelDbSend.setImage2(Constant.finalbytes.get(1));
-                        } else {
-                            benifisheryDataModelDbSend.setImage1(Constant.finalbytes.get(0));
-                        }*//*
-
-                            benifisheryDataModelDbSend.setMonth(month + "");
-                            benifisheryDataModelDbSend.setYear("2019");
-                            benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                            benifisheryDataModelDbSend.setGuid(id);
-                            benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
-                            benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                            benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                            benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                            benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                            benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
-                            benifisheryDataModelDbSend.setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
-                            benifisheryDataModelDbSend.save();
-                            arrayList.add(benifisheryDataModelDbSend);
-                        }
-
-                        Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
-                    }*/
-                    /* }*/
                 } else {
                     Toast.makeText(getActivity(), "Please Select Image", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         return rootView;
+    }
+
+    private void setId() {
+        monthSpiner = rootView.findViewById(R.id.sppinermonth);
+        imageLayout = (LinearLayout) rootView.findViewById(R.id.image_layout);
+        editTextRemarks = (EditText) rootView.findViewById(R.id.editTextRemarks);
+        totalLyout = (LinearLayout) rootView.findViewById(R.id.totalLyout);
+        tableLayout = (LinearLayout) rootView.findViewById(R.id.tableLayout);
+        saveData = (Button) rootView.findViewById(R.id.saveData);
+        textViewtotalAll = (TextView) rootView.findViewById(R.id.totalAll);
+        attachmentRecycler = (RecyclerView) rootView.findViewById(R.id.attachmentRecycler);
+        recyclerViewBenifishery = (RecyclerView) rootView.findViewById(R.id.recyclerviewBenifishry);
+        attachmentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        yearSppiner = rootView.findViewById(R.id.sppinerYear);
+        uploadImage = rootView.findViewById(R.id.uploadImage);
+        butonLayout = rootView.findViewById(R.id.butonLayout);
     }
 
     @Override
@@ -729,6 +685,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         Constant.finalnames.clear();
         Constant.finalsizes.clear();
         Constant.finaltypes.clear();
+        Constant.editFlag = false;
     }
 
 }

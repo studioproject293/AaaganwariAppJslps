@@ -16,6 +16,7 @@ public class Constant {
     public static final int FRAGMENT_REPORTS = 107;
     public static final int FRAGMENT_ENTRY_EDIT = 108;
     public static int maxAttachment = 0;
+    public static boolean editFlag=false;
     public static List<String> finalbytes = new ArrayList<String>();
     public static List<String> finalnames = new ArrayList<String>();
     public static List<Long> finalsizes = new ArrayList<Long>();
