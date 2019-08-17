@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
+import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.activity.WelcomeActivity;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.HeaderData;
@@ -20,17 +21,16 @@ import com.jslps.aaganbariapp.model.HeaderData;
 public class HomeFragment extends BaseFragment implements OnFragmentListItemSelectListener {
 
     private View rootView;
-    LinearLayout layoutStart, logout,feedbackFragment,reports;
+    LinearLayout layoutStart, logout,feedbackFragment,reports,sysncwithserverLayout;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment() { }
 
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Dashboard"));
-
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.dashboard)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.HOME_FRAGMENT);
+        MainActivity.radioGroup.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -40,6 +40,7 @@ public class HomeFragment extends BaseFragment implements OnFragmentListItemSele
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         layoutStart = rootView.findViewById(R.id.layoutStart);
         feedbackFragment = rootView.findViewById(R.id.feedbackFragment);
+        sysncwithserverLayout = rootView.findViewById(R.id.sysncwithserverLayout);
         reports = rootView.findViewById(R.id.reports);
         logout = rootView.findViewById(R.id.logout);
         feedbackFragment.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +59,12 @@ public class HomeFragment extends BaseFragment implements OnFragmentListItemSele
             @Override
             public void onClick(View view) {
                 mListener.onFragmentInteraction(Constant.PANCHYAT_FRAGNMENT, null);
+            }
+        });
+        sysncwithserverLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onFragmentInteraction(Constant.FRAGMENT_SYNC_WITH_SERVER, null);
             }
         });
         logout.setOnClickListener(new View.OnClickListener() {

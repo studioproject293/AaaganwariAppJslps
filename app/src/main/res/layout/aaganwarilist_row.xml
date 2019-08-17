@@ -38,6 +38,7 @@
             android:layout_marginRight="3dp"
             android:lineSpacingExtra="2sp"
             android:text=""
+            android:visibility="gone"
             android:textColor="#FFF"
             android:textSize="15sp"
             android:textStyle="bold" />

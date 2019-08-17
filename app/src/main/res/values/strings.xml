@@ -1,4 +1,40 @@
 <resources>
     <string name="app_name">सखी पोषण आहार</string>
     <string name="exit_message">Are you sure, You want to Exit ?</string>
+    <string name="save_message">Data Save Successfully</string>
+    <string name="start">Start</string>
+    <string name="edit">Edit</string>
+    <string name="sync_with_server">Sync With Server</string>
+    <string name="feedback">Feedback</string>
+    <string name="log_out">Log Out</string>
+    <string name="type_of_beneficiary">Type Of Beneficiary</string>
+    <string name="no_of_beni">No. of Beni.</string>
+    <string name="no_of_meal_in_month">No. of meal in month</string>
+    <string name="unit_rate">Unit Rate</string>
+    <string name="amount">Amount</string>
+    <string name="total">Total :</string>
+    <string name="write_your_remarks_here">Write Your remarks here</string>
+    <string name="attach_receipt">Attach Receipt</string>
+    <string name="save_data">Save Data</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="no_supply_in_month">No supply in month</string>
+    <string name="update_data">Update Data</string>
+    <string name="select">Select</string>
+    <string name="no_of_record_to_be_sync">No of record to be sync</string>
+    <string name="panchyat_name">Panchyat Name</string>
+    <string name="upload_data">Upload Data</string>
+    <string name="select_image_validation">Please Select Image</string>
+    <string name="choose_aaganwari">Choose Anganwadi</string>
+    <string name="month_validation">Please select future month</string>
+    <string name="image_validation">Can not upload more than 2 items</string>
+    <string name="choose_panchyat">Choose Panchayat</string>
+    <string name="delete_sucessfully">Data delete successfully</string>
+    <string name="vo_choose">Choose Village Organization</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="loading_msg">Please wait..</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="already_record">You have already record in this month</string>
+
 </resources>

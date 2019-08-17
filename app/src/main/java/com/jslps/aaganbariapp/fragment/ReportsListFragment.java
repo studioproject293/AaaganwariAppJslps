@@ -21,6 +21,7 @@ import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
+import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -49,7 +50,8 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Edit"));
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.edit)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.FRAGMENT_REPORTS);
         benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
         ArrayList<String> arrayListString = new ArrayList<>();
@@ -102,10 +104,17 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                         .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPanchyatcode()),
                                 Condition.prop("vocode").eq(benifisheryDataModelDbSend.getVocode()),
                                 Condition.prop("aaganwaricode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();
+                ArrayList<ImageSaveModel> imageSaveModelArrayList = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
+                        .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPanchyatcode()),
+                                Condition.prop("vocode").eq(benifisheryDataModelDbSend.getVocode()),
+                                Condition.prop("aaganwaricode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();
                 for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                     benifisheryDataModelDbArrayList.get(i).delete();
                 }
-                Toast.makeText(getActivity(), "Data delete successfully", Toast.LENGTH_SHORT).show();
+                for (int j=0;j<imageSaveModelArrayList.size();j++){
+                    imageSaveModelArrayList.get(j).delete();
+                }
+                Toast.makeText(getActivity(), getString(R.string.delete_sucessfully), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.edit:
                 Constant.editFlag = true;

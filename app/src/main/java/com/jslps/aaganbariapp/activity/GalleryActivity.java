@@ -28,8 +28,6 @@ import com.bumptech.glide.Glide;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.model.ImageSaveModel;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -210,13 +208,10 @@ public class GalleryActivity extends AppCompatActivity {
                                         }
                                     }*/
                                     finalbytes.add(encodedBase64);
-                                    finalnames.add(fileName);
+                                    finalnames.add(fileName+ ".jpg");
                                     finalsizes.add(fileSizeInBytes);
                                     finaltypes.add(fileExtension);
                                     positions.add(position);
-                                    byte[] byteArray = Base64.decode(encodedBase64, 0);
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                                    Constant.finalBitmap.add(bitmap);
                                     alertIndentifierCounter++;
                                     //Log.d(Constant.TAG,TAG+"Check point"+positions.toString());
                                         /*Log.d(Constant.TAG,TAG+"bytes"+finalbytes.size());

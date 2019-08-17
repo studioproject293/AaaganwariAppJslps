@@ -18,7 +18,6 @@ public class FeedbackFragment extends BaseFragment implements OnFragmentListItem
 
     private View rootView;
 
-
     public FeedbackFragment() {
         // Required empty public constructor
     }
@@ -26,8 +25,8 @@ public class FeedbackFragment extends BaseFragment implements OnFragmentListItem
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Feedback"));
-
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.feedback)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.FRAGMENT_FEEDBACK);
     }
 
     @Override
@@ -35,7 +34,6 @@ public class FeedbackFragment extends BaseFragment implements OnFragmentListItem
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_feedback, container, false);
-
         return rootView;
     }
 

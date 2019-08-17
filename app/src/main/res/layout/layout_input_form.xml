@@ -17,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="Month"
+                android:text="@string/month"
                 android:textColor="#000"
                 android:textSize="16sp" />
 
@@ -46,7 +46,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center|left"
-                android:text="Year "
+                android:text="@string/year"
                 android:textColor="#000"
                 android:textSize="16sp" />
 
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:textColor="#000"
                 android:layout_weight="0.7"
-                android:text="No supply in month"
+                android:text="@string/no_supply_in_month"
                 android:layout_height="wrap_content" />
             <Switch
                 android:layout_width="0dp"
@@ -100,7 +100,7 @@
                     android:layout_weight="2"
                     android:gravity="center"
                     android:paddingRight="2dp"
-                    android:text="Type Of Beneficiary"
+                    android:text="@string/type_of_beneficiary"
                     android:textColor="#FFF"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -121,7 +121,7 @@
                     android:gravity="center"
                     android:paddingLeft="5dp"
 
-                    android:text="No. of Beni."
+                    android:text="@string/no_of_beni"
                     android:textColor="#FFF"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:gravity="center"
-                    android:text="No. of meal in month"
+                    android:text="@string/no_of_meal_in_month"
 
                     android:textColor="#FFF"
                     android:textSize="14sp"
@@ -159,7 +159,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="0.7"
                     android:gravity="center"
-                    android:text="Unit Rate"
+                    android:text="@string/unit_rate"
                     android:textColor="#FFF"
                     android:textStyle="bold" />
 
@@ -177,7 +177,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="0.7"
                     android:gravity="center"
-                    android:text="Amount"
+                    android:text="@string/amount"
                     android:textColor="#FFF"
 
                     android:textSize="14sp"
@@ -378,7 +378,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total : "
+                android:text="@string/total"
                 android:textColor="#000"
                 android:textStyle="bold" />
 
@@ -441,7 +441,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/dark_boder"
             android:gravity="top|start"
-            android:hint="Write Your remarks here"
+            android:hint="@string/write_your_remarks_here"
             android:lines="6"
             android:maxLength="200"
             android:maxLines="6"
@@ -466,7 +466,7 @@
 
                 android:layout_weight="0.6"
                 android:background="#d67601"
-                android:text="Attach Receipt"
+                android:text="@string/attach_receipt"
                 android:textColor="#FFF" />
 
             <Button
@@ -481,7 +481,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:layout_marginLeft="10dp"
-                android:text="Save Data"
+                android:text="@string/save_data"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
         </LinearLayout>

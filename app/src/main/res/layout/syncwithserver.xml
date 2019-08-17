@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context=".fragment.HomeFragment">
+   <TableLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/tableLayout"
+       android:layout_marginTop="10dp">
+
+      <TableRow
+          android:background="@color/colorPrimary"
+          android:padding="5dp"
+          android:weightSum="4">
+
+         <TextView
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="1.5"
+             android:gravity="center"
+             android:paddingRight="2dp"
+             android:text="@string/panchyat_name"
+             android:textColor="#FFF"
+             android:textSize="14sp"
+             android:textStyle="bold" />
+
+         <LinearLayout
+             android:layout_width="1dp"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="2dp">
+
+            <View style="@style/Divider" />
+         </LinearLayout>
+
+         <TextView
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="0.7"
+             android:gravity="center"
+             android:paddingLeft="5dp"
+
+             android:text="@string/month"
+             android:textColor="#FFF"
+             android:textSize="14sp"
+             android:textStyle="bold" />
+
+         <LinearLayout
+             android:layout_width="1dp"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="2dp">
+
+            <View style="@style/Divider" />
+         </LinearLayout>
+
+         <TextView
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1.1"
+             android:gravity="center"
+             android:text="@string/no_of_record_to_be_sync"
+
+             android:textColor="#FFF"
+             android:textSize="14sp"
+             android:textStyle="bold" />
+
+         <LinearLayout
+             android:layout_width="1dp"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="2dp">
+
+            <View style="@style/Divider" />
+         </LinearLayout>
+
+         <TextView
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_weight="0.6"
+             android:gravity="center"
+             android:text="@string/select"
+             android:textColor="#FFF"
+             android:textStyle="bold" />
+
+
+      </TableRow>
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/syncwithserverrecyclerview"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+   </TableLayout>
+
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:layout_marginTop="10dp"
+    android:id="@+id/uploadData"
+    android:layout_gravity="center"
+    android:textColor="@color/color_white"
+    android:background="@color/buttoncolor"
+    android:textAllCaps="false"
+    android:text="@string/upload_data"/>
+</LinearLayout>

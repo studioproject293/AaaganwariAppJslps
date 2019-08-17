@@ -94,6 +94,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     public void onResume() {
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(true, "Entry Form Edit"));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.FRAGMENT_ENTRY_EDIT);
         benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPanchyatcode()),
                         Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
@@ -131,21 +132,29 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 Constant.finaltypes.add(arrayListVillage1.get(i).getFinaltypes());
                 Constant.finalnames.add(arrayListVillage1.get(i).getFinalnames());*/
                 imageLayout.setVisibility(View.VISIBLE);
-                AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext(), Constant.finalbytes,
-                        Constant.finalnames, Constant.finalsizes, Constant.finaltypes, arrayListVillage1);
+                AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
+                        , arrayListVillage1);
                 attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
             }
 
-        } else {
-            if (Constant.finalbytes.size() != 0) {
-                Constant.editFlag = true;
-                imageLayout.setVisibility(View.VISIBLE);
-                CreateAppointmentAttachmentAdapter createAppointmentAttachmentAdapter = new CreateAppointmentAttachmentAdapter(getContext(), Constant.finalbytes,
-                        Constant.finalnames, Constant.finalsizes, Constant.finaltypes, arrayListVillage1);
-                attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
-            } else {
-                imageLayout.setVisibility(View.GONE);
+        }else {
+            if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                for (int k = 0; k < Constant.finalbytes.size(); k++) {
+                    ImageSaveModel imageSaveModel = new ImageSaveModel();
+                    imageSaveModel.setAaganwaricode(BenifisheryDataModelDbSendRec.getAaganwaricode());
+                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPanchyatcode());
+                    imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
+                    imageSaveModel.setFinalnames(Constant.finalnames.get(k));
+                    imageSaveModel.setImgebytes(Constant.finalbytes.get(k));
+                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
+                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    arrayListVillage1.add(imageSaveModel);
+                }
             }
+            imageLayout.setVisibility(View.VISIBLE);
+            AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
+                    , arrayListVillage1);
+            attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
         }
     }
 
@@ -310,7 +319,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbSends.get(i).save();
 
 
-                            Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -318,7 +327,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "Please Select Image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -373,7 +382,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                            /* Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                             startActivityForResult(intent, 0);*/
                         } else {
-                            Toast.makeText(getActivity(), "Can not upload more than 2 items", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getActivity(), "The app was not allowed to read or write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
@@ -421,7 +430,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, 1);
                     } else {
-                        Toast.makeText(getActivity(), "Can not upload more than 2 items", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -501,10 +510,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);*/
             //Storing data
             Constant.finalbytes.add(encodedBase64);
-            Constant.finalnames.add(System.currentTimeMillis() + "");
+            Constant.finalnames.add(System.currentTimeMillis() + ".jpg");
             Constant.finaltypes.add("jpeg");
             Constant.finalsizes.add(fileSizeInBytes);
-            Constant.finalBitmap.add(bmp);
             System.out.println("dchHIU" + new Gson().toJson(Constant.finalbytes));
         } else if (requestCode == 1 && resultCode == -1) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -561,8 +569,12 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             }
                         }
                     }*/
+                    Constant.finalbytes.clear();
+                    Constant.finalnames.clear();
+                    Constant.finalsizes.clear();
+                    Constant.finaltypes.clear();
                     Constant.finalbytes.add(encodedBase64);
-                    Constant.finalnames.add(System.currentTimeMillis() + "");
+                    Constant.finalnames.add(System.currentTimeMillis() + ".jpg");
                     Constant.finaltypes.add("jpeg");
                     Constant.finalsizes.add((long) fileSizeInBytes);
                 } catch (FileNotFoundException e) {

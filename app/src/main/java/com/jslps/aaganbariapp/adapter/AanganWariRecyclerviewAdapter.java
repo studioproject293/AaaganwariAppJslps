@@ -87,7 +87,7 @@ public class AanganWariRecyclerviewAdapter extends RecyclerView.Adapter<AanganWa
 
             }
         }
-        holder.total.setText("Total Record: "+arrayList.size() + "/" +arrayList1.size());
+       // holder.total.setText("Total Record: "+arrayList.size() + "/" +arrayList1.size());
     }
 
     @Override

@@ -213,7 +213,15 @@ public class WelcomeActivity extends AppCompatActivity {
                                     Condition.prop("password").eq(editTextPassword.getText().toString())).list();
                     System.out.println("LogInDbsdfsdfs" + new Gson().toJson(arrayListVillage1));
                     if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+
                         if (arrayListVillage1.get(0).getUsername().equals(editTextUserName.getText().toString()) || arrayListVillage1.get(0).getUsername().equals(editTextPassword.getText().toString())) {
+                            if (checkboxRember.isChecked()) {
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("userName", editTextUserName.getText().toString());
+                                editor.putString("Password", editTextPassword.getText().toString());
+                                editor.apply();
+                            }
                             Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
@@ -487,13 +495,6 @@ public class WelcomeActivity extends AppCompatActivity {
         if (dots.length > 0)
             dots[currentPage].setTextColor(colorsActive[currentPage]);
     }
-
-    private void launchHomeScreen() {
-        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-        finish();
-    }
-
-    //	viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override

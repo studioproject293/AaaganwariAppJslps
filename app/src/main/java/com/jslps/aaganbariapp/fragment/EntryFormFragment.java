@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -69,6 +70,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -90,7 +92,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
     private static final int REQUEST_PERMISSIONS_CAMERA = 101;
     RecyclerView recyclerViewBenifishery;
     ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList;
-    ArrayList<ImageSaveModel> arrayListVillage1;
+
     public static TextView textViewtotalAll;
     Button saveData;
     PrefManager prefManager;
@@ -112,12 +114,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
     public void onResume() {
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(true, aanganWariModelDbrec.getAnganwadiname()));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.ENTRY_FORM_FRAGNMENT);
         benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDb>) BenifisheryDataModelDb.listAll(BenifisheryDataModelDb.class);
-        arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
-                .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                        Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                        Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
-        System.out.println("dsbfhjhxjkf" + new Gson().toJson(arrayListVillage1));
 
        /* if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
             Constant.finalbytes.clear();
@@ -136,7 +134,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             Constant.editFlag = true;
             imageLayout.setVisibility(View.VISIBLE);
             CreateAppointmentAttachmentAdapter createAppointmentAttachmentAdapter = new CreateAppointmentAttachmentAdapter(getContext(), Constant.finalbytes,
-                    Constant.finalnames, Constant.finalsizes, Constant.finaltypes, arrayListVillage1);
+                    Constant.finalnames, Constant.finalsizes, Constant.finaltypes);
             attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
         } else {
             imageLayout.setVisibility(View.GONE);
@@ -250,6 +248,19 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                 } else {
                     yearSelect = "2020";
                 }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        monthSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                monthSeleted = (i + 1);
             }
 
             @Override
@@ -283,162 +294,235 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
                     benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
                     benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
-                    benifisheryDataModelDbSend.setMonth(month + "");
+                    benifisheryDataModelDbSend.setMonth(monthSeleted + "");
                     benifisheryDataModelDbSend.setYear(yearSelect);
                     benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
                     benifisheryDataModelDbSend.setGuid(id);
                     benifisheryDataModelDbSend.save();
-                    Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
                     if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                        ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
-                        ArrayList<ImageSaveModel> imageSaveModelArrayList = new ArrayList<>();
-                        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
                                 .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
                                         Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
                                         Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
-                        if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                            for (int j = 0; j < Constant.finalbytes.size(); j++) {
-                                if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
-                                    arrayListVillage1.get(j).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                    arrayListVillage1.get(j).setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                    arrayListVillage1.get(j).setVocode(prefManager.getPREF_VOCode());
-                                    arrayListVillage1.get(j).setFinaltypes(Constant.finaltypes.get(j));
-                                    arrayListVillage1.get(j).setFinalnames(Constant.finalnames.get(j));
-                                    arrayListVillage1.get(j).setFinalsizes(Constant.finalsizes.get(j));
-                                    arrayListVillage1.get(j).setImgebytes(Constant.finalbytes.get(j));
-                                    arrayListVillage1.get(j).save();
+                        if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
+                            for (int l = 0; l < benifisheryDataModelDbSendss.size(); l++) {
+                                if (Integer.parseInt(benifisheryDataModelDbSendss.get(l).getMonth()) != monthSeleted) {
+                                    if (yearSelect.equalsIgnoreCase("2019")) {
+                                        if (monthSeleted >= month) {
+                                            ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
+                                            ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                                                    .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
+                                                            Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
+                                                            Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
+                                            if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                                                for (int j = 0; j < Constant.finalbytes.size(); j++) {
+                                                    ImageSaveModel imageSaveModel = new ImageSaveModel();
+                                                    imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                                    imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                                    imageSaveModel.setVocode(prefManager.getPREF_VOCode());
+                                                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(j));
+                                                    imageSaveModel.setFinalnames(Constant.finalnames.get(j));
+                                                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(j));
+                                                    imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
+                                                    imageSaveModel.setMonth(monthSeleted+"");
+                                                    imageSaveModel.setYear(yearSelect);
+                                                    imageSaveModel.save();
+                                                }
+                                            }
+                                            for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                                                String id = UUID.randomUUID().toString();
+                                                if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
+
+                                                    benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                                    benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
+                                                    benifisheryDataModelDbSends.get(i).setAaganwariname(prefManager.getPrefAaganwariNAME());
+                                                    benifisheryDataModelDbSends.get(i).setPanchyatname(prefManager.getPrefPanchyatNAME());
+                                                    benifisheryDataModelDbSends.get(i).setVoname(prefManager.getPREF_VONAME());
+                                                    benifisheryDataModelDbSends.get(i).setMonth(monthSeleted + "");
+                                                    benifisheryDataModelDbSends.get(i).setYear(yearSelect);
+                                                    benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
+                                                    benifisheryDataModelDbSends.get(i).setGuid(id);
+                                                    benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
+                                                    benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
+                                                    benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                                    benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
+                                                    benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
+                                                    benifisheryDataModelDbSends.get(i).setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
+                                                    System.out.println("new Gson"+getDate(System.currentTimeMillis()));
+                                                    benifisheryDataModelDbSends.get(i).setCreatedon(getDate(System.currentTimeMillis()));
+                                                    benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                                    benifisheryDataModelDbSends.get(i).save();
+
+                                                    Constant.finalbytes.clear();
+                                                    Constant.finalnames.clear();
+                                                    Constant.finalsizes.clear();
+                                                    Constant.finaltypes.clear();
+                                                    Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+
+                                                } else {
+
+                                                    BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
+                                                    benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                                    benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                                    benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
+                                                    benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
+                                                    benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
+                                                    benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
+                                                    benifisheryDataModelDbSend.setMonth(monthSeleted + "");
+                                                    benifisheryDataModelDbSend.setYear(yearSelect);
+                                                    benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
+                                                    benifisheryDataModelDbSend.setGuid(id);
+                                                    System.out.println("new Gson"+getDate(System.currentTimeMillis()));
+                                                    benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
+                                                    benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
+                                                    benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                                    benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
+                                                    benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
+                                                    benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
+                                                    benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
+                                                    benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                                    benifisheryDataModelDbSend.save();
+                                                    arrayList.add(benifisheryDataModelDbSend);
+
+                                                }
+                                                Constant.finalbytes.clear();
+                                                Constant.finalnames.clear();
+                                                Constant.finalsizes.clear();
+                                                Constant.finaltypes.clear();
+                                                Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
+                                            }
+                                        } else {
+                                            Toast.makeText(getActivity(), getString(R.string.month_validation), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 } else {
-                                    ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                    imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                    imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                    imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(j));
-                                    imageSaveModel.setFinalnames(Constant.finalnames.get(j));
-                                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(j));
-                                    imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
-                                    imageSaveModel.save();
-
+                                    Toast.makeText(getActivity(), getString(R.string.already_record), Toast.LENGTH_SHORT).show();
                                 }
-                                //imageSaveModelArrayList.add(imageSaveModel);
+                            }
+
+
+                        } else {
+                            if (yearSelect.equalsIgnoreCase("2019")) {
+                                if (monthSeleted >= month) {
+                                    ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
+                                    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                                            .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
+                                                    Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
+                                                    Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
+                                    if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                                        for (int j = 0; j < Constant.finalbytes.size(); j++) {
+                                            ImageSaveModel imageSaveModel = new ImageSaveModel();
+                                            imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                            imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                            imageSaveModel.setVocode(prefManager.getPREF_VOCode());
+                                            imageSaveModel.setFinaltypes(Constant.finaltypes.get(j));
+                                            imageSaveModel.setFinalnames(Constant.finalnames.get(j));
+                                            imageSaveModel.setFinalsizes(Constant.finalsizes.get(j));
+                                            imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
+                                            imageSaveModel.setMonth(monthSeleted+"");
+                                            imageSaveModel.setYear(yearSelect);
+                                            imageSaveModel.save();
+
+                                        }
+                                    }
+                                    for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                                        String id = UUID.randomUUID().toString();
+                                        if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
+
+                                            benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                            benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                            benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
+                                            benifisheryDataModelDbSends.get(i).setAaganwariname(prefManager.getPrefAaganwariNAME());
+                                            benifisheryDataModelDbSends.get(i).setPanchyatname(prefManager.getPrefPanchyatNAME());
+                                            benifisheryDataModelDbSends.get(i).setVoname(prefManager.getPREF_VONAME());
+
+
+                                            benifisheryDataModelDbSends.get(i).setMonth(monthSeleted + "");
+                                            benifisheryDataModelDbSends.get(i).setYear(yearSelect);
+                                            benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
+                                            benifisheryDataModelDbSends.get(i).setGuid(id);
+                                            benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
+                                            benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
+                                            benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                            benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
+                                            benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
+                                            benifisheryDataModelDbSends.get(i).setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
+                                            benifisheryDataModelDbSends.get(i).setCreatedon(getDate(System.currentTimeMillis()));
+                                            benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                            benifisheryDataModelDbSends.get(i).save();
+
+                                            Constant.finalbytes.clear();
+                                            Constant.finalnames.clear();
+                                            Constant.finalsizes.clear();
+                                            Constant.finaltypes.clear();
+                                            Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+
+                                        } else {
+
+                                            BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
+                                            benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                            benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                            benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
+                                            benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
+                                            benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
+                                            benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
+                                            benifisheryDataModelDbSend.setMonth(monthSeleted + "");
+                                            benifisheryDataModelDbSend.setYear(yearSelect);
+                                            benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
+                                            benifisheryDataModelDbSend.setGuid(id);
+                                            benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
+                                            benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
+                                            benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                            benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
+                                            benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
+                                            benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
+                                            benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
+                                            benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                            benifisheryDataModelDbSend.save();
+                                            arrayList.add(benifisheryDataModelDbSend);
+
+                                        }
+                                        Constant.finalbytes.clear();
+                                        Constant.finalnames.clear();
+                                        Constant.finalsizes.clear();
+                                        Constant.finaltypes.clear();
+                                        Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), getString(R.string.month_validation), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-                            String id = UUID.randomUUID().toString();
-                            if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
-
-                                benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
-                                benifisheryDataModelDbSends.get(i).setAaganwariname(prefManager.getPrefAaganwariNAME());
-                                benifisheryDataModelDbSends.get(i).setPanchyatname(prefManager.getPrefPanchyatNAME());
-                                benifisheryDataModelDbSends.get(i).setVoname(prefManager.getPREF_VONAME());
-                       /* if (Constant.finalbytes.size() > 1) {
-                            benifisheryDataModelDbSend.setImage1(Constant.finalbytes.get(0));
-                            benifisheryDataModelDbSend.setImage2(Constant.finalbytes.get(1));
-                        } else {
-                            benifisheryDataModelDbSend.setImage1(Constant.finalbytes.get(0));
-                        }*/
-
-                                benifisheryDataModelDbSends.get(i).setMonth(month + "");
-                                benifisheryDataModelDbSends.get(i).setYear(yearSelect);
-                                benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
-                                benifisheryDataModelDbSends.get(i).setGuid(id);
-                                benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
-                                benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                                benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                                benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                                benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                benifisheryDataModelDbSends.get(i).setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
-                                benifisheryDataModelDbSends.get(i).setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
-                                benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
-                                benifisheryDataModelDbSends.get(i).save();
-
-                                Constant.finalbytes.clear();
-                                Constant.finalnames.clear();
-                                Constant.finalsizes.clear();
-                                Constant.finaltypes.clear();
-                                Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-
-                            } else {
-
-
-                       /* if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
-
-                                if (!benifisheryDataModelDbSends.get(i).getAaganwaricode().equals(prefManager.getPrefAaganwariCode())) {
-                                    benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                }
-                                if (!benifisheryDataModelDbSends.get(i).getVocode().equals(prefManager.getPREF_VOCode())) {
-                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
-                                }
-                                if (!benifisheryDataModelDbSends.get(i).getPanchyatcode().equals(prefManager.getPrefPanchyatCode())) {
-                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPrefPanchyatCode());
-                                }
-                                benifisheryDataModelDbSends.get(i).setMonth(month + "");
-                                benifisheryDataModelDbSends.get(i).setYear("2019");
-                                benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
-                                benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                                benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                                benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                                benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                benifisheryDataModelDbSends.get(i).save();
-
-                        } else {*/
-                                BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
-                                benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
-                                benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
-                                benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
-                                benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
-                       /* if (Constant.finalbytes.size() > 1) {
-                            benifisheryDataModelDbSend.setImage1(Constant.finalbytes.get(0));
-                            benifisheryDataModelDbSend.setImage2(Constant.finalbytes.get(1));
-                        } else {
-                            benifisheryDataModelDbSend.setImage1(Constant.finalbytes.get(0));
-                        }*/
-
-                                benifisheryDataModelDbSend.setMonth(month + "");
-                                benifisheryDataModelDbSend.setYear(yearSelect);
-                                benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                                benifisheryDataModelDbSend.setGuid(id);
-                                benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
-                                benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                                benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                                benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                                benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
-                                benifisheryDataModelDbSend.setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
-                                benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
-                                benifisheryDataModelDbSend.save();
-                                arrayList.add(benifisheryDataModelDbSend);
-
-                            }
-                            Constant.finalbytes.clear();
-                            Constant.finalnames.clear();
-                            Constant.finalsizes.clear();
-                            Constant.finaltypes.clear();
-                            Toast.makeText(getActivity(), "Data Save Successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
-                        }
-                        /* }*/
                     } else {
-                        Toast.makeText(getActivity(), "Please Select Image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
         return rootView;
     }
+
+    int monthSeleted;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -472,7 +556,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                            /* Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                             startActivityForResult(intent, 0);*/
                         } else {
-                            Toast.makeText(getActivity(), "Can not upload more than 2 items", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getActivity(), "The app was not allowed to read or write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
@@ -522,7 +606,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, 1);
                     } else {
-                        Toast.makeText(getActivity(), "Can not upload more than 2 items", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -602,7 +686,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);*/
             //Storing data
             Constant.finalbytes.add(encodedBase64);
-            Constant.finalnames.add(System.currentTimeMillis() + "");
+            Constant.finalnames.add(System.currentTimeMillis() +  ".jpg");
             Constant.finaltypes.add("jpeg");
             Constant.finalsizes.add(fileSizeInBytes);
             Constant.finalBitmap.add(bmp);
@@ -663,8 +747,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                         }
                     }*/
                     Constant.finalbytes.add(encodedBase64);
-                    Constant.finalnames.add(System.currentTimeMillis() + "");
-                    Constant.finaltypes.add("jpeg");
+                    Constant.finalnames.add(System.currentTimeMillis() + ".jpg");
+                    Constant.finaltypes.add("jpg");
                     Constant.finalsizes.add((long) fileSizeInBytes);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -787,6 +871,12 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         Constant.finalsizes.clear();
         Constant.finaltypes.clear();
         Constant.editFlag = false;
+    }
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
     }
 
 }

@@ -65,7 +65,7 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/button_bank_connection"
+                android:id="@+id/english"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -80,7 +80,7 @@
                 android:textSize="16sp" />
 
             <RadioButton
-                android:id="@+id/button_brand_connection"
+                android:id="@+id/hindi"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

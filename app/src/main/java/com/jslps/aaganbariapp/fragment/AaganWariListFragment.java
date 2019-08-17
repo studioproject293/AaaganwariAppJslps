@@ -45,11 +45,10 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Choose Anganwadi"));
-        ArrayList<AanganWariModelDb>aanganWariModelDbs= (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).list();
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.choose_aaganwari)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.AAGANWARI_LIST_FRAGNMENT);
         panchyatDataModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class)
                 .where(Condition.prop("vocode").eq(voListDataModelDbRec.getVocode())).list();
-        /*Collections.reverse(aanganWariModelDbs);*/
         updateList(panchyatDataModelDbs);
     }
 

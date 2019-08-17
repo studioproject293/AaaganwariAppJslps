@@ -37,13 +37,12 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
     private List<String> finaltypes = new ArrayList<String>();
     private ArrayList<ImageSaveModel> imageSaveModels = new ArrayList<ImageSaveModel>();
 
-    public CreateAppointmentAttachmentAdapter(Context context, List<String> finalbytes, List<String> finalnames, List<Long> finalsizes, List<String> finaltypes, ArrayList<ImageSaveModel> arrayListVillage1) {
+    public CreateAppointmentAttachmentAdapter(Context context, List<String> finalbytes, List<String> finalnames, List<Long> finalsizes, List<String> finaltypes) {
         this.context = context;
         this.finalbytes = finalbytes;
         this.finalnames = finalnames;
         this.finalsizes = finalsizes;
         this.finaltypes = finaltypes;
-        this.imageSaveModels = arrayListVillage1;
     }
 
     @Override
@@ -85,15 +84,7 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
         holder.removeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*imageSaveModels.remove(finalImageSaveModel);
-                finalImageSaveModel.setImgebytes(null);
-                finalImageSaveModel.setFinalnames(null);
-                finalImageSaveModel.setPanchyatcode(null);
-                finalImageSaveModel.setVocode(null);
-                finalImageSaveModel.setAaganwaricode(null);
-                finalImageSaveModel.setFinaltypes(null);
-                finalImageSaveModel.setFinalsizes(null);
-                finalImageSaveModel.save();*/
+
                 finalbytes.remove(position);
                 finalnames.remove(position);
                 finalsizes.remove(position);
@@ -107,33 +98,7 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
 
             }
         });
-       /* holder.backimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.removeImage.setVisibility(View.GONE);
-                holder.backimage.setVisibility(View.GONE);
-            }
-        });
 
-        holder.removeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalbytes.remove(position);
-                finalnames.remove(position);
-                finalsizes.remove(position);
-                finaltypes.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, finalbytes.size());
-                notifyItemRangeChanged(position, finalnames.size());
-                notifyItemRangeChanged(position, finalsizes.size());
-                notifyItemRangeChanged(position, finaltypes.size());
-            }
-        });*/
-        /*if(bitmap!=null)
-        {
-            bitmap.recycle();
-            bitmap=null;
-        }*/
     }
 
     @Override
@@ -159,6 +124,5 @@ class AttachmentViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         attachmentImage = (ImageView) itemView.findViewById(R.id.attachmentImage);
         removeImage = (ImageView) itemView.findViewById(R.id.removeImage);
-        /*  backimage = (ImageView) itemView.findViewById(R.id.backimage);*/
     }
 }

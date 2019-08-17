@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">सखी पोषण आहार</string>
+    <string name="exit_message">क्या आप निसंदेह बाहर निकलना चाहते हैं ? ?</string>
+    <string name="save_message">डेटा सफलतापूर्वक सहेजें</string>
+    <string name="start">शुरु</string>
+    <string name="edit">संपादित करें</string>
+    <string name="sync_with_server">सर्वर के साथ सिंक</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="log_out">लोग आउट</string>
+    <string name="type_of_beneficiary">लाभार्थी का प्रकार</string>
+    <string name="no_of_beni">No. of Beni.</string>
+    <string name="no_of_meal_in_month">लाभार्थी की संख्या</string>
+    <string name="unit_rate">यूनिट की दर</string>
+    <string name="amount">रकम</string>
+    <string name="total">संपूर्ण :</string>
+    <string name="write_your_remarks_here">अपनी टिप्पणी यहाँ लिखें</string>
+    <string name="attach_receipt">रसीद संलग्न करें</string>
+    <string name="save_data">डेटा बचाना</string>
+    <string name="month">महीना</string>
+    <string name="year">साल</string>
+    <string name="no_supply_in_month">महीने में आपूर्ति नहीं</string>
+    <string name="update_data">डेटा को अद्यतन करें</string>
+    <string name="select">चुनते हैं</string>
+    <string name="no_of_record_to_be_sync">सिंक करने के लिए रिकॉर्ड की संख्या</string>
+    <string name="panchyat_name">पंचायत का नाम</string>
+    <string name="upload_data">डेटा अपलोड करें</string>
+    <string name="select_image_validation">कृपया छवि का चयन करें</string>
+    <string name="choose_aaganwari">आंगनवाड़ी चुनें</string>
+    <string name="month_validation">कृपया भविष्य का महीना चुनें</string>
+    <string name="image_validation">2 से अधिक आइटम अपलोड नहीं किए जा सकते</string>
+    <string name="choose_panchyat">पंचायत चुनें</string>
+    <string name="delete_sucessfully">डेटा सफलतापूर्वक हटा दिया गया</string>
+    <string name="vo_choose">ग्राम संगठन चुनें</string>
+    <string name="dashboard">डैशबोर्ड</string>
+    <string name="loading_msg">Please wait..</string>
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+    <string name="already_record">आपका इस महीने में रिकॉर्ड हो चुका है</string>
+</resources>

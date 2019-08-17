@@ -1,10 +1,14 @@
 package com.jslps.aaganbariapp.fragment;
 
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,12 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
+import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.adapter.PanchyatRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PanchyatFragment extends BaseFragment implements OnFragmentListItemSelectListener {
     PrefManager prefManager;
@@ -34,7 +40,8 @@ public class PanchyatFragment extends BaseFragment implements OnFragmentListItem
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Choose Panchayat"));
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.choose_panchyat)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.PANCHYAT_FRAGNMENT);
         panchyatDataModelDbs = (ArrayList<PanchyatDataModelDb>) PanchyatDataModelDb.listAll(PanchyatDataModelDb.class);
         updateList(panchyatDataModelDbs);
     }

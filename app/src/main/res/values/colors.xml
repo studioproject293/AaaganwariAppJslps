@@ -35,9 +35,6 @@
 
     <color name="camera_bg">#003F75</color>
     <color name="upload_bg">#680306</color>
-    <color name="add_camera_text">#647E95</color>
-    <color name="add_uploads_text">#A56D6F</color>
-    <color name="bg_color">#B7B7B7</color>
     <color name="buttoncolor">#d67601</color>
     <color name="color_white">#FFF</color>
 

@@ -31,7 +31,7 @@ public class DialogUtil {
 
 
     public static void displayProgress(Activity pContext) {
-        displayProgress(pContext, "Please wait..");
+        displayProgress(pContext, pContext.getString(R.string.loading_msg));
     }
 
     public static void displayProgress(Activity pContext, String message) {

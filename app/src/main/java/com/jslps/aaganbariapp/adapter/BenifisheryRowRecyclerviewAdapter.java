@@ -52,6 +52,8 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
                 Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
 
         holder.textViewTotal.setText(total.toString());
+        benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
+        benifisheryDataModelDb.save();
         holder.noOfBenifishery.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before,

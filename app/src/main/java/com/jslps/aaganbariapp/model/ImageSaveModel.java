@@ -11,6 +11,8 @@ public class ImageSaveModel extends SugarRecord {
     private String panchyatcode;
     private String vocode;
     private String aaganwaricode;
+    private String month;
+    private String year;
 
     public ImageSaveModel() {
     }
@@ -24,6 +26,22 @@ public class ImageSaveModel extends SugarRecord {
         this.panchyatcode = panchyatcode;
         this.vocode = vocode;
         this.aaganwaricode = aaganwaricode;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getImgebytes() {
