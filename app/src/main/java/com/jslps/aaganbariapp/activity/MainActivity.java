@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         button_bank_connection = findViewById(R.id.english);
         button_brand_connection = findViewById(R.id.hindi);
         ArrayList<ImageSaveModel> benifisheryDataModelDbSends = (ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class);
-        benifisheryDataModelDbSends.get(0).setImgebytes(null);
-        benifisheryDataModelDbSends.get(1).setImgebytes(null);
+       /* benifisheryDataModelDbSends.get(0).setImgebytes(null);
+        benifisheryDataModelDbSends.get(1).setImgebytes(null);*/
 
         System.out.println("cjbjvsdbfhsd"+new Gson().toJson(benifisheryDataModelDbSends));
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
