@@ -35,6 +35,7 @@ import com.jslps.aaganbariapp.listener.OnFragmentInteractionListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
+import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 import com.orm.SugarDb;
@@ -74,7 +75,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         savenewMember = findViewById(R.id.savenewMember);
         button_bank_connection = findViewById(R.id.english);
         button_brand_connection = findViewById(R.id.hindi);
-        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
+        ArrayList<ImageSaveModel> benifisheryDataModelDbSends = (ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class);
+        benifisheryDataModelDbSends.get(0).setImgebytes(null);
+        benifisheryDataModelDbSends.get(1).setImgebytes(null);
+
         System.out.println("cjbjvsdbfhsd"+new Gson().toJson(benifisheryDataModelDbSends));
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
         try {

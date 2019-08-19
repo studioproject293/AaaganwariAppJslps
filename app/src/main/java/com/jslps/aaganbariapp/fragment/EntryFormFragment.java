@@ -325,9 +325,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                                     imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
                                                     imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
                                                     imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(j));
                                                     imageSaveModel.setFinalnames(Constant.finalnames.get(j));
-                                                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(j));
                                                     imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
                                                     imageSaveModel.setMonth(monthSeleted+"");
                                                     imageSaveModel.setYear(yearSelect);
@@ -428,9 +426,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                             imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
                                             imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
                                             imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                            imageSaveModel.setFinaltypes(Constant.finaltypes.get(j));
+
                                             imageSaveModel.setFinalnames(Constant.finalnames.get(j));
-                                            imageSaveModel.setFinalsizes(Constant.finalsizes.get(j));
                                             imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
                                             imageSaveModel.setMonth(monthSeleted+"");
                                             imageSaveModel.setYear(yearSelect);

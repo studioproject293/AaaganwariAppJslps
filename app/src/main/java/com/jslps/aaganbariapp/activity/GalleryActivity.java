@@ -192,7 +192,6 @@ public class GalleryActivity extends AppCompatActivity {
                                 if (finalbytes.size() < Constant.maxAttachment) {
                                    /* ArrayList<ImageSaveModel>imageSaveModelArrayList=new ArrayList<>();
                                     if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-
                                             for (int i = 0; i < Constant.finalbytes.size(); i++) {
                                                 ImageSaveModel imageSaveModel = new ImageSaveModel();
                                                 imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
@@ -204,7 +203,6 @@ public class GalleryActivity extends AppCompatActivity {
                                                 imageSaveModel.setImgebytes(encodedBase64);
                                                 imageSaveModelArrayList.add(i,imageSaveModel);
                                                 imageSaveModelArrayList.get(i).save();
-
                                         }
                                     }*/
                                     finalbytes.add(encodedBase64);
@@ -332,23 +330,18 @@ public class GalleryActivity extends AppCompatActivity {
          * @return ArrayList with images Path
          */
         /*private ArrayList<String> getAllShownImagesPath(Activity activity) {
-
             ArrayList<String> listOfAllImages = new ArrayList<String>();
             String absolutePathOfImage = null;
             uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-
             String[] projection = {MediaStore.MediaColumns.DATA,
                     MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
-
             cursor = activity.getContentResolver().query(uri, projection, null,
                     null, null);
-
             column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
             column_index_folder_name = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
             while (cursor.moveToNext()) {
                 absolutePathOfImage = cursor.getString(column_index_data);
-
                 listOfAllImages.add(absolutePathOfImage);
             }
             //Log.d(Constant.TAG,TAG+"listOfAllImages.size()"+listOfAllImages.size());
