@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.adapter.PanchyatRecyclerviewAdapter;
 import com.jslps.aaganbariapp.adapter.VoRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.HeaderData;
-import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 import com.orm.query.Condition;
@@ -29,26 +27,29 @@ public class VoListFragment extends BaseFragment implements OnFragmentListItemSe
     private View rootView;
     RecyclerView recyclerViewPanchyat;
     ArrayList<VOListDataModelDb> panchyatDataModelDbs;
-    static  PanchyatDataModelDb panchyatDataModelDbrec;
+    static PanchyatDataModelDb panchyatDataModelDbrec;
+
     public VoListFragment() {
         // Required empty public constructor
     }
+
     public static VoListFragment newInstance(PanchyatDataModelDb panchyatDataModelDb) {
         panchyatDataModelDbrec = panchyatDataModelDb;
         return new VoListFragment();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.vo_choose)));
-        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.VO_LIST_FRAGNMENT);
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.VO_LIST_FRAGNMENT);
         panchyatDataModelDbs = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class)
                 .where(Condition.prop("clustercode").eq(panchyatDataModelDbrec.getClustercode())).list();
         updateList(panchyatDataModelDbs);
     }
 
     private void updateList(ArrayList<VOListDataModelDb> panchyatDataModelDbs) {
-        VoRecyclerviewAdapter panchyatRecyclerviewAdapter = new VoRecyclerviewAdapter(getActivity(),panchyatDataModelDbs);
+        VoRecyclerviewAdapter panchyatRecyclerviewAdapter = new VoRecyclerviewAdapter(getActivity(), panchyatDataModelDbs);
         panchyatRecyclerviewAdapter.setListner(this);
         recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
     }
