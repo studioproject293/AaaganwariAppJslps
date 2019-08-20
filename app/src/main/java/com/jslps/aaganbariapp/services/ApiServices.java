@@ -11,5 +11,4 @@ public interface ApiServices {
     Call<String> getTabletMasterDownLoad(@Query("flag") String flag, @Query("whr1") String whr1,@Query("whr2")String whr2);
 
 
-
 }

@@ -75,11 +75,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         savenewMember = findViewById(R.id.savenewMember);
         button_bank_connection = findViewById(R.id.english);
         button_brand_connection = findViewById(R.id.hindi);
-        ArrayList<ImageSaveModel> benifisheryDataModelDbSends = (ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class);
+        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends =
+                (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
        /* benifisheryDataModelDbSends.get(0).setImgebytes(null);
         benifisheryDataModelDbSends.get(1).setImgebytes(null);*/
-
-        System.out.println("cjbjvsdbfhsd"+new Gson().toJson(benifisheryDataModelDbSends));
+        String data = "{ AganwadiImagesData:" + new Gson().toJson(benifisheryDataModelDbSends)+" }";
+        System.out.println("Jsva Data" + data);
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
         try {
             copyDatabase();
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         savenewMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
             }
         });
         if (radioGroup.getCheckedRadioButtonId() == -1) {

@@ -21,8 +21,9 @@ public  class BenifisheryDataModelDbSend extends SugarRecord {
     private String panchyatname;
     private String voname;
     private String aaganwariname;
+    private String isuploadtoserver;
 
-    public BenifisheryDataModelDbSend(String benfid, String benfname, String createdby, String createdon, String noofmeal, String unitrateofmeal, String noofbenf, String amount, String month, String year, String remarks, String guid, String panchyatcode, String vocode, String aaganwaricode, String panchyatname, String voname, String aaganwariname) {
+    public BenifisheryDataModelDbSend(String benfid, String benfname, String createdby, String createdon, String noofmeal, String unitrateofmeal, String noofbenf, String amount, String month, String year, String remarks, String guid, String panchyatcode, String vocode, String aaganwaricode, String panchyatname, String voname, String aaganwariname, String isuploadtoserver) {
         this.benfid = benfid;
         this.benfname = benfname;
         this.createdby = createdby;
@@ -41,6 +42,7 @@ public  class BenifisheryDataModelDbSend extends SugarRecord {
         this.panchyatname = panchyatname;
         this.voname = voname;
         this.aaganwariname = aaganwariname;
+        this.isuploadtoserver = isuploadtoserver;
     }
 
     public String getPanchyatname() {
@@ -189,5 +191,13 @@ public  class BenifisheryDataModelDbSend extends SugarRecord {
 
     public String getUnitrateofmeal() {
         return unitrateofmeal;
+    }
+
+    public String getIsuploadtoserver() {
+        return isuploadtoserver;
+    }
+
+    public void setIsuploadtoserver(String isuploadtoserver) {
+        this.isuploadtoserver = isuploadtoserver;
     }
 }

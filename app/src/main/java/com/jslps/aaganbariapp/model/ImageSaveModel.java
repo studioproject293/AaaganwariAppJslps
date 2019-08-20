@@ -3,61 +3,57 @@ package com.jslps.aaganbariapp.model;
 import com.orm.SugarRecord;
 
 public class ImageSaveModel extends SugarRecord {
-    private String imgebytes;
-    private String finalnames;
+    private String imagebyte;
+    private String imagename;
     private Long finalsizes;
     private String finaltypes;
     private String guid;
     private String panchyatcode;
     private String vocode;
-    private String aaganwaricode;
+    private String awccode;
     private String month;
     private String year;
+    private String isuploadtoserver;
+
+    public String getIsuploadtoserver() {
+        return isuploadtoserver;
+    }
+
+    public void setIsuploadtoserver(String isuploadtoserver) {
+        this.isuploadtoserver = isuploadtoserver;
+    }
 
     public ImageSaveModel() {
     }
 
-    public ImageSaveModel(String imgebytes, String finalnames, Long finalsizes, String finaltypes, String guid, String panchyatcode, String vocode, String aaganwaricode) {
-        this.imgebytes = imgebytes;
-        this.finalnames = finalnames;
+    public ImageSaveModel(String imagebyte, String imagename, Long finalsizes, String finaltypes, String guid, String panchyatcode, String vocode, String awccode, String month, String year, String isuploadtoserver) {
+        this.imagebyte = imagebyte;
+        this.imagename = imagename;
         this.finalsizes = finalsizes;
         this.finaltypes = finaltypes;
         this.guid = guid;
         this.panchyatcode = panchyatcode;
         this.vocode = vocode;
-        this.aaganwaricode = aaganwaricode;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
+        this.awccode = awccode;
         this.month = month;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
         this.year = year;
+        this.isuploadtoserver = isuploadtoserver;
     }
 
-    public String getImgebytes() {
-        return imgebytes;
+    public String getImagebyte() {
+        return imagebyte;
     }
 
-    public void setImgebytes(String imgebytes) {
-        this.imgebytes = imgebytes;
+    public void setImagebyte(String imagebyte) {
+        this.imagebyte = imagebyte;
     }
 
-    public String getFinalnames() {
-        return finalnames;
+    public String getImagename() {
+        return imagename;
     }
 
-    public void setFinalnames(String finalnames) {
-        this.finalnames = finalnames;
+    public void setImagename(String imagename) {
+        this.imagename = imagename;
     }
 
     public Long getFinalsizes() {
@@ -100,11 +96,27 @@ public class ImageSaveModel extends SugarRecord {
         this.vocode = vocode;
     }
 
-    public String getAaganwaricode() {
-        return aaganwaricode;
+    public String getAwccode() {
+        return awccode;
     }
 
-    public void setAaganwaricode(String aaganwaricode) {
-        this.aaganwaricode = aaganwaricode;
+    public void setAwccode(String awccode) {
+        this.awccode = awccode;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }

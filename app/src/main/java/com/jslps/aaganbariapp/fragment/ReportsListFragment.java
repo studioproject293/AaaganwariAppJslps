@@ -107,7 +107,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 ArrayList<ImageSaveModel> imageSaveModelArrayList = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                         .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPanchyatcode()),
                                 Condition.prop("vocode").eq(benifisheryDataModelDbSend.getVocode()),
-                                Condition.prop("aaganwaricode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();
+                                Condition.prop("awccode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();
                 for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                     benifisheryDataModelDbArrayList.get(i).delete();
                 }

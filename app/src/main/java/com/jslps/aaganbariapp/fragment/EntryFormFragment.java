@@ -289,6 +289,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     benifisheryDataModelDbSend.setYear(yearSelect);
                     benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
                     benifisheryDataModelDbSend.setGuid(id);
+                    benifisheryDataModelDbSend.setIsuploadtoserver("false");
                     benifisheryDataModelDbSend.save();
                     Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -313,11 +314,11 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                                                 for (int j = 0; j < Constant.finalbytes.size(); j++) {
                                                     ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                                    imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                                    imageSaveModel.setAwccode(prefManager.getPrefAaganwariCode());
                                                     imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
                                                     imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                                    imageSaveModel.setFinalnames(Constant.finalnames.get(j));
-                                                    imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
+                                                    imageSaveModel.setImagename(Constant.finalnames.get(j));
+                                                    imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
                                                     imageSaveModel.setMonth(monthSeleted+"");
                                                     imageSaveModel.setYear(yearSelect);
                                                     imageSaveModel.save();
@@ -346,6 +347,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                                     System.out.println("new Gson"+getDate(System.currentTimeMillis()));
                                                     benifisheryDataModelDbSends.get(i).setCreatedon(getDate(System.currentTimeMillis()));
                                                     benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                                    benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
                                                     benifisheryDataModelDbSends.get(i).save();
 
                                                     Constant.finalbytes.clear();
@@ -379,6 +381,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                                     benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
                                                     benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
                                                     benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                                    benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
                                                     benifisheryDataModelDbSend.save();
                                                     arrayList.add(benifisheryDataModelDbSend);
 
@@ -414,12 +417,12 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                     if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                                         for (int j = 0; j < Constant.finalbytes.size(); j++) {
                                             ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                            imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                            imageSaveModel.setAwccode(prefManager.getPrefAaganwariCode());
                                             imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
                                             imageSaveModel.setVocode(prefManager.getPREF_VOCode());
 
-                                            imageSaveModel.setFinalnames(Constant.finalnames.get(j));
-                                            imageSaveModel.setImgebytes(Constant.finalbytes.get(j));
+                                            imageSaveModel.setImagename(Constant.finalnames.get(j));
+                                            imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
                                             imageSaveModel.setMonth(monthSeleted+"");
                                             imageSaveModel.setYear(yearSelect);
                                             imageSaveModel.save();
@@ -450,6 +453,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                             benifisheryDataModelDbSends.get(i).setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
                                             benifisheryDataModelDbSends.get(i).setCreatedon(getDate(System.currentTimeMillis()));
                                             benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                            benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
                                             benifisheryDataModelDbSends.get(i).save();
 
                                             Constant.finalbytes.clear();
@@ -482,6 +486,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                             benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
                                             benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
                                             benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                                            benifisheryDataModelDbSend.setIsuploadtoserver("false");
                                             benifisheryDataModelDbSend.save();
                                             arrayList.add(benifisheryDataModelDbSend);
 

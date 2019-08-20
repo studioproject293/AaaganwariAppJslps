@@ -114,11 +114,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
-                    imageSaveModel.setAaganwaricode(BenifisheryDataModelDbSendRec.getAaganwaricode());
+                    imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
                     imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPanchyatcode());
                     imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
-                    imageSaveModel.setFinalnames(Constant.finalnames.get(k));
-                    imageSaveModel.setImgebytes(Constant.finalbytes.get(k));
+                    imageSaveModel.setImagename(Constant.finalnames.get(k));
+                    imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
                     arrayListVillage1.add(1, imageSaveModel);
@@ -141,11 +141,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
-                    imageSaveModel.setAaganwaricode(BenifisheryDataModelDbSendRec.getAaganwaricode());
+                    imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
                     imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPanchyatcode());
                     imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
-                    imageSaveModel.setFinalnames(Constant.finalnames.get(k));
-                    imageSaveModel.setImgebytes(Constant.finalbytes.get(k));
+                    imageSaveModel.setImagename(Constant.finalnames.get(k));
+                    imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
                     arrayListVillage1.add(imageSaveModel);

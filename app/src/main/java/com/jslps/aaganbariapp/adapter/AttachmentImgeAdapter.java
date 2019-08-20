@@ -45,7 +45,7 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
 
 
         try {
-            byte[] byteArray = Base64.decode(imageSaveModels.get(position).getImgebytes(), 0);
+            byte[] byteArray = Base64.decode(imageSaveModels.get(position).getImagebyte(), 0);
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             holder.attachmentImage.setImageBitmap(bitmap);
         } catch (Exception e) {
