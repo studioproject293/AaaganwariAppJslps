@@ -78,5 +78,10 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
     public void onListItemLongClicked(int itemId, Object data) {
 
     }
+
+    @Override
+    public void onListItemLongClickedSnd(int itemId, Object data, int position) {
+
+    }
 }
 

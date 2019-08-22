@@ -135,5 +135,10 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     public void onListItemLongClicked(int itemId, Object data) {
 
     }
+
+    @Override
+    public void onListItemLongClickedSnd(int itemId, Object data, int position) {
+
+    }
 }
 

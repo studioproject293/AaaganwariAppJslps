@@ -14,4 +14,5 @@ public interface OnFragmentListItemSelectListener {
     // TODO: Update argument type and name
     void onListItemSelected(int itemId, Object data);
     void onListItemLongClicked(int itemId, Object data);
+    void onListItemLongClickedSnd(int itemId, Object data,int position);
 }

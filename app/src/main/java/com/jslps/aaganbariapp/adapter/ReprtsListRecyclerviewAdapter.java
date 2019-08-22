@@ -71,6 +71,13 @@ public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsLi
                 onFragmentListItemSelectListener.onListItemSelected(R.id.delete, benifisheryDataModelDbSend);
             }
         });
+       if (benifisheryDataModelDbSend.getIsuploadtoserver().equalsIgnoreCase("true")){
+           holder.imageViewEdit.setVisibility(View.GONE);
+           holder.imageViewDelete.setVisibility(View.GONE);
+       }else {
+           holder.imageViewEdit.setVisibility(View.VISIBLE);
+           holder.imageViewDelete.setVisibility(View.VISIBLE);
+       }
 
       holder.monthYear.setText(getProperFormat(Integer.parseInt(benifisheryDataModelDbSend.getMonth()))+" - "+benifisheryDataModelDbSend.getYear());
     }

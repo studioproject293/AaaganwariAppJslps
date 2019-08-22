@@ -58,10 +58,7 @@ public class GalleryActivity extends AppCompatActivity {
         GridView gallery = (GridView) findViewById(R.id.galleryGridView);
         LinearLayout cancel = (LinearLayout) findViewById(R.id.cancel);
         LinearLayout done = (LinearLayout) findViewById(R.id.done);
-        Constant.finalbytes.clear();
-        Constant.finalnames.clear();
-        Constant.finalsizes.clear();
-        Constant.finaltypes.clear();
+
         List<String> tempfinalbytes1 = new ArrayList<String>(Constant.finalbytes);
         List<String> tempfinalnames1 = new ArrayList<String>(Constant.finalnames);
         List<Long> tempfinalsizes1 = new ArrayList<Long>(Constant.finalsizes);

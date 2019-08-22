@@ -15,7 +15,7 @@
         <TableRow
             android:background="@color/colorPrimary"
             android:padding="5dp"
-            android:weightSum="4">
+            android:weightSum="5">
 
             <TextView
                 android:layout_width="0dp"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.1"
                 android:gravity="center"
-                android:text="@string/no_of_record_to_be_sync"
+                android:text="Total Aaganwari"
 
                 android:textColor="#FFF"
                 android:textSize="14sp"
@@ -76,7 +76,25 @@
 
                 <View style="@style/Divider" />
             </LinearLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.1"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="Year"
 
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp">
+
+                <View style="@style/Divider" />
+            </LinearLayout>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

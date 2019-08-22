@@ -21,6 +21,7 @@ import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.DataSaveModel1;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -29,12 +30,14 @@ import java.util.ArrayList;
 public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<SyncWithServerRecyclerviewAdapter.ViewHolder> {
     private Activity context;
     OnFragmentListItemSelectListener onFragmentListItemSelectListener;
-    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbArrayList;
-    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = new ArrayList<>();
 
-    public SyncWithServerRecyclerviewAdapter(Activity activity, ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbArrayList) {
+    ArrayList<DataSaveModel1> dataSaveModel1ArrayList = new ArrayList<>();
+    ArrayList<DataSaveModel1> dataSaveModel1ArrayListNew = new ArrayList<>();
+    int size;
+
+    public SyncWithServerRecyclerviewAdapter(Activity activity, ArrayList<DataSaveModel1> benifisheryDataModelDbArrayList) {
         this.context = activity;
-        this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;
+        this.dataSaveModel1ArrayList = benifisheryDataModelDbArrayList;
 
     }
 
@@ -47,28 +50,25 @@ public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<Sync
 
     @Override
     public void onBindViewHolder(@NonNull final SyncWithServerRecyclerviewAdapter.ViewHolder holder, final int position) {
-        final BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbArrayList.get(position);
-        holder.benifisheryName.setText(benifisheryDataModelDbSend.getPanchyatname());
+        final DataSaveModel1 benifisheryDataModelDbSend = dataSaveModel1ArrayList.get(position);
+        holder.benifisheryName.setText(benifisheryDataModelDbSend.getPanchayatname());
         holder.month.setText(benifisheryDataModelDbSend.getMonth());
-        ArrayList<BenifisheryDataModelDbSend> panchyatDataModelDbs = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                .where(Condition.prop("month").eq(benifisheryDataModelDbSend.getMonth())).list();
-        holder.noofmealinmonth.setText("1");
-        benifisheryDataModelDbSendss.add(position,benifisheryDataModelDbSend);
-        panchyatDataModelDbs.get(position).setVoname(null);
-        panchyatDataModelDbs.get(position).setAaganwariname(null);
-        panchyatDataModelDbs.get(position).setPanchyatname(null);
-        panchyatDataModelDbs.get(position).setId(null);
-        panchyatDataModelDbs.get(position).setCreatedon(null);
+        holder.year.setText(benifisheryDataModelDbSend.getYear());
+        holder.noofmealinmonth.setText(benifisheryDataModelDbSend.getAaganwaricount());
 
+         if (holder.checkBoxUnit.isChecked()){
+             dataSaveModel1ArrayListNew.add(position,benifisheryDataModelDbSend);
+             onFragmentListItemSelectListener.onListItemLongClickedSnd(1,dataSaveModel1ArrayListNew,position);
+         }
         holder.checkBoxUnit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
-                    benifisheryDataModelDbSendss.add(position, benifisheryDataModelDbSend);
-                    //System.out.println("jdfjhjds"+new Gson().toJson(benifisheryDataModelDbSend));
+                    dataSaveModel1ArrayListNew.add(position,benifisheryDataModelDbSend);
+                    onFragmentListItemSelectListener.onListItemLongClickedSnd(1,dataSaveModel1ArrayListNew,position);
                 } else {
-                    benifisheryDataModelDbSendss.remove(position);
-                    //System.out.println("jdfjhjds"+new Gson().toJson(benifisheryDataModelDbSend));
+                    dataSaveModel1ArrayListNew.remove(position);
+                    onFragmentListItemSelectListener.onListItemLongClickedSnd(0,dataSaveModel1ArrayListNew,position);
 
                 }
             }
@@ -78,15 +78,20 @@ public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<Sync
 
     @Override
     public int getItemCount() {
-        return benifisheryDataModelDbArrayList.size();
+        return dataSaveModel1ArrayList.size();
     }
 
     public void setListner(OnFragmentListItemSelectListener onFragmentListItemSelectListener) {
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView benifisheryName;
+        TextView benifisheryName, year;
         TextView month, noofmealinmonth;
         CheckBox checkBoxUnit;
 
@@ -96,6 +101,7 @@ public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<Sync
             checkBoxUnit = itemView.findViewById(R.id.unitRate);
             month = itemView.findViewById(R.id.noofbenifishery);
             noofmealinmonth = itemView.findViewById(R.id.noofmealinmonth);
+            year = itemView.findViewById(R.id.year);
         }
     }
 }

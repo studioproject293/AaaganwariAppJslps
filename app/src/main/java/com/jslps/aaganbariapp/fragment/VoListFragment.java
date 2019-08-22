@@ -72,5 +72,10 @@ public class VoListFragment extends BaseFragment implements OnFragmentListItemSe
     public void onListItemLongClicked(int itemId, Object data) {
 
     }
+
+    @Override
+    public void onListItemLongClickedSnd(int itemId, Object data, int position) {
+
+    }
 }
 

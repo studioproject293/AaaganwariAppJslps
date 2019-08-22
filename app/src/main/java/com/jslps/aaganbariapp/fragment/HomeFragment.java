@@ -18,7 +18,7 @@ import com.jslps.aaganbariapp.activity.WelcomeActivity;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.HeaderData;
 
-public class HomeFragment extends BaseFragment implements OnFragmentListItemSelectListener {
+public class HomeFragment extends BaseFragment  {
 
     private View rootView;
     LinearLayout layoutStart, logout,feedbackFragment,reports,sysncwithserverLayout;
@@ -83,14 +83,6 @@ public class HomeFragment extends BaseFragment implements OnFragmentListItemSele
         return rootView;
     }
 
-    @Override
-    public void onListItemSelected(int itemId, Object data) {
 
-    }
-
-    @Override
-    public void onListItemLongClicked(int itemId, Object data) {
-
-    }
 }
 

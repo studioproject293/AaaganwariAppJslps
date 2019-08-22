@@ -79,5 +79,10 @@ public class PanchyatFragment extends BaseFragment implements OnFragmentListItem
     public void onListItemLongClicked(int itemId, Object data) {
 
     }
+
+    @Override
+    public void onListItemLongClickedSnd(int itemId, Object data, int position) {
+
+    }
 }
 

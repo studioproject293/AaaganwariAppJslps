@@ -103,7 +103,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPanchyatcode()),
                         Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
-                        Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())).list();
+                        Condition.prop("awccode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode()),
+                        Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                        Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
         System.out.println("dsbfhjhxjkf" + new Gson().toJson(arrayListVillage1));
         if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
             updateList(benifisheryDataModelDbArrayList);
@@ -464,6 +466,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
 
     @Override
     public void onListItemLongClicked(int itemId, Object data) {
+
+    }
+
+    @Override
+    public void onListItemLongClickedSnd(int itemId, Object data, int position) {
 
     }
 

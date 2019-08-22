@@ -14,7 +14,7 @@ import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.HeaderData;
 
-public class FeedbackFragment extends BaseFragment implements OnFragmentListItemSelectListener {
+public class FeedbackFragment extends BaseFragment  {
 
     private View rootView;
 
@@ -37,14 +37,6 @@ public class FeedbackFragment extends BaseFragment implements OnFragmentListItem
         return rootView;
     }
 
-    @Override
-    public void onListItemSelected(int itemId, Object data) {
 
-    }
-
-    @Override
-    public void onListItemLongClicked(int itemId, Object data) {
-
-    }
 }
 
