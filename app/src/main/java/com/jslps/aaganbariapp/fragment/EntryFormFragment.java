@@ -329,12 +329,11 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                     .message(getString(R.string.already_record))
                                     .duration(Duration.SHORT)
                                     .fillParent(true)
-                                    .textAlign(Align.LEFT)
+                                    .textAlign(Align.CENTER)
                                     .show();
                         } else {
                             for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                                 String id = UUID.randomUUID().toString();
-
                                 BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
                                 benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
                                 benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
@@ -364,8 +363,14 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             Constant.finalnames.clear();
                             Constant.finalsizes.clear();
                             Constant.finaltypes.clear();
-
                             Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.SUCCESS)
+                                    .message(getString(R.string.save_message))
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

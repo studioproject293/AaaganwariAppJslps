@@ -36,5 +36,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="already_record">You have already record in this month</string>
+    <string name="total_anganwadi">Total Anganwadi</string>
 
 </resources>
