@@ -38,5 +38,6 @@
     <string name="no">नहीं</string>
     <string name="already_record">आपका इस महीने में रिकॉर्ड हो चुका है</string>
     <string name="total_anganwadi">कुल आंगनवाड़ी</string>
+    <string name="no_record">कोई रिकॉर्ड नहीं मिला</string>
 
 </resources>

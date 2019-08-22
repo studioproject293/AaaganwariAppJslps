@@ -67,7 +67,14 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
             public void onClick(View v) {
                 notifyItemRemoved(position);
                 imageSaveModels.get(position).delete();
+                imageSaveModels.remove(position);
                 notifyItemRangeChanged(position, imageSaveModels.size());
+                if (Constant.editFlag) {
+                    if (imageSaveModels.size() == 1)
+                        holder.removeImage.setVisibility(View.GONE);
+                    else
+                        holder.removeImage.setVisibility(View.VISIBLE);
+                } else holder.removeImage.setVisibility(View.GONE);
             }
         }); }
 

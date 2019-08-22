@@ -296,7 +296,14 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     benifisheryDataModelDbSend.setGuid(id);
                     benifisheryDataModelDbSend.setIsuploadtoserver("false");
                     benifisheryDataModelDbSend.save();
-                    Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                    Snackbar.with(getActivity(), null)
+                            .type(Type.SUCCESS)
+                            .message(getString(R.string.save_message))
+                            .duration(Duration.SHORT)
+                            .fillParent(true)
+                            .textAlign(Align.CENTER)
+                            .show();
+                    //Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -364,13 +371,6 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             Constant.finalsizes.clear();
                             Constant.finaltypes.clear();
                             Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
-                            Snackbar.with(getActivity(), null)
-                                    .type(Type.SUCCESS)
-                                    .message(getString(R.string.save_message))
-                                    .duration(Duration.SHORT)
-                                    .fillParent(true)
-                                    .textAlign(Align.CENTER)
-                                    .show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

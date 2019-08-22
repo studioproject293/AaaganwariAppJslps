@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.chootdev.csnackbar.Align;
+import com.chootdev.csnackbar.Duration;
+import com.chootdev.csnackbar.Snackbar;
+import com.chootdev.csnackbar.Type;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.adapter.VoRecyclerviewAdapter;
@@ -47,9 +52,21 @@ public class VoListFragment extends BaseFragment implements OnFragmentListItemSe
     }
 
     private void updateList(ArrayList<VOListDataModelDb> panchyatDataModelDbs) {
-        VoRecyclerviewAdapter panchyatRecyclerviewAdapter = new VoRecyclerviewAdapter(getActivity(), panchyatDataModelDbs);
-        panchyatRecyclerviewAdapter.setListner(this);
-        recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
+        if (panchyatDataModelDbs!=null && panchyatDataModelDbs.size()>0){
+            recyclerViewPanchyat.setVisibility(View.VISIBLE);
+            VoRecyclerviewAdapter panchyatRecyclerviewAdapter = new VoRecyclerviewAdapter(getActivity(), panchyatDataModelDbs);
+            panchyatRecyclerviewAdapter.setListner(this);
+            recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
+        }else {
+            recyclerViewPanchyat.setVisibility(View.GONE);
+            Snackbar.with(getActivity(), null)
+                    .type(Type.ERROR)
+                    .message(getString(R.string.no_record))
+                    .duration(Duration.SHORT)
+                    .fillParent(true)
+                    .textAlign(Align.CENTER)
+                    .show();
+        }
     }
 
     @Override

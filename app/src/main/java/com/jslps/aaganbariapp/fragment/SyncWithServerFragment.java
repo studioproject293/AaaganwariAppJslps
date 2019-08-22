@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.DialogUtil;
 import com.jslps.aaganbariapp.R;
+import com.jslps.aaganbariapp.adapter.ReprtsListRecyclerviewAdapter;
 import com.jslps.aaganbariapp.adapter.SyncWithServerRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
@@ -139,7 +140,13 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             recyclerViewBenifishery.setVisibility(View.GONE);
             tableLayout.setVisibility(View.GONE);
             uploaddata.setVisibility(View.GONE);
-
+            Snackbar.with(getActivity(), null)
+                    .type(Type.ERROR)
+                    .message(getString(R.string.no_record))
+                    .duration(Duration.SHORT)
+                    .fillParent(true)
+                    .textAlign(Align.CENTER)
+                    .show();
 
         }
 

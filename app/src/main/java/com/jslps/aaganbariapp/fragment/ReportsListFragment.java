@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chootdev.csnackbar.Align;
+import com.chootdev.csnackbar.Duration;
+import com.chootdev.csnackbar.Snackbar;
+import com.chootdev.csnackbar.Type;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.adapter.AanganWariRecyclerviewAdapter;
@@ -51,7 +55,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     public void onResume() {
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.edit)));
-        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.FRAGMENT_REPORTS);
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_REPORTS);
         benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
         ArrayList<String> arrayListString = new ArrayList<>();
@@ -79,9 +83,22 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     }
 
     private void updateList(ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends) {
-        ReprtsListRecyclerviewAdapter panchyatRecyclerviewAdapter = new ReprtsListRecyclerviewAdapter(getActivity(), benifisheryDataModelDbSends);
-        panchyatRecyclerviewAdapter.setListner(this);
-        recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
+        if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
+            recyclerViewPanchyat.setVisibility(View.VISIBLE);
+            ReprtsListRecyclerviewAdapter panchyatRecyclerviewAdapter = new ReprtsListRecyclerviewAdapter(getActivity(), benifisheryDataModelDbSends);
+            panchyatRecyclerviewAdapter.setListner(this);
+            recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
+        } else {
+            recyclerViewPanchyat.setVisibility(View.GONE);
+            Snackbar.with(getActivity(), null)
+                    .type(Type.ERROR)
+                    .message(getString(R.string.no_record))
+                    .duration(Duration.SHORT)
+                    .fillParent(true)
+                    .textAlign(Align.CENTER)
+                    .show();
+        }
+
     }
 
     @Override
@@ -111,10 +128,17 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                     benifisheryDataModelDbArrayList.get(i).delete();
                 }
-                for (int j=0;j<imageSaveModelArrayList.size();j++){
+                for (int j = 0; j < imageSaveModelArrayList.size(); j++) {
                     imageSaveModelArrayList.get(j).delete();
                 }
-                Toast.makeText(getActivity(), getString(R.string.delete_sucessfully), Toast.LENGTH_SHORT).show();
+                Snackbar.with(getActivity(), null)
+                        .type(Type.SUCCESS)
+                        .message(getString(R.string.delete_sucessfully))
+                        .duration(Duration.SHORT)
+                        .fillParent(true)
+                        .textAlign(Align.CENTER)
+                        .show();
+                //Toast.makeText(getActivity(), getString(R.string.delete_sucessfully), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.edit:
                 Constant.editFlag = true;
