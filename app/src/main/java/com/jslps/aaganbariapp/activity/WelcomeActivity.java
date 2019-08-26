@@ -212,7 +212,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     System.out.println("LogInDbsdfsdfs" + new Gson().toJson(arrayListVillage1));
                     if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
 
-                        if (arrayListVillage1.get(0).getUsername().equals(editTextUserName.getText().toString()) || arrayListVillage1.get(0).getUsername().equals(editTextPassword.getText().toString())) {
+                        if (arrayListVillage1.get(0).getUsername().equals(editTextUserName.getText().toString()) ||
+                                arrayListVillage1.get(0).getUsername().equals(editTextPassword.getText().toString())) {
                             if (checkboxRember.isChecked()) {
                                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                                 SharedPreferences.Editor editor = pref.edit();
