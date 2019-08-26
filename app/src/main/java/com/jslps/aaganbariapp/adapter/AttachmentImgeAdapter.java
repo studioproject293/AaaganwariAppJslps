@@ -21,14 +21,13 @@ import com.jslps.aaganbariapp.model.ImageSaveModel;
 import java.util.ArrayList;
 
 public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAdapter.ViewHolder> {
-    PrefManager prefManager;
+
     private static final String TAG = "AttachmentImgeAdapter-->";
     private Context context;
     private ArrayList<ImageSaveModel> imageSaveModels = new ArrayList<ImageSaveModel>();
 
-    public AttachmentImgeAdapter(Context context,ArrayList<ImageSaveModel> arrayList) {
+    public AttachmentImgeAdapter(Context context, ArrayList<ImageSaveModel> arrayList) {
         this.context = context;
-
         this.imageSaveModels = arrayList;
     }
 
@@ -36,14 +35,11 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
     @Override
     public AttachmentImgeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.attachment_image, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final AttachmentImgeAdapter.ViewHolder holder, final int position) {
-
-
         try {
             byte[] byteArray = Base64.decode(imageSaveModels.get(position).getImagebyte(), 0);
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -51,11 +47,8 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
         } catch (Exception e) {
             e.printStackTrace();
         } catch (Error e) {
-
             Log.d("Image", TAG + "Gallery On item Click-->" + "IO Exception-->" + e.toString());
         }
-
-
         if (Constant.editFlag) {
             if (imageSaveModels.size() == 1)
                 holder.removeImage.setVisibility(View.GONE);
@@ -76,24 +69,25 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
                         holder.removeImage.setVisibility(View.VISIBLE);
                 } else holder.removeImage.setVisibility(View.GONE);
             }
-        }); }
+        });
+    }
 
     @Override
     public int getItemCount() {
         return imageSaveModels.size();
     }
+
     // Imp should be added
     @Override
     public int getItemViewType(int position) {
         return position;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView attachmentImage;
-        public ImageView removeImage;
-        public ImageView backimage;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView attachmentImage;
+        ImageView removeImage;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             attachmentImage = (ImageView) itemView.findViewById(R.id.attachmentImage);
             removeImage = (ImageView) itemView.findViewById(R.id.removeImage);

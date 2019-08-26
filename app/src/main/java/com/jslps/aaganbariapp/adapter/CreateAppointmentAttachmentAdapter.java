@@ -27,7 +27,6 @@ import java.util.List;
 
 
 public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
-    PrefManager prefManager;
     private static final String TAG = "AllergyAttachmnertAdapter-->";
     AttachmentViewHolder attachmentViewHolder;
     private Context context;

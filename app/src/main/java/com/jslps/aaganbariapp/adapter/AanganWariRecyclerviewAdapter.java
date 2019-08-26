@@ -45,16 +45,8 @@ public class AanganWariRecyclerviewAdapter extends RecyclerView.Adapter<AanganWa
     public void onBindViewHolder(@NonNull AanganWariRecyclerviewAdapter.ViewHolder holder, final int position) {
         prefManager = PrefManager.getInstance();
         final AanganWariModelDb panchyatDataModelDb = voListDataModelDbs.get(position);
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        final int month = c.get(Calendar.MONTH);
         holder.title.setText(panchyatDataModelDb.getAnganwadiname() + " (" + panchyatDataModelDb.getAwid() + ")");
 
-        ArrayList<BenifisheryDataModelDbSend> panchyatDataModelDbs = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                .where(Condition.prop("month").eq(month),
-                        Condition.prop("vocode").eq(voListDataModelDb.getVocode()),
-                        Condition.prop("year").eq(year),
-                        Condition.prop("aaganwaricode").eq(panchyatDataModelDb.getAwid())).list();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,31 +55,7 @@ public class AanganWariRecyclerviewAdapter extends RecyclerView.Adapter<AanganWa
                 onFragmentListItemSelectListener.onListItemSelected(position, panchyatDataModelDb);
             }
         });
-        ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
-        ArrayList<String> arrayListString = new ArrayList<>();
-        for (int i = 0; i < panchyatDataModelDbs.size(); i++) {
-            BenifisheryDataModelDbSend benifisheryDataModelDbSend = panchyatDataModelDbs.get(i);
-            String aaganbarcode = benifisheryDataModelDbSend.getAaganwaricode();
 
-            if (!arrayListString.contains(aaganbarcode)) {
-                arrayListString.add(aaganbarcode);
-                arrayList.add(benifisheryDataModelDbSend);
-
-            }
-        }
-        ArrayList<BenifisheryDataModelDbSend> arrayList1 = new ArrayList<>();
-        ArrayList<String> arrayListString1 = new ArrayList<>();
-        for (int i = 0; i < Select.from(BenifisheryDataModelDbSend.class).list().size(); i++) {
-            BenifisheryDataModelDbSend benifisheryDataModelDbSend1 =Select.from(BenifisheryDataModelDbSend.class).list().get(i);
-            String aaganbarcode1 = benifisheryDataModelDbSend1.getAaganwaricode();
-
-            if (!arrayListString1.contains(aaganbarcode1)) {
-                arrayListString1.add(aaganbarcode1);
-                arrayList1.add(benifisheryDataModelDbSend1);
-
-            }
-        }
-       // holder.total.setText("Total Record: "+arrayList.size() + "/" +arrayList1.size());
     }
 
     @Override

@@ -186,33 +186,14 @@ public class GalleryActivity extends AppCompatActivity {
                             //setting Image size boundary Image should be less than 5MB
                             if (fileSizeInBytes < 5000000) {
                                 if (finalbytes.size() < Constant.maxAttachment) {
-                                   /* ArrayList<ImageSaveModel>imageSaveModelArrayList=new ArrayList<>();
-                                    if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                                            for (int i = 0; i < Constant.finalbytes.size(); i++) {
-                                                ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                                imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                                imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                                imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                                imageSaveModel.setFinaltypes(fileExtension);
-                                                imageSaveModel.setFinalnames(fileName);
-                                                imageSaveModel.setFinalsizes(fileSizeInBytes);
-                                                imageSaveModel.setImgebytes(encodedBase64);
-                                                imageSaveModelArrayList.add(i,imageSaveModel);
-                                                imageSaveModelArrayList.get(i).save();
-                                        }
-                                    }*/
+
                                     finalbytes.add(encodedBase64);
                                     finalnames.add(fileName+ ".jpg");
                                     finalsizes.add(fileSizeInBytes);
                                     finaltypes.add(fileExtension);
                                     positions.add(position);
                                     alertIndentifierCounter++;
-                                    //Log.d(Constant.TAG,TAG+"Check point"+positions.toString());
-                                        /*Log.d(Constant.TAG,TAG+"bytes"+finalbytes.size());
-                                        Log.d(Constant.TAG,TAG+"names"+finalnames.size());
-                                        Log.d(Constant.TAG,TAG+"sizes"+finalsizes.size());
-                                        Log.d(Constant.TAG,TAG+"types"+finaltypes.size());
-                                        Log.d(Constant.TAG,TAG+"positions"+positions.size());*/
+
                                     arg1.setBackgroundResource(R.color.colorPrimaryDark);
                                 } else {
                                     Toast.makeText(GalleryActivity.this, "Can not upload more than " + Constant.maxAttachment + " images.", Toast.LENGTH_SHORT).show();
@@ -236,15 +217,7 @@ public class GalleryActivity extends AppCompatActivity {
                                 //Log.d(Constant.TAG,TAG+"Exception While removing");
                             }
 
-                            //Log.d(Constant.TAG,TAG+"removedItemPosition"+removedItemPosition);
-                            //Log.d(Constant.TAG,TAG+"size"+finalbytes.size());
-                                /*Log.d(Constant.TAG,TAG+"bytes"+finalbytes.size());
-                                Log.d(Constant.TAG,TAG+"names"+finalnames.size());
-                                Log.d(Constant.TAG,TAG+"sizes"+finalsizes.size());
-                                Log.d(Constant.TAG,TAG+"types"+finaltypes.size());
-                                Log.d(Constant.TAG,TAG+"positions"+positions.size());*/
-
-                        }
+                            }
                     } else {
                         Toast.makeText(GalleryActivity.this, "Image not exist", Toast.LENGTH_SHORT).show();
                     }

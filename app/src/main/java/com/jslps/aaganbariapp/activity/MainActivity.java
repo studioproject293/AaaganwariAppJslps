@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
+import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.fragment.AaganWariListFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragment;
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     Toolbar toolbar_home;
     TextView textheader;
     Button savenewMember;
-   public static RadioGroup radioGroup;
+    public static RadioGroup radioGroup;
+    PrefManager prefManager;
     RadioButton button_bank_connection, button_brand_connection;
 
     @Override
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prefManager = PrefManager.getInstance();
         toolbar_home = findViewById(R.id.toolbar_home);
         radioGroup = findViewById(R.id.radioGroup);
         textheader = findViewById(R.id.toolbar_title);
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
        /* benifisheryDataModelDbSends.get(0).setImgebytes(null);
         benifisheryDataModelDbSends.get(1).setImgebytes(null);*/
-        String data = "{ AganwadiImagesData:" + new Gson().toJson(benifisheryDataModelDbSends)+" }";
+        String data = "{ AganwadiImagesData:" + new Gson().toJson(benifisheryDataModelDbSends) + " }";
         System.out.println("Jsva Data" + data);
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
         try {
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             Configuration conf = res.getConfiguration();
             conf.locale = locale;
             res.updateConfiguration(conf, dm);
+            prefManager.setPrefLangaugeSelection("english");
 
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -120,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Configuration conf = res.getConfiguration();
                     conf.locale = locale;
                     res.updateConfiguration(conf, dm);
+                    prefManager.setPrefLangaugeSelection("english");
                     if (mCurrentFragment == Constant.HOME_FRAGMENT)
                         gotoHomePage();
 
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     Configuration conf = res.getConfiguration();
                     conf.locale = locale;
                     res.updateConfiguration(conf, dm);
+                    prefManager.setPrefLangaugeSelection("hindi");
                     if (mCurrentFragment == Constant.HOME_FRAGMENT)
                         gotoHomePage();
                 }

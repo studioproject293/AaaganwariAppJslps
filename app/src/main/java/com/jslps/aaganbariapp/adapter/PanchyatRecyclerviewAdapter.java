@@ -1,6 +1,7 @@
 package com.jslps.aaganbariapp.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class PanchyatRecyclerviewAdapter extends RecyclerView.Adapter<PanchyatRe
     OnFragmentListItemSelectListener onFragmentListItemSelectListener;
     ArrayList<PanchyatDataModelDb> panchyatDataModelDbs;
     private PrefManager prefManager;
+
     public PanchyatRecyclerviewAdapter(Activity activity, ArrayList<PanchyatDataModelDb> panchyatDataModelDbs) {
         this.context = activity;
         this.panchyatDataModelDbs = panchyatDataModelDbs;
@@ -46,10 +48,14 @@ public class PanchyatRecyclerviewAdapter extends RecyclerView.Adapter<PanchyatRe
     @Override
     public void onBindViewHolder(@NonNull PanchyatRecyclerviewAdapter.ViewHolder holder, final int position) {
         final PanchyatDataModelDb panchyatDataModelDb = panchyatDataModelDbs.get(position);
-       ArrayList<VOListDataModelDb> panchyatDataModelDbs = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class)
+        ArrayList<VOListDataModelDb> panchyatDataModelDbs = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class)
                 .where(Condition.prop("clustercode").eq(panchyatDataModelDb.getClustercode())).list();
         prefManager = PrefManager.getInstance();
-        holder.title.setText(panchyatDataModelDb.getClustername() + " (" + panchyatDataModelDbs.size() + ")");
+        if (prefManager.getPrefLangaugeSelection().equalsIgnoreCase("english"))
+            holder.title.setText(panchyatDataModelDb.getClustername() + " (" + panchyatDataModelDbs.size() + ")");
+        else
+            holder.title.setText(panchyatDataModelDb.getClusternameh() + " (" + panchyatDataModelDbs.size() + ")");
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +77,6 @@ public class PanchyatRecyclerviewAdapter extends RecyclerView.Adapter<PanchyatRe
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
