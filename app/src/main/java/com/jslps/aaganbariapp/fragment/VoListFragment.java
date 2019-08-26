@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chootdev.csnackbar.Align;
@@ -52,6 +53,13 @@ public class VoListFragment extends BaseFragment implements OnFragmentListItemSe
     }
 
     private void updateList(ArrayList<VOListDataModelDb> panchyatDataModelDbs) {
+        if (panchyatDataModelDbs != null && panchyatDataModelDbs.size() > 3) {
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
+            recyclerViewPanchyat.setLayoutManager(mLayoutManager);
+        } else {
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            recyclerViewPanchyat.setLayoutManager(mLayoutManager);
+        }
         if (panchyatDataModelDbs!=null && panchyatDataModelDbs.size()>0){
             recyclerViewPanchyat.setVisibility(View.VISIBLE);
             VoRecyclerviewAdapter panchyatRecyclerviewAdapter = new VoRecyclerviewAdapter(getActivity(), panchyatDataModelDbs);
@@ -75,8 +83,6 @@ public class VoListFragment extends BaseFragment implements OnFragmentListItemSe
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_panchyat, container, false);
         recyclerViewPanchyat = rootView.findViewById(R.id.recyclerviewPanchyat);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerViewPanchyat.setLayoutManager(mLayoutManager);
         return rootView;
     }
 

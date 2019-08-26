@@ -186,7 +186,6 @@ public class GalleryActivity extends AppCompatActivity {
                             //setting Image size boundary Image should be less than 5MB
                             if (fileSizeInBytes < 5000000) {
                                 if (finalbytes.size() < Constant.maxAttachment) {
-
                                     finalbytes.add(encodedBase64);
                                     finalnames.add(fileName+ ".jpg");
                                     finalsizes.add(fileSizeInBytes);

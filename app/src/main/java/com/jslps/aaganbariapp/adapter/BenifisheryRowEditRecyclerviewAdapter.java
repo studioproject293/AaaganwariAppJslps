@@ -145,11 +145,11 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView benifisheryName, unitRate, textViewTotal;
         EditText noOfBenifishery, noofmealinmonth;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             benifisheryName = itemView.findViewById(R.id.benifisheryName);
             unitRate = itemView.findViewById(R.id.unitRate);

@@ -11,7 +11,6 @@ public class PrefManager {
     private SharedPreferences pref;
     private Context _context;
     private SharedPreferences.Editor editor;
-    private int PRIVATE_MODE = 0;
     private static PrefManager manager;
     private static final String PREF_NAME = "AAGANWARI";
     private static final String PREF_PANCHYAT_CODE = "panchyatCode";
@@ -23,6 +22,7 @@ public class PrefManager {
     private static final String PREF_LANGAUGE_SELECTION = "langaugeSelection";
     public void init(Context context) {
         this._context = context;
+        int PRIVATE_MODE = 0;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }

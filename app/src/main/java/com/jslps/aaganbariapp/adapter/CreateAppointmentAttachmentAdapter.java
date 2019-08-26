@@ -115,11 +115,11 @@ public class CreateAppointmentAttachmentAdapter extends RecyclerView.Adapter<Att
 
 class AttachmentViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView attachmentImage;
-    public ImageView removeImage;
-    public ImageView backimage;
+    ImageView attachmentImage;
+    ImageView removeImage;
+    ImageView backimage;
 
-    public AttachmentViewHolder(View itemView) {
+    AttachmentViewHolder(View itemView) {
         super(itemView);
         attachmentImage = (ImageView) itemView.findViewById(R.id.attachmentImage);
         removeImage = (ImageView) itemView.findViewById(R.id.removeImage);

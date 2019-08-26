@@ -35,7 +35,14 @@ public class VoRecyclerviewAdapter extends RecyclerView.Adapter<VoRecyclerviewAd
     @NonNull
     @Override
     public VoRecyclerviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(context).inflate(R.layout.vo_list_row, parent, false);
+        View row;
+//        View row = LayoutInflater.from(context).inflate(R.layout.vo_list_row, parent, false);
+        if (voListDataModelDbs != null && voListDataModelDbs.size() > 3) {
+            row = LayoutInflater.from(context).inflate(R.layout.vo_list_row, parent, false);
+        } else {
+            row = LayoutInflater.from(context).inflate(R.layout.vo_list_row, parent, false);
+
+        }
         return new ViewHolder(row);
     }
 
@@ -65,10 +72,10 @@ public class VoRecyclerviewAdapter extends RecyclerView.Adapter<VoRecyclerviewAd
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
         }

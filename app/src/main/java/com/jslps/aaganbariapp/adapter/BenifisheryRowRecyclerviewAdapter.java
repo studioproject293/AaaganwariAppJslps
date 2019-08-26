@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
@@ -29,7 +27,6 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
     public BenifisheryRowRecyclerviewAdapter(Activity activity, ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList) {
         this.context = activity;
         this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;
-
     }
 
     @NonNull
@@ -137,11 +134,11 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView benifisheryName, unitRate, textViewTotal;
         EditText noOfBenifishery, noofmealinmonth;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             benifisheryName = itemView.findViewById(R.id.benifisheryName);
             unitRate = itemView.findViewById(R.id.unitRate);

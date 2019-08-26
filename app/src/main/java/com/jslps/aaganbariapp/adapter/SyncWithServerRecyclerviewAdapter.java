@@ -90,12 +90,12 @@ public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<Sync
         return super.getItemViewType(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView benifisheryName, year;
         TextView month, noofmealinmonth;
         CheckBox checkBoxUnit;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             benifisheryName = itemView.findViewById(R.id.benifisheryName);
             checkBoxUnit = itemView.findViewById(R.id.unitRate);

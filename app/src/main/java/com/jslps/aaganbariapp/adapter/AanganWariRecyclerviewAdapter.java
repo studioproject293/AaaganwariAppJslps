@@ -67,10 +67,10 @@ public class AanganWariRecyclerviewAdapter extends RecyclerView.Adapter<AanganWa
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, total;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             total = itemView.findViewById(R.id.total);

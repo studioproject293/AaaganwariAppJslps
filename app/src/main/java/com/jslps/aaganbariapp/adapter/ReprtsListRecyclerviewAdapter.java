@@ -91,11 +91,11 @@ public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsLi
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView aaganwaricode, vocode, panchyatcode,monthYear;
         ImageView imageViewEdit, imageViewDelete, imageViewView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             aaganwaricode = itemView.findViewById(R.id.aaganwaricode);
             vocode = itemView.findViewById(R.id.vocode);
