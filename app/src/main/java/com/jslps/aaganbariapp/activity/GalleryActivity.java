@@ -195,7 +195,8 @@ public class GalleryActivity extends AppCompatActivity {
 
                                     arg1.setBackgroundResource(R.color.colorPrimaryDark);
                                 } else {
-                                    Toast.makeText(GalleryActivity.this, "Can not upload more than " + Constant.maxAttachment + " images.", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(GalleryActivity.this, "Can not upload more than " + Constant.maxAttachment + " images.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(GalleryActivity.this, "Can not upload more than 2 images.", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Toast.makeText(GalleryActivity.this, "Image size should be less than 5MB", Toast.LENGTH_SHORT).show();
@@ -273,6 +274,7 @@ public class GalleryActivity extends AppCompatActivity {
         }
 
         public View getView(final int position, View convertView, ViewGroup parent) {
+
             final ImageView picturesView;
             if (convertView == null) {
                 picturesView = new ImageView(context);

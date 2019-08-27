@@ -77,7 +77,7 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
                     benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
                     benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());
-                    benifisheryDataModelDb.save();
+                    //benifisheryDataModelDb.save();
                     Double totalAll = 0.0;
                     for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
                         totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
@@ -113,7 +113,7 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
                     benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
                     benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());
-                    benifisheryDataModelDb.save();
+                    //benifisheryDataModelDb.save();
                     Double totalAll = 0.0;
                     for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
                         totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *

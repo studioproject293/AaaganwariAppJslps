@@ -18,7 +18,7 @@ public class Constant {
     public static final int FRAGMENT_SYNC_WITH_SERVER = 109;
     public static final int UPDATE_FRAGMENT = 999;
     public static int maxAttachment = 0;
-    public static boolean editFlag=false;
+    public static boolean editFlag = false;
     public static List<String> finalbytes = new ArrayList<String>();
     public static List<String> finalnames = new ArrayList<String>();
     public static List<Long> finalsizes = new ArrayList<Long>();

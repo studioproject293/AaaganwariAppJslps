@@ -26,6 +26,7 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
+import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -58,14 +59,26 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_REPORTS);
         benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
+        ArrayList<ReportDisplayFormModel> arrayListReportDisplayFormModel = new ArrayList<>();
         ArrayList<String> arrayListString = new ArrayList<>();
         for (int i = 0; i < benifisheryDataModelDbSends.size(); i++) {
             BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(i);
-            String aaganbarcode = benifisheryDataModelDbSend.getAaganwaricode();
-
-            if (!arrayListString.contains(aaganbarcode)) {
-                arrayListString.add(aaganbarcode);
+//            String aaganbarcode = benifisheryDataModelDbSend.getAaganwaricode();
+            String ymp = benifisheryDataModelDbSend.getAaganwaricode() + benifisheryDataModelDbSend.getYear() + benifisheryDataModelDbSend.getMonth();
+            if (!arrayListString.contains(ymp)) {
+                arrayListString.add(ymp);
                 arrayList.add(benifisheryDataModelDbSend);
+                ReportDisplayFormModel reportDisplayFormModel = new ReportDisplayFormModel();
+                reportDisplayFormModel.setAaganwariname(benifisheryDataModelDbSend.getAaganwariname());
+                reportDisplayFormModel.setPanchayatname(benifisheryDataModelDbSend.getPanchyatname());
+                reportDisplayFormModel.setPancayatcode(benifisheryDataModelDbSend.getPanchyatcode());
+                reportDisplayFormModel.setVoname(benifisheryDataModelDbSend.getVoname());
+                reportDisplayFormModel.setMonth(benifisheryDataModelDbSend.getMonth());
+                reportDisplayFormModel.setYear(benifisheryDataModelDbSend.getYear());
+                reportDisplayFormModel.setIsuploadToServer(benifisheryDataModelDbSend.getIsuploadtoserver());
+                reportDisplayFormModel.setVocode(benifisheryDataModelDbSend.getVocode());
+                reportDisplayFormModel.setAaganwaricode(benifisheryDataModelDbSend.getAaganwaricode());
+                arrayListReportDisplayFormModel.add(reportDisplayFormModel);
                 /*if (!benifisheryDataModelDbSends.get(i).getAaganwaricode().equals(benifisheryDataModelDbSends.get(j).getAaganwaricode())) {
                     BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(i);
                     benifisheryDataModelDbSend.setAaganwaricode(benifisheryDataModelDbSends.get(i).getAaganwaricode());
@@ -79,10 +92,10 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
         }
 
         // List<BenifisheryDataModelDbSend> name =BenifisheryDataModelDbSend.findWithQuery(BenifisheryDataModelDbSend.class, "SELECT DISTINCT aaganwaricode FROM BenifisheryDataModelDbSend");
-        updateList(arrayList);
+        updateList(arrayListReportDisplayFormModel);
     }
 
-    private void updateList(ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends) {
+    private void updateList(ArrayList<ReportDisplayFormModel> benifisheryDataModelDbSends) {
         if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
             recyclerViewPanchyat.setVisibility(View.VISIBLE);
             ReprtsListRecyclerviewAdapter panchyatRecyclerviewAdapter = new ReprtsListRecyclerviewAdapter(getActivity(), benifisheryDataModelDbSends);
@@ -116,13 +129,13 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     public void onListItemSelected(int itemId, Object data) {
         switch (itemId) {
             case R.id.delete:
-                BenifisheryDataModelDbSend benifisheryDataModelDbSend = (BenifisheryDataModelDbSend) data;
+                ReportDisplayFormModel benifisheryDataModelDbSend = (ReportDisplayFormModel) data;
                 ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                        .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPanchyatcode()),
+                        .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPancayatcode()),
                                 Condition.prop("vocode").eq(benifisheryDataModelDbSend.getVocode()),
                                 Condition.prop("aaganwaricode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();
                 ArrayList<ImageSaveModel> imageSaveModelArrayList = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
-                        .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPanchyatcode()),
+                        .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPancayatcode()),
                                 Condition.prop("vocode").eq(benifisheryDataModelDbSend.getVocode()),
                                 Condition.prop("awccode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();
                 for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
@@ -142,12 +155,12 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 break;
             case R.id.edit:
                 Constant.editFlag = true;
-                BenifisheryDataModelDbSend benifisheryDataModelDbSend2 = (BenifisheryDataModelDbSend) data;
+                ReportDisplayFormModel benifisheryDataModelDbSend2 = (ReportDisplayFormModel) data;
                 mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend2);
                 break;
             default:
                 Constant.editFlag = false;
-                BenifisheryDataModelDbSend benifisheryDataModelDbSend1 = (BenifisheryDataModelDbSend) data;
+                ReportDisplayFormModel benifisheryDataModelDbSend1 = (ReportDisplayFormModel) data;
                 mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend1);
                 break;
         }

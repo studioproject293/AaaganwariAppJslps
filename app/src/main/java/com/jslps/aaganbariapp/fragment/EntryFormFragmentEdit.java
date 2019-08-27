@@ -48,6 +48,7 @@ import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
+import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -78,7 +79,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     ArrayList<ImageSaveModel> arrayListVillage1;
     public static TextView textViewtotalAll;
     Button saveData;
-    static BenifisheryDataModelDbSend BenifisheryDataModelDbSendRec;
+    static ReportDisplayFormModel BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
     LinearLayout totalLyout, tableLayout, butonLayout;
 
@@ -86,7 +87,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         // Required empty public constructor
     }
 
-    public static EntryFormFragmentEdit newInstance(BenifisheryDataModelDbSend aanganWariModelDb) {
+    public static EntryFormFragmentEdit newInstance(ReportDisplayFormModel aanganWariModelDb) {
         BenifisheryDataModelDbSendRec = aanganWariModelDb;
         return new EntryFormFragmentEdit();
     }
@@ -94,16 +95,18 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(true, "Entry Form Edit"));
-        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.FRAGMENT_ENTRY_EDIT);
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.entryform_edit)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_ENTRY_EDIT);
         benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPanchyatcode()),
+                .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                         Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
                         Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
-                ).list();
+                ,Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                        Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+        editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
-                .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPanchyatcode()),
+                .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                         Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
                         Condition.prop("awccode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode()),
                         Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
@@ -114,34 +117,43 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         }
 
         if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+            Constant.maxAttachment = 1;
 
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
                     imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
-                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPanchyatcode());
+                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPancayatcode());
                     imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
                     imageSaveModel.setImagename(Constant.finalnames.get(k));
                     imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
                     arrayListVillage1.add(1, imageSaveModel);
+
                 }
+                Constant.finalbytes.clear();
+                Constant.finalnames.clear();
+                Constant.finaltypes.clear();
+                Constant.finalsizes.clear();
 
 
             }
             imageLayout.setVisibility(View.VISIBLE);
             AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
                     , arrayListVillage1);
+            createAppointmentAttachmentAdapter.setListner(this);
             attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
 
 
-        }else {
+        } else {
+            Constant.maxAttachment = 2;
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
                     imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
-                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPanchyatcode());
+                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPancayatcode());
                     imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
                     imageSaveModel.setImagename(Constant.finalnames.get(k));
                     imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
@@ -149,6 +161,10 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
                     arrayListVillage1.add(imageSaveModel);
                 }
+                Constant.finalbytes.clear();
+                Constant.finalnames.clear();
+                Constant.finaltypes.clear();
+                Constant.finalsizes.clear();
             }
             imageLayout.setVisibility(View.VISIBLE);
             AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
@@ -224,11 +240,15 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
 
         // attaching data adapter to spinner
         yearSppiner.setAdapter(dataAdapterYear);
-        if (year == 2019) {
+        if (BenifisheryDataModelDbSendRec.getYear().equalsIgnoreCase("2019"))
             yearSppiner.setSelection(0);
-        } else yearSppiner.setSelection(1);
+        else yearSppiner.setSelection(1);
+        /*if (year == 2019) {
+            yearSppiner.setSelection(0);
+        } else yearSppiner.setSelection(1);*/
 
-        monthSpiner.setSelection(month);
+        monthSpiner.setSelection(Integer.parseInt(BenifisheryDataModelDbSendRec.getMonth()) - 1);
+
         if (Constant.editFlag) {
             yearSppiner.setEnabled(true);
             monthSpiner.setEnabled(true);
@@ -257,8 +277,21 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     }
                 } else {
                     Log.e("Else", "Else");
-                    Constant.maxAttachment = 2;
-                    attchmemntPopup(getActivity());
+                    if (arrayListVillage1 != null) {
+                        if (arrayListVillage1.size() == 2) {
+                            Toast.makeText(getActivity(), "You have already 2 photo", Toast.LENGTH_SHORT).show();
+                        } else if (arrayListVillage1.size() == 1) {
+                            Constant.maxAttachment = 1;
+                            attchmemntPopup(getActivity());
+                        } else {
+                            Constant.maxAttachment = 2;
+                            attchmemntPopup(getActivity());
+                        }
+
+                    } else {
+                        Constant.maxAttachment = 2;
+                        attchmemntPopup(getActivity());
+                    }
                 }
 
             }
@@ -350,8 +383,10 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         });
         return rootView;
     }
+
     int monthSeleted;
     String yearSelect = null;
+
     private void setId() {
         monthSpiner = rootView.findViewById(R.id.sppinermonth);
         imageLayout = (LinearLayout) rootView.findViewById(R.id.image_layout);
@@ -477,7 +512,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
 
     @Override
     public void onListItemSelected(int itemId, Object data) {
-
+        arrayListVillage1.get(itemId).delete();
+        onResume();
     }
 
     @Override

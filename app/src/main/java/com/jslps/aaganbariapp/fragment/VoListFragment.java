@@ -48,7 +48,7 @@ public class VoListFragment extends BaseFragment implements OnFragmentListItemSe
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.vo_choose)));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.VO_LIST_FRAGNMENT);
         panchyatDataModelDbs = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class)
-                .where(Condition.prop("clustercode").eq(panchyatDataModelDbrec.getClustercode())).list();
+                .where(Condition.prop("panchayatcode").eq(panchyatDataModelDbrec.getClustercode())).list();
         updateList(panchyatDataModelDbs);
     }
 

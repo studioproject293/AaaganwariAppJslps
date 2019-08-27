@@ -38,6 +38,7 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
+import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 import com.orm.SugarDb;
 
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 break;
             case Constant.FRAGMENT_ENTRY_EDIT:
                 radioGroup.setVisibility(View.GONE);
-                mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new EntryFormFragmentEdit().newInstance((BenifisheryDataModelDbSend) data), mFragmentTag).commitAllowingStateLoss();
+                mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new EntryFormFragmentEdit().newInstance((ReportDisplayFormModel) data), mFragmentTag).commitAllowingStateLoss();
                 break;
             case Constant.FRAGMENT_SYNC_WITH_SERVER:
                 radioGroup.setVisibility(View.GONE);

@@ -38,5 +38,7 @@
     <string name="already_record">You have already record in this month</string>
     <string name="total_anganwadi">Total Anganwadi</string>
     <string name="no_record">No Record Found</string>
+    <string name="entryform_edit">Entry Form Edit</string>
+    <string name="name_validaion">Please enter  name</string>
 
 </resources>

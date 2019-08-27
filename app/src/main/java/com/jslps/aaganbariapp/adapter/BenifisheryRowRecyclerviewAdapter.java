@@ -11,13 +11,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
 import com.jslps.aaganbariapp.R;
+import com.jslps.aaganbariapp.cache.CartCache;
 import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
+import com.jslps.aaganbariapp.model.BenifisheryDataModel;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<BenifisheryRowRecyclerviewAdapter.ViewHolder> {
     private Activity context;
@@ -64,6 +69,7 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
 
                     holder.textViewTotal.setText(total.toString());
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
+                    CartCache.getInstance().getGcmMessageList().get(position).setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
                     benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
                     benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());

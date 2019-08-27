@@ -2,15 +2,15 @@
 <resources>
     <string name="app_name">सखी पोषण आहार</string>
     <string name="exit_message">क्या आप निसंदेह बाहर निकलना चाहते हैं ? ?</string>
-    <string name="save_message">डेटा सफलतापूर्वक सहेजें</string>
+    <string name="save_message">डेटा सफलतापूर्वक सुरक्षित हो गया</string>
     <string name="start">शुरु</string>
     <string name="edit">संपादित करें</string>
     <string name="sync_with_server">सर्वर के साथ सिंक</string>
     <string name="feedback">प्रतिक्रिया</string>
     <string name="log_out">लोग आउट</string>
     <string name="type_of_beneficiary">लाभार्थी का प्रकार</string>
-    <string name="no_of_beni">No. of Beni.</string>
-    <string name="no_of_meal_in_month">लाभार्थी की संख्या</string>
+    <string name="no_of_beni">लाभार्थी की संख्या</string>
+    <string name="no_of_meal_in_month">महीने में भोजन की संख्या</string>
     <string name="unit_rate">यूनिट की दर</string>
     <string name="amount">रकम</string>
     <string name="total">संपूर्ण :</string>
@@ -33,11 +33,13 @@
     <string name="delete_sucessfully">डेटा सफलतापूर्वक हटा दिया गया</string>
     <string name="vo_choose">ग्राम संगठन चुनें</string>
     <string name="dashboard">डैशबोर्ड</string>
-    <string name="loading_msg">Please wait..</string>
+    <string name="loading_msg">कृपया प्रतीक्षा करें..</string>
     <string name="yes">हाँ</string>
     <string name="no">नहीं</string>
     <string name="already_record">आपका इस महीने में रिकॉर्ड हो चुका है</string>
     <string name="total_anganwadi">कुल आंगनवाड़ी</string>
     <string name="no_record">कोई रिकॉर्ड नहीं मिला</string>
+    <string name="entryform_edit">प्रवेश फार्म संपादित करें</string>
+    <string name="name_validaion">Please enter  name</string>
 
 </resources>

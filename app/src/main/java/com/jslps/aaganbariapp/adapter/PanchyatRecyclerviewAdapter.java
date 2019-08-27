@@ -49,7 +49,7 @@ public class PanchyatRecyclerviewAdapter extends RecyclerView.Adapter<PanchyatRe
     public void onBindViewHolder(@NonNull PanchyatRecyclerviewAdapter.ViewHolder holder, final int position) {
         final PanchyatDataModelDb panchyatDataModelDb = panchyatDataModelDbs.get(position);
         ArrayList<VOListDataModelDb> panchyatDataModelDbs = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class)
-                .where(Condition.prop("clustercode").eq(panchyatDataModelDb.getClustercode())).list();
+                .where(Condition.prop("panchayatcode").eq(panchyatDataModelDb.getClustercode())).list();
         prefManager = PrefManager.getInstance();
         if (prefManager.getPrefLangaugeSelection().equalsIgnoreCase("english"))
             holder.title.setText(panchyatDataModelDb.getClustername() + " (" + panchyatDataModelDbs.size() + ")");

@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
+            android:alpha="0.5"
             android:gravity="center"
             android:text="6-36 month"
             android:textColor="#000"
@@ -37,6 +38,7 @@
             android:backgroundTint="@null"
             android:gravity="center"
             android:inputType="number"
+            android:maxLength="2"
             android:text="40"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -58,6 +60,7 @@
             android:background="@null"
             android:backgroundTint="@null"
             android:gravity="center"
+            android:maxLength="2"
             android:inputType="number"
             android:text="25"
             android:textColor="#000"

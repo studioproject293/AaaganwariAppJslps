@@ -15,16 +15,17 @@ import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 
 import java.util.ArrayList;
 
 public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsListRecyclerviewAdapter.ViewHolder> {
     private Activity context;
     OnFragmentListItemSelectListener onFragmentListItemSelectListener;
-    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends;
+    ArrayList<ReportDisplayFormModel> benifisheryDataModelDbSends;
     private PrefManager prefManager;
 
-    public ReprtsListRecyclerviewAdapter(Activity activity, ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends) {
+    public ReprtsListRecyclerviewAdapter(Activity activity, ArrayList<ReportDisplayFormModel> benifisheryDataModelDbSends) {
         this.context = activity;
         this.benifisheryDataModelDbSends = benifisheryDataModelDbSends;
 
@@ -40,10 +41,10 @@ public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsLi
     @Override
     public void onBindViewHolder(@NonNull ReprtsListRecyclerviewAdapter.ViewHolder holder, final int position) {
         prefManager = PrefManager.getInstance();
-        final BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(position);
+        final ReportDisplayFormModel benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(position);
         holder.aaganwaricode.setText(benifisheryDataModelDbSend.getAaganwariname());
         holder.vocode.setText(benifisheryDataModelDbSend.getVoname());
-        holder.panchyatcode.setText(benifisheryDataModelDbSend.getPanchyatname());
+        holder.panchyatcode.setText(benifisheryDataModelDbSend.getPanchayatname());
         holder.imageViewEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +72,7 @@ public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsLi
                 onFragmentListItemSelectListener.onListItemSelected(R.id.delete, benifisheryDataModelDbSend);
             }
         });
-       if (benifisheryDataModelDbSend.getIsuploadtoserver().equalsIgnoreCase("true")){
+       if (benifisheryDataModelDbSend.getIsuploadToServer().equalsIgnoreCase("true")){
            holder.imageViewEdit.setVisibility(View.GONE);
            holder.imageViewDelete.setVisibility(View.GONE);
        }else {

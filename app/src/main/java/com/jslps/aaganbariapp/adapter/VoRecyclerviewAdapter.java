@@ -52,12 +52,12 @@ public class VoRecyclerviewAdapter extends RecyclerView.Adapter<VoRecyclerviewAd
         final VOListDataModelDb panchyatDataModelDb = voListDataModelDbs.get(position);
        ArrayList<AanganWariModelDb> panchyatDataModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class)
                 .where(Condition.prop("vocode").eq(panchyatDataModelDb.getVocode())).list();
-        holder.title.setText(panchyatDataModelDb.getVoname() + " (" + panchyatDataModelDbs.size() + ")");
+        holder.title.setText(panchyatDataModelDb.getVoshg() + " (" + panchyatDataModelDbs.size() + ")");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 prefManager.setPREF_VOCode(panchyatDataModelDb.getVocode());
-                prefManager.setPREF_VONAME(panchyatDataModelDb.getVoname());
+                prefManager.setPREF_VONAME(panchyatDataModelDb.getVoshg());
                 onFragmentListItemSelectListener.onListItemSelected(position, panchyatDataModelDb);
             }
         });

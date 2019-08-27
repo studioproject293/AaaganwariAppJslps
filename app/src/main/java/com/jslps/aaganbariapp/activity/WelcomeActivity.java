@@ -278,32 +278,15 @@ public class WelcomeActivity extends AppCompatActivity {
                                     }
                                     VOListDataModelDb.deleteAll(VOListDataModelDb.class);
                                     for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                                        VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getAct(),
-                                                mStudentObject1.getTable5().get(i).getBank_Acc(), mStudentObject1.getTable5().get(i).getBank_AccNo(),
-                                                mStudentObject1.getTable5().get(i).getBank_branch(), mStudentObject1.getTable5().get(i).getBank_Name(),
-                                                mStudentObject1.getTable5().get(i).getBank_opDate(), mStudentObject1.getTable5().get(i).getBlockcode(),
-                                                mStudentObject1.getTable5().get(i).getCluster2_Villagecode1(), mStudentObject1.getTable5().get(i).getCluster2_Villagecode2(),
-                                                mStudentObject1.getTable5().get(i).getCluster2_Villagecode3(), mStudentObject1.getTable5().get(i).getCluster2_Villagecode4(),
-                                                mStudentObject1.getTable5().get(i).getCluster2_Villagecode5(), mStudentObject1.getTable5().get(i).getClustercode(),
-                                                mStudentObject1.getTable5().get(i).getClustercode2(), mStudentObject1.getTable5().get(i).getCompSaving(),
-                                                mStudentObject1.getTable5().get(i).getContactName(), mStudentObject1.getTable5().get(i).getContactNumber(),
-                                                mStudentObject1.getTable5().get(i).getDistrictcode(), mStudentObject1.getTable5().get(i).getExiting_VOCode(),
-                                                mStudentObject1.getTable5().get(i).getFedRegisteredIn(),
-                                                mStudentObject1.getTable5().get(i).getFedType_New_Old(), mStudentObject1.getTable5().get(i).getFed_RegistrationDate(),
-                                                mStudentObject1.getTable5().get(i).getIFSCCode(), mStudentObject1.getTable5().get(i).getInterloaningRate(),
-                                                mStudentObject1.getTable5().get(i).getMeetingdate(), mStudentObject1.getTable5().get(i).getMeetingFrequency(),
-                                                mStudentObject1.getTable5().get(i).getMtgFreq(), mStudentObject1.getTable5().get(i).getMtgFreqValue(),
-                                                mStudentObject1.getTable5().get(i).getMtg_Day2(), mStudentObject1.getTable5().get(i).getOrgLevel(),
-                                                mStudentObject1.getTable5().get(i).getRegistration(), mStudentObject1.getTable5().get(i).getRegistrationNo(),
-                                                mStudentObject1.getTable5().get(i).getSHPI_Code(), mStudentObject1.getTable5().get(i).getStatecode(),
-                                                mStudentObject1.getTable5().get(i).getTotalShginvillage(), mStudentObject1.getTable5().get(i).getTotalshginVo(),
-                                                mStudentObject1.getTable5().get(i).getVillagecode(), mStudentObject1.getTable5().get(i).getVillageCode2(),
-                                                mStudentObject1.getTable5().get(i).getVillageCode3(), mStudentObject1.getTable5().get(i).getVillagecode4(),
-                                                mStudentObject1.getTable5().get(i).getVillagecode5(), mStudentObject1.getTable5().get(i).getVOaddress(),
-                                                mStudentObject1.getTable5().get(i).getVOCode(), mStudentObject1.getTable5().get(i).getVOFormationagency(),
-                                                mStudentObject1.getTable5().get(i).getVOFormationdate(), mStudentObject1.getTable5().get(i).getVOHonorariumToVOA(),
-                                                mStudentObject1.getTable5().get(i).getVOName(), mStudentObject1.getTable5().get(i).getVOofficeType(),
-                                                mStudentObject1.getTable5().get(i).getVORegisterMaintenedBy());
+                                        VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                                mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                                mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                                mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                                mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                                mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                                mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                                mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                                mStudentObject1.getTable5().get(i).getVO_SHG());
                                         panchyatDataModelDb.save();
                                     }
 
@@ -347,15 +330,15 @@ public class WelcomeActivity extends AppCompatActivity {
                     } else {
                         ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
                         if (loginModelDbs != null && loginModelDbs.size() > 0) {
-                            boolean isFound=false;
+                            boolean isFound = false;
                             for (int i = 0; i < loginModelDbs.size(); i++) {
-                                if (loginModelDbs.get(i).getUsername().equalsIgnoreCase(editTextUserName.getText().toString())){
-                                    isFound=true;
+                                if (loginModelDbs.get(i).getUsername().equalsIgnoreCase(editTextUserName.getText().toString())) {
+                                    isFound = true;
                                 }
                             }
-                            if (!isFound){
+                            if (!isFound) {
                                 Toast.makeText(WelcomeActivity.this, "Already One user Map In this device", Toast.LENGTH_SHORT).show();
-                            }else {
+                            } else {
                                 DialogUtil.displayProgress(WelcomeActivity.this);
                                 Gson gson = new GsonBuilder().setLenient().create();
                                 HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -409,31 +392,15 @@ public class WelcomeActivity extends AppCompatActivity {
                                         }
                                         VOListDataModelDb.deleteAll(VOListDataModelDb.class);
                                         for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                                            VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getAct(),
-                                                    mStudentObject1.getTable5().get(i).getBank_Acc(), mStudentObject1.getTable5().get(i).getBank_AccNo(),
-                                                    mStudentObject1.getTable5().get(i).getBank_branch(), mStudentObject1.getTable5().get(i).getBank_Name(),
-                                                    mStudentObject1.getTable5().get(i).getBank_opDate(), mStudentObject1.getTable5().get(i).getBlockcode(),
-                                                    mStudentObject1.getTable5().get(i).getCluster2_Villagecode1(), mStudentObject1.getTable5().get(i).getCluster2_Villagecode2(),
-                                                    mStudentObject1.getTable5().get(i).getCluster2_Villagecode3(), mStudentObject1.getTable5().get(i).getCluster2_Villagecode4(),
-                                                    mStudentObject1.getTable5().get(i).getCluster2_Villagecode5(), mStudentObject1.getTable5().get(i).getClustercode(),
-                                                    mStudentObject1.getTable5().get(i).getClustercode2(), mStudentObject1.getTable5().get(i).getCompSaving(),
-                                                    mStudentObject1.getTable5().get(i).getContactName(), mStudentObject1.getTable5().get(i).getContactNumber(),
-                                                    mStudentObject1.getTable5().get(i).getDistrictcode(), mStudentObject1.getTable5().get(i).getExiting_VOCode(),
-                                                    mStudentObject1.getTable5().get(i).getFedRegisteredIn(), mStudentObject1.getTable5().get(i).getFedType_New_Old(),
-                                                    mStudentObject1.getTable5().get(i).getFed_RegistrationDate(), mStudentObject1.getTable5().get(i).getIFSCCode(),
-                                                    mStudentObject1.getTable5().get(i).getInterloaningRate(), mStudentObject1.getTable5().get(i).getMeetingdate(),
-                                                    mStudentObject1.getTable5().get(i).getMeetingFrequency(), mStudentObject1.getTable5().get(i).getMtgFreq(),
-                                                    mStudentObject1.getTable5().get(i).getMtgFreqValue(), mStudentObject1.getTable5().get(i).getMtg_Day2(),
-                                                    mStudentObject1.getTable5().get(i).getOrgLevel(), mStudentObject1.getTable5().get(i).getRegistration(),
-                                                    mStudentObject1.getTable5().get(i).getRegistrationNo(), mStudentObject1.getTable5().get(i).getSHPI_Code(),
-                                                    mStudentObject1.getTable5().get(i).getStatecode(), mStudentObject1.getTable5().get(i).getTotalShginvillage(),
-                                                    mStudentObject1.getTable5().get(i).getTotalshginVo(), mStudentObject1.getTable5().get(i).getVillagecode(),
-                                                    mStudentObject1.getTable5().get(i).getVillageCode2(), mStudentObject1.getTable5().get(i).getVillageCode3(),
-                                                    mStudentObject1.getTable5().get(i).getVillagecode4(), mStudentObject1.getTable5().get(i).getVillagecode5(),
-                                                    mStudentObject1.getTable5().get(i).getVOaddress(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                    mStudentObject1.getTable5().get(i).getVOFormationagency(), mStudentObject1.getTable5().get(i).getVOFormationdate(),
-                                                    mStudentObject1.getTable5().get(i).getVOHonorariumToVOA(), mStudentObject1.getTable5().get(i).getVOName(),
-                                                    mStudentObject1.getTable5().get(i).getVOofficeType(), mStudentObject1.getTable5().get(i).getVORegisterMaintenedBy());
+                                            VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                                    mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                                    mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                                    mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                                    mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                                    mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                                    mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                                    mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                                    mStudentObject1.getTable5().get(i).getVO_SHG());
                                             panchyatDataModelDb.save();
                                         }
 
@@ -474,7 +441,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-                        }else {
+                        } else {
                             DialogUtil.displayProgress(WelcomeActivity.this);
                             Gson gson = new GsonBuilder().setLenient().create();
                             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -528,31 +495,15 @@ public class WelcomeActivity extends AppCompatActivity {
                                     }
                                     VOListDataModelDb.deleteAll(VOListDataModelDb.class);
                                     for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                                        VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getAct(),
-                                                mStudentObject1.getTable5().get(i).getBank_Acc(), mStudentObject1.getTable5().get(i).getBank_AccNo(),
-                                                mStudentObject1.getTable5().get(i).getBank_branch(), mStudentObject1.getTable5().get(i).getBank_Name(),
-                                                mStudentObject1.getTable5().get(i).getBank_opDate(), mStudentObject1.getTable5().get(i).getBlockcode(),
-                                                mStudentObject1.getTable5().get(i).getCluster2_Villagecode1(), mStudentObject1.getTable5().get(i).getCluster2_Villagecode2(),
-                                                mStudentObject1.getTable5().get(i).getCluster2_Villagecode3(), mStudentObject1.getTable5().get(i).getCluster2_Villagecode4(),
-                                                mStudentObject1.getTable5().get(i).getCluster2_Villagecode5(), mStudentObject1.getTable5().get(i).getClustercode(),
-                                                mStudentObject1.getTable5().get(i).getClustercode2(), mStudentObject1.getTable5().get(i).getCompSaving(),
-                                                mStudentObject1.getTable5().get(i).getContactName(), mStudentObject1.getTable5().get(i).getContactNumber(),
-                                                mStudentObject1.getTable5().get(i).getDistrictcode(), mStudentObject1.getTable5().get(i).getExiting_VOCode(),
-                                                mStudentObject1.getTable5().get(i).getFedRegisteredIn(), mStudentObject1.getTable5().get(i).getFedType_New_Old(),
-                                                mStudentObject1.getTable5().get(i).getFed_RegistrationDate(), mStudentObject1.getTable5().get(i).getIFSCCode(),
-                                                mStudentObject1.getTable5().get(i).getInterloaningRate(), mStudentObject1.getTable5().get(i).getMeetingdate(),
-                                                mStudentObject1.getTable5().get(i).getMeetingFrequency(), mStudentObject1.getTable5().get(i).getMtgFreq(),
-                                                mStudentObject1.getTable5().get(i).getMtgFreqValue(), mStudentObject1.getTable5().get(i).getMtg_Day2(),
-                                                mStudentObject1.getTable5().get(i).getOrgLevel(), mStudentObject1.getTable5().get(i).getRegistration(),
-                                                mStudentObject1.getTable5().get(i).getRegistrationNo(), mStudentObject1.getTable5().get(i).getSHPI_Code(),
-                                                mStudentObject1.getTable5().get(i).getStatecode(), mStudentObject1.getTable5().get(i).getTotalShginvillage(),
-                                                mStudentObject1.getTable5().get(i).getTotalshginVo(), mStudentObject1.getTable5().get(i).getVillagecode(),
-                                                mStudentObject1.getTable5().get(i).getVillageCode2(), mStudentObject1.getTable5().get(i).getVillageCode3(),
-                                                mStudentObject1.getTable5().get(i).getVillagecode4(), mStudentObject1.getTable5().get(i).getVillagecode5(),
-                                                mStudentObject1.getTable5().get(i).getVOaddress(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                mStudentObject1.getTable5().get(i).getVOFormationagency(), mStudentObject1.getTable5().get(i).getVOFormationdate(),
-                                                mStudentObject1.getTable5().get(i).getVOHonorariumToVOA(), mStudentObject1.getTable5().get(i).getVOName(),
-                                                mStudentObject1.getTable5().get(i).getVOofficeType(), mStudentObject1.getTable5().get(i).getVORegisterMaintenedBy());
+                                        VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                                mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                                mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                                mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                                mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                                mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                                mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                                mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                                mStudentObject1.getTable5().get(i).getVO_SHG());
                                         panchyatDataModelDb.save();
                                     }
 
