@@ -22,7 +22,6 @@ import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.DialogUtil;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.adapter.SyncWithServerRecyclerviewAdapter;
-import com.jslps.aaganbariapp.cache.CartCache;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.DataSaveModel1;
@@ -167,81 +166,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         uploaddata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*DialogUtil.displayProgress(getActivity());
-                Gson gson = new GsonBuilder().setLenient().create();
-                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                //comment in live build and uncomment in uat
-                builder.interceptors().add(interceptor);
-
-                builder.connectTimeout(120, TimeUnit.SECONDS);
-                builder.readTimeout(120, TimeUnit.SECONDS);
-                OkHttpClient client = builder.build();
-                Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
-                BenifisheryDataUpload apiServices = retrofit.create(BenifisheryDataUpload.class);
-                ArrayList<BenifisheryDataModelDbSend> panchyatDataModelDbs = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class).list();
-                for (int i = 0; i < panchyatDataModelDbs.size(); i++) {
-                    panchyatDataModelDbs.get(i).setVoname(null);
-                    panchyatDataModelDbs.get(i).setAaganwariname(null);
-                    panchyatDataModelDbs.get(i).setPanchyatname(null);
-                    panchyatDataModelDbs.get(i).setId(null);
-                    panchyatDataModelDbs.get(i).setCreatedon(null);
-                }
-
-                String data = "{" + "\"AganwadiImagesData\"" + " :" + new Gson().toJson(panchyatDataModelDbs) + " }";
-                System.out.println("jdfjhjds" + data);
-                Call<String> benifisherydataUpload = apiServices.benificeryDataUpload(data);
-                benifisherydataUpload.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-
-                        System.out.println("Response  data" + response.body());
-                        String fullResponse = response.body();
-                        String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
-                        String result = XmlString.replaceAll("</string>", "");
-                        JSONObject jsonObj = null;
-                        try {
-                            jsonObj = new JSONObject(result.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            JSONArray categoryObject = jsonObj.getJSONArray("Table");
-                            JSONObject jsonObject = categoryObject.getJSONObject(0);
-                            String Result = jsonObject.getString("RetValue");
-                            if (Result.equalsIgnoreCase("1")) {
-                                uploadImageService();
-                            } else {
-                                Snackbar.with(getActivity(), null)
-                                        .type(Type.ERROR)
-                                        .message("Please try again")
-                                        .duration(Duration.SHORT)
-                                        .fillParent(true)
-                                        .textAlign(Align.LEFT)
-                                        .show();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        DialogUtil.stopProgressDisplay();
-                        Snackbar.with(getActivity(), null)
-                                .type(Type.ERROR)
-                                .message(t.toString())
-                                .duration(Duration.SHORT)
-                                .fillParent(true)
-                                .textAlign(Align.LEFT)
-                                .show();
-                    }
-                });*/
-
 
                 DialogUtil.displayProgress(getActivity());
                 System.out.println("nw Gson" + new Gson().toJson(saveModel1ArrayList));
@@ -385,16 +309,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         }
         System.out.println("data sendimge" + new Gson().toJson(dataModelDbSendArrayList));
 
-
-
-
-
-
-       /* final ArrayList<ImageSaveModel> imageSaveModels = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class).list();
-        for (int i = 0; i < imageSaveModels.size(); i++) {
-            imageSaveModels.get(i).setId(null);
-            imageSaveModels.get(i).setIsuploadtoserver(null);
-        }*/
         String data = "{" + "\"AganwadiImagesInfo\"" + " :" + new Gson().toJson(dataModelDbSendArrayList) + " }";
 
         Call<String> imageDatUpload = apiServices.imageUpload(data);
