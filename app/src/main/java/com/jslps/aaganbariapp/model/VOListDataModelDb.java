@@ -42,6 +42,10 @@ public class VOListDataModelDb extends SugarRecord {
         this.voshg = voshg;
     }
 
+    public VOListDataModelDb(String voshg) {
+        this.voshg=voshg;
+    }
+
     public String getBlock() {
         return block;
     }
@@ -168,5 +172,10 @@ public class VOListDataModelDb extends SugarRecord {
 
     public void setVoshg(String voshg) {
         this.voshg = voshg;
+    }
+
+    @Override
+    public String toString() {
+        return voshg;
     }
 }

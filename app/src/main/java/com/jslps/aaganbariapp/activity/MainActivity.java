@@ -24,6 +24,7 @@ import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.fragment.AaganWariListFragment;
+import com.jslps.aaganbariapp.fragment.DownLoadDataFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragmentEdit;
 import com.jslps.aaganbariapp.fragment.FeedbackFragment;
@@ -194,6 +195,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             case Constant.FRAGMENT_SYNC_WITH_SERVER:
                 radioGroup.setVisibility(View.GONE);
                 mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new SyncWithServerFragment().newInstance(), mFragmentTag).commitAllowingStateLoss();
+                break;
+            case Constant.FRAGMENT_DATA_DOWNLOAD:
+                radioGroup.setVisibility(View.GONE);
+                mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new DownLoadDataFragment(), mFragmentTag).commitAllowingStateLoss();
                 break;
 
         }

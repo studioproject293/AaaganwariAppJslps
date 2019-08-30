@@ -238,7 +238,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             OkHttpClient client = builder.build();
                             Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
                             ApiServices apiServices = retrofit.create(ApiServices.class);
-                            Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", editTextUserName.getText().toString(), editTextPassword.getText().toString());
+                            Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", editTextUserName.getText().toString(), editTextPassword.getText().toString(),"","");
                             changePhotoResponseModelCall.enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
@@ -352,7 +352,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 OkHttpClient client = builder.build();
                                 Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
                                 ApiServices apiServices = retrofit.create(ApiServices.class);
-                                Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", editTextUserName.getText().toString(), editTextPassword.getText().toString());
+                                Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", editTextUserName.getText().toString(), editTextPassword.getText().toString(),"","");
                                 changePhotoResponseModelCall.enqueue(new Callback<String>() {
                                     @Override
                                     public void onResponse(Call<String> call, Response<String> response) {
@@ -455,7 +455,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             OkHttpClient client = builder.build();
                             Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
                             ApiServices apiServices = retrofit.create(ApiServices.class);
-                            Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", editTextUserName.getText().toString(), editTextPassword.getText().toString());
+                            Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", editTextUserName.getText().toString(), editTextPassword.getText().toString(),"","");
                             changePhotoResponseModelCall.enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {

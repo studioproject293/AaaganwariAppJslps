@@ -40,5 +40,6 @@
     <string name="no_record">No Record Found</string>
     <string name="entryform_edit">Entry Form Edit</string>
     <string name="name_validaion">Please enter  name</string>
+    <string name="download_data">Download</string>
 
 </resources>

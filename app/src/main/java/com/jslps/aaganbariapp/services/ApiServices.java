@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 public interface ApiServices {
 
     @GET("TabletDownloadDataANGANWADIMIS")
-    Call<String> getTabletMasterDownLoad(@Query("flag") String flag, @Query("whr1") String whr1,@Query("whr2")String whr2);
+    Call<String> getTabletMasterDownLoad(@Query("flag") String flag, @Query("whr1") String whr1,@Query("whr2")String whr2, @Query("whr3") String whr3,@Query("whr4")String whr4);
 
 
 }

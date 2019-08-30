@@ -57,4 +57,8 @@ public class PanchyatDataModelDb extends SugarRecord {
     public String getStatecode() {
         return statecode;
     }
+    @Override
+    public String toString() {
+        return clustername;
+    }
 }

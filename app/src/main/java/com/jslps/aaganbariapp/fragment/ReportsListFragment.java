@@ -63,7 +63,6 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
         ArrayList<String> arrayListString = new ArrayList<>();
         for (int i = 0; i < benifisheryDataModelDbSends.size(); i++) {
             BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(i);
-//            String aaganbarcode = benifisheryDataModelDbSend.getAaganwaricode();
             String ymp = benifisheryDataModelDbSend.getAaganwaricode() + benifisheryDataModelDbSend.getYear() + benifisheryDataModelDbSend.getMonth();
             if (!arrayListString.contains(ymp)) {
                 arrayListString.add(ymp);
@@ -79,15 +78,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 reportDisplayFormModel.setVocode(benifisheryDataModelDbSend.getVocode());
                 reportDisplayFormModel.setAaganwaricode(benifisheryDataModelDbSend.getAaganwaricode());
                 arrayListReportDisplayFormModel.add(reportDisplayFormModel);
-                /*if (!benifisheryDataModelDbSends.get(i).getAaganwaricode().equals(benifisheryDataModelDbSends.get(j).getAaganwaricode())) {
-                    BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(i);
-                    benifisheryDataModelDbSend.setAaganwaricode(benifisheryDataModelDbSends.get(i).getAaganwaricode());
-                    benifisheryDataModelDbSend.setPanchyatcode(benifisheryDataModelDbSends.get(i).getPanchyatcode());
-                    benifisheryDataModelDbSend.setVocode(benifisheryDataModelDbSends.get(i).getVocode());
-                    arrayList.add(benifisheryDataModelDbSend);
-                }else {
 
-                }*/
             }
         }
 

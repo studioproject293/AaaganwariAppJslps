@@ -41,5 +41,6 @@
     <string name="no_record">कोई रिकॉर्ड नहीं मिला</string>
     <string name="entryform_edit">प्रवेश फार्म संपादित करें</string>
     <string name="name_validaion">Please enter  name</string>
+    <string name="download_data">Download</string>
 
 </resources>

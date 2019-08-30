@@ -309,6 +309,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     startActivity(intent);
                 } else {
                     if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                        String id = UUID.randomUUID().toString();
                         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
                         for (int j = 0; j < Constant.finalbytes.size(); j++) {
                             ImageSaveModel imageSaveModel = new ImageSaveModel();
@@ -319,6 +320,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             imageSaveModel.setImagename(Constant.finalnames.get(j));
                             imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
                             imageSaveModel.setMonth(monthSeleted + "");
+                            imageSaveModel.setGuid(id);
                             imageSaveModel.setYear(yearSelect);
                             imageSaveModel.save();
 
@@ -339,8 +341,9 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                     .textAlign(Align.CENTER)
                                     .show();
                         } else {
+                            String id1 = UUID.randomUUID().toString();
                             for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-                                String id = UUID.randomUUID().toString();
+
                                 BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
                                 benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
                                 benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
@@ -351,7 +354,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbSend.setMonth(monthSeleted + "");
                                 benifisheryDataModelDbSend.setYear(yearSelect);
                                 benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                                benifisheryDataModelDbSend.setGuid(id);
+                                benifisheryDataModelDbSend.setGuid(id1);
                                 System.out.println("new Gson" + getDate(System.currentTimeMillis()));
                                 benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
                                 benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());

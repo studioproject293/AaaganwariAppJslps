@@ -206,7 +206,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     OkHttpClient.Builder builder = new OkHttpClient.Builder();
                     //comment in live build and uncomment in uat
                     builder.interceptors().add(interceptor);
-
                     builder.connectTimeout(120, TimeUnit.SECONDS);
                     builder.readTimeout(120, TimeUnit.SECONDS);
                     OkHttpClient client = builder.build();
@@ -349,7 +348,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 .fillParent(true)
                                 .textAlign(Align.LEFT)
                                 .show();
-
                         onResume();
                     } else {
                         for (int i = 0; i < dataModelDbSendArrayList.size(); i++) {
@@ -393,34 +391,14 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
     @Override
     public void onListItemSelected(int itemId, Object data) {
 
-
     }
 
     @Override
     public void onListItemLongClicked(int itemId, Object data) {
-
     }
-
-    ArrayList<DataSaveModel1> arrayListSend = new ArrayList<>();
-
     @Override
     public void onListItemLongClickedSnd(int itemId, Object data, int position) {
-        /*switch (itemId) {
-            case 1:
-                saveModel1ArrayList = (ArrayList<DataSaveModel1>) data;
-                DataSaveModel1 dataSaveModel1 = new DataSaveModel1();
-                dataSaveModel1.setPancayatcode(saveModel1ArrayList.get(position).getPancayatcode());
-                dataSaveModel1.setMonth(saveModel1ArrayList.get(position).getMonth());
-                dataSaveModel1.setYear(saveModel1ArrayList.get(position).getYear());
-                arrayListSend.add(positio)
-                break;
-            case 0:
-                break;
-        }*/
         saveModel1ArrayList = (ArrayList<DataSaveModel1>) data;
-
-        // Toast.makeText(getActivity(), data.toString(), Toast.LENGTH_SHORT).show();
-
     }
 
 }
