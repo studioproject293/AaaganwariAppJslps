@@ -60,7 +60,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
     }
 
     ArrayList<BenifisheryDataModelDbSend> newArrr = new ArrayList<>();
-
     public static SyncWithServerFragment newInstance() {
         return new SyncWithServerFragment();
     }
@@ -186,8 +185,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                             benifisheryDataModelDbSend.setVoname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getVoname());
                             newArrr.add(benifisheryDataModelDbSend);
                         }
-
-
                         for (int j = 0; j < benifisheryDataModelDbSendArrayListSendToServer.size(); j++) {
                             benifisheryDataModelDbSendArrayListSendToServer.get(j).setVoname(null);
                             benifisheryDataModelDbSendArrayListSendToServer.get(j).setAaganwariname(null);
@@ -211,7 +208,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     OkHttpClient client = builder.build();
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
                     BenifisheryDataUpload apiServices = retrofit.create(BenifisheryDataUpload.class);
-                    String data = "{" + "\"AganwadiImagesData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + " }";
+                    String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + " }";
                     System.out.println("jdfjhjds" + data);
                     Call<String> benifisherydataUpload = apiServices.benificeryDataUpload(data);
                     benifisherydataUpload.enqueue(new Callback<String>() {
@@ -267,7 +264,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 
             }
         });
-        recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
         return rootView;
     }
@@ -308,7 +305,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         }
         System.out.println("data sendimge" + new Gson().toJson(dataModelDbSendArrayList));
 
-        String data = "{" + "\"AganwadiImagesInfo\"" + " :" + new Gson().toJson(dataModelDbSendArrayList) + " }";
+        String data = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayList) + " }";
 
         Call<String> imageDatUpload = apiServices.imageUpload(data);
         imageDatUpload.enqueue(new Callback<String>() {
