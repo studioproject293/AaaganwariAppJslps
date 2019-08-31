@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">सखी पोषण आहार</string>
     <string name="exit_message">क्या आप निसंदेह बाहर निकलना चाहते हैं ? ?</string>
-    <string name="save_message">डेटा सफलतापूर्वक सुरक्षित हो गया</string>
+    <string name="save_message">डडेटा सफलतापूर्वक सहेजा गया</string>
     <string name="start">शुरु</string>
     <string name="edit">संपादित करें</string>
     <string name="sync_with_server">सर्वर के साथ सिंक</string>
@@ -42,5 +42,7 @@
     <string name="entryform_edit">प्रवेश फार्म संपादित करें</string>
     <string name="name_validaion">Please enter  name</string>
     <string name="download_data">Download</string>
-
+    <string name="no_internet_connection">इंटरनेट कनेक्शन उपलब्ध नहीं है</string>
+    <string name="no_record_sync"> अपलोड करने के लिए कोई डेटा उपलब्ध नहीं है</string>
+    <string name="update_data_toServer"> डेटा सफलतापूर्वक अपडेट किया गया</string>
 </resources>

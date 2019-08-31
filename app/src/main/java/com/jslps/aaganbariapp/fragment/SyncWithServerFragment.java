@@ -35,10 +35,8 @@ import com.orm.query.Select;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -126,7 +124,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         System.out.println("dfhdsghfdsghfs" + new Gson().toJson(adaptersendList));
         updateList(adaptersendList);
     }
-
     private void updateList(ArrayList<DataSaveModel1> arrayList) {
         if (arrayList != null && arrayList.size() > 0) {
             recyclerViewBenifishery.setVisibility(View.VISIBLE);
@@ -141,7 +138,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             uploaddata.setVisibility(View.GONE);
             Snackbar.with(getActivity(), null)
                     .type(Type.ERROR)
-                    .message(getString(R.string.no_record))
+                    .message(getString(R.string.no_record_sync))
                     .duration(Duration.SHORT)
                     .fillParent(true)
                     .textAlign(Align.CENTER)
