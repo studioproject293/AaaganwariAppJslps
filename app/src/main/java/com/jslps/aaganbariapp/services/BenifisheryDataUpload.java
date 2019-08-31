@@ -6,7 +6,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface BenifisheryDataUpload {
-    @POST("PutImage_Aganwadiimage")
+    @POST("AganwadiData")
     @FormUrlEncoded
     Call<String> benificeryDataUpload(@Field("sData") String sData);
 }
