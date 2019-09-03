@@ -291,13 +291,13 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                         }
                         for (int j = 0; j < mStudentObject1.getTable1().size(); j++) {
                             ArrayList<ImageSaveModel> imageSaveModelArrayList = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class).
-                                    where(Condition.prop("panchyatcode").eq(mStudentObject1.getMaster().get(j).getPanchyatcode()),
-                                            Condition.prop("awccode").eq(mStudentObject1.getMaster().get(j).getAaganwaricode()),
-                                            Condition.prop("month").eq(mStudentObject1.getMaster().get(j).getMonth()),
-                                            Condition.prop("year").eq(mStudentObject1.getMaster().get(j).getYear()),
-                                            Condition.prop("vocode").eq(mStudentObject1.getMaster().get(j).getVocode()),
-                                            Condition.prop("guid").eq(mStudentObject1.getMaster().get(j).getGuid())).list();
-                            if (imageSaveModelArrayList != null && imageSaveModelArrayList.size() > 0) {
+                                    where(Condition.prop("panchyatcode").eq(mStudentObject1.getTable1().get(j).getPanchyatcode()),
+                                            Condition.prop("awccode").eq(mStudentObject1.getTable1().get(j).getAwccode()),
+                                            Condition.prop("month").eq(mStudentObject1.getTable1().get(j).getMonth()),
+                                            Condition.prop("year").eq(mStudentObject1.getTable1().get(j).getYear()),
+                                            Condition.prop("vocode").eq(mStudentObject1.getTable1().get(j).getVocode()),
+                                            Condition.prop("guid").eq(mStudentObject1.getTable1().get(j).getGuid())).list();
+                            if (imageSaveModelArrayList != null && imageSaveModelArrayList.size() > 1) {
 
                             } else {
                                 ImageSaveModel benifisheryDataModelDbSend = new ImageSaveModel(mStudentObject1.getTable1().get(j).getImagebyte(),
@@ -308,7 +308,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                 benifisheryDataModelDbSend.save();
                             }
                         }
-                        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
+                        /*ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
                         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
                         ArrayList<ReportDisplayFormModel> arrayListReportDisplayFormModel = new ArrayList<>();
                         ArrayList<String> arrayListString = new ArrayList<>();
@@ -331,7 +331,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                 arrayListReportDisplayFormModel.add(reportDisplayFormModel);
 
                             }
-                        }
+                        }*/
                         // updateAdapter(arrayListReportDisplayFormModel);
                     }
 
