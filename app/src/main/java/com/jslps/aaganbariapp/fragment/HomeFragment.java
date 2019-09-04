@@ -73,97 +73,107 @@ public class HomeFragment extends BaseFragment  {
         refereshbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                DialogUtil.displayProgress(getActivity());
-                Gson gson = new GsonBuilder().setLenient().create();
-                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                //comment in live build and uncomment in uat
-                builder.interceptors().add(interceptor);
-                builder.connectTimeout(120, TimeUnit.SECONDS);
-                builder.readTimeout(120, TimeUnit.SECONDS);
-                OkHttpClient client = builder.build();
-                Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
-                ApiServices apiServices = retrofit.create(ApiServices.class);
-                Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", loginModelDbs.get(0).getUsername(), loginModelDbs.get(0).getPassword(),"","");
-                changePhotoResponseModelCall.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        DialogUtil.stopProgressDisplay();
-                        Gson gson = new Gson();
-                        Log.v("Response prof :", "hgfgfrhgs" + response.body());
+                if (DialogUtil.isConnectionAvailable(getActivity())) {
+                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                    DialogUtil.displayProgress(getActivity());
+                    Gson gson = new GsonBuilder().setLenient().create();
+                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                    //comment in live build and uncomment in uat
+                    builder.interceptors().add(interceptor);
+                    builder.connectTimeout(120, TimeUnit.SECONDS);
+                    builder.readTimeout(120, TimeUnit.SECONDS);
+                    OkHttpClient client = builder.build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
+                    ApiServices apiServices = retrofit.create(ApiServices.class);
+                    Call<String> changePhotoResponseModelCall = apiServices.getTabletMasterDownLoad("Login", loginModelDbs.get(0).getUsername(), loginModelDbs.get(0).getPassword(), "", "");
+                    changePhotoResponseModelCall.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            DialogUtil.stopProgressDisplay();
+                            Gson gson = new Gson();
+                            Log.v("Response prof :", "hgfgfrhgs" + response.body());
 
-                        String fullResponse = response.body();
-                        String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
-                        String result = XmlString.replaceAll("</string>", "");
+                            String fullResponse = response.body();
+                            String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
+                            String result = XmlString.replaceAll("</string>", "");
 
-                        System.out.print("fhrjfghf" + result);
-                        LoginDataModel mStudentObject1 = gson.fromJson(result, LoginDataModel.class);
-                        System.out.println("vvh" + gson.toJson(mStudentObject1));
-                        PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
-                        for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
-                            PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
-                                    mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
-                                    mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
-                                    mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
-                            panchyatDataModelDb.save();
+                            System.out.print("fhrjfghf" + result);
+                            LoginDataModel mStudentObject1 = gson.fromJson(result, LoginDataModel.class);
+                            System.out.println("vvh" + gson.toJson(mStudentObject1));
+                            PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
+                            for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
+                                PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
+                                        mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
+                                        mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
+                                        mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
+                                panchyatDataModelDb.save();
+                            }
+                            VOListDataModelDb.deleteAll(VOListDataModelDb.class);
+                            for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
+                                VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                        mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                        mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                        mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                        mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                        mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                        mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                        mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                        mStudentObject1.getTable5().get(i).getVO_SHG());
+                                panchyatDataModelDb.save();
+                            }
+
+                            BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
+                            for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
+                                        mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                        mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
+                                        mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                panchyatDataModelDb.save();
+                            }
+                            AanganWariModelDb.deleteAll(AanganWariModelDb.class);
+
+                            for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
+                                AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
+                                        mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
+                                        mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
+                                        mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
+                                        mStudentObject1.getTable1().get(i).getAW_ID());
+                                panchyatDataModelDb.save();
+                                System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                            }
+
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.SUCCESS)
+                                    .message("Data Download Successfully")
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
                         }
-                        VOListDataModelDb.deleteAll(VOListDataModelDb.class);
-                        for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                            VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
-                                    mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
-                                    mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
-                                    mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
-                                    mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
-                                    mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
-                                    mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
-                                    mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                    mStudentObject1.getTable5().get(i).getVO_SHG());
-                            panchyatDataModelDb.save();
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            DialogUtil.stopProgressDisplay();
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.ERROR)
+                                    .message(t.toString())
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
                         }
-
-                        BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
-                        for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
-                            BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
-                                    mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
-                                    mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                    mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
-                            panchyatDataModelDb.save();
-                        }
-                        AanganWariModelDb.deleteAll(AanganWariModelDb.class);
-
-                        for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
-                            AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
-                                    mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
-                                    mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
-                                    mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
-                                    mStudentObject1.getTable1().get(i).getAW_ID());
-                            panchyatDataModelDb.save();
-                            System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
-                        }
-
-                        Snackbar.with(getActivity(), null)
-                                .type(Type.SUCCESS)
-                                .message("Data Download Successfully")
-                                .duration(Duration.SHORT)
-                                .fillParent(true)
-                                .textAlign(Align.CENTER)
-                                .show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        DialogUtil.stopProgressDisplay();
-                        Snackbar.with(getActivity(), null)
-                                .type(Type.ERROR)
-                                .message(t.toString())
-                                .duration(Duration.SHORT)
-                                .fillParent(true)
-                                .textAlign(Align.LEFT)
-                                .show();
-                    }
-                });
+                    });
+                }else {
+                    Snackbar.with(getActivity(), null)
+                            .type(Type.ERROR)
+                            .message(getString(R.string.no_internet_connection))
+                            .duration(Duration.SHORT)
+                            .fillParent(true)
+                            .textAlign(Align.CENTER)
+                            .show();
+                }
             }
         });
         sysncwithserverLayout = rootView.findViewById(R.id.sysncwithserverLayout);

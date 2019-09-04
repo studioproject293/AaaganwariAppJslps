@@ -274,7 +274,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                         .message("You have already data")
                                         .duration(Duration.SHORT)
                                         .fillParent(true)
-                                        .textAlign(Align.LEFT)
+                                        .textAlign(Align.CENTER)
                                         .show();
                             }
 
@@ -286,7 +286,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                     .message("Data Download Successfully")
                                     .duration(Duration.SHORT)
                                     .fillParent(true)
-                                    .textAlign(Align.LEFT)
+                                    .textAlign(Align.CENTER)
                                     .show();
                         }
                         for (int j = 0; j < mStudentObject1.getTable1().size(); j++) {
@@ -343,7 +343,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                 .message(t.toString())
                                 .duration(Duration.SHORT)
                                 .fillParent(true)
-                                .textAlign(Align.LEFT)
+                                .textAlign(Align.CENTER)
                                 .show();
                     }
                 });

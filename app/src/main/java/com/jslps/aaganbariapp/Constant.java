@@ -1,6 +1,7 @@
 package com.jslps.aaganbariapp;
 
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,4 +27,6 @@ public class Constant {
     public static List<String> finaltypes = new ArrayList<String>();
     public static List<Bitmap> finalBitmap = new ArrayList<Bitmap>();
     public static final String API_BASE_URL = "http://swalekha.in/webServiceModalPopup.asmx/";
+
+
 }

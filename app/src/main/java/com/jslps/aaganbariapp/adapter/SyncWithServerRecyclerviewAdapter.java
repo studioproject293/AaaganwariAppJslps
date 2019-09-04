@@ -56,19 +56,19 @@ public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<Sync
         holder.year.setText(benifisheryDataModelDbSend.getYear());
         holder.noofmealinmonth.setText(benifisheryDataModelDbSend.getAaganwaricount());
 
-         if (holder.checkBoxUnit.isChecked()){
-             dataSaveModel1ArrayListNew.add(position,benifisheryDataModelDbSend);
-             onFragmentListItemSelectListener.onListItemLongClickedSnd(1,dataSaveModel1ArrayListNew,position);
-         }
+        if (holder.checkBoxUnit.isChecked()) {
+            dataSaveModel1ArrayListNew.add(position, benifisheryDataModelDbSend);
+            onFragmentListItemSelectListener.onListItemLongClickedSnd(1, dataSaveModel1ArrayListNew, position);
+        }
         holder.checkBoxUnit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
-                    dataSaveModel1ArrayListNew.add(position,benifisheryDataModelDbSend);
-                    onFragmentListItemSelectListener.onListItemLongClickedSnd(1,dataSaveModel1ArrayListNew,position);
+                    dataSaveModel1ArrayListNew.add(position, benifisheryDataModelDbSend);
+                    onFragmentListItemSelectListener.onListItemLongClickedSnd(1, dataSaveModel1ArrayListNew, position);
                 } else {
                     dataSaveModel1ArrayListNew.remove(position);
-                    onFragmentListItemSelectListener.onListItemLongClickedSnd(0,dataSaveModel1ArrayListNew,position);
+                    onFragmentListItemSelectListener.onListItemLongClickedSnd(0, dataSaveModel1ArrayListNew, position);
 
                 }
             }
