@@ -216,12 +216,14 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ((ContextCompat.checkSelfPermission(getActivity(),
+                if ((ActivityCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)&&(ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CAMERA) !=  PackageManager.PERMISSION_GRANTED)) {
                     if ((ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE))) {
+                            Manifest.permission.READ_EXTERNAL_STORAGE))&&(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.CAMERA))) {
 
                     } else {
                         ActivityCompat.requestPermissions(getActivity(),
@@ -686,17 +688,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                 for (int i = 0; i < grantResults.length; i++) {
                     if (grantResults.length > 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         if (Constant.finalbytes.size() < Constant.maxAttachment) {
-                            //1st method
-                   /* Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File file = getFile();
-                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-
-                    startActivityForResult(camera_intent, 0);*/
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent, 1);
-                            //second Method
-                           /* Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                            startActivityForResult(intent, 0);*/
                         } else {
                             Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                         }
@@ -732,7 +725,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             @Override
             public void onClick(View v) {
                 alertD.dismiss();
-                if ((ContextCompat.checkSelfPermission(getActivity(),
+                if ((ActivityCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     if ((ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                             Manifest.permission.CAMERA))) {

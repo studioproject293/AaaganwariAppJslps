@@ -363,6 +363,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayList.get(i).save();
                                 System.out.println("benifishery data fail" + new Gson().toJson(benifisheryDataModelDbSends));
 
+
                             }
                             for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
                                 dataModelDbSendArrayListData.get(j).setIsuploadtoserver("false");
@@ -371,6 +372,13 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
                                 dataModelDbSendArrayListData.get(j).save();
                             }
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.ERROR)
+                                    .message("Please try again")
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
                         }
 
                     } catch (JSONException e) {

@@ -69,6 +69,7 @@ public class HomeFragment extends BaseFragment  {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         layoutStart = rootView.findViewById(R.id.layoutStart);
         feedbackFragment = rootView.findViewById(R.id.feedbackFragment);
+        refereshbutton = rootView.findViewById(R.id.refrreshicon);
 
         refereshbutton.setOnClickListener(new View.OnClickListener() {
             @Override
