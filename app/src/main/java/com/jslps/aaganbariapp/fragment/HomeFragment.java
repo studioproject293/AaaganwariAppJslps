@@ -69,7 +69,7 @@ public class HomeFragment extends BaseFragment  {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         layoutStart = rootView.findViewById(R.id.layoutStart);
         feedbackFragment = rootView.findViewById(R.id.feedbackFragment);
-        refereshbutton = rootView.findViewById(R.id.refrreshicon);
+
         refereshbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +81,6 @@ public class HomeFragment extends BaseFragment  {
                 OkHttpClient.Builder builder = new OkHttpClient.Builder();
                 //comment in live build and uncomment in uat
                 builder.interceptors().add(interceptor);
-
                 builder.connectTimeout(120, TimeUnit.SECONDS);
                 builder.readTimeout(120, TimeUnit.SECONDS);
                 OkHttpClient client = builder.build();
