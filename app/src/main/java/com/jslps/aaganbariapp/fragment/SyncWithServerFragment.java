@@ -167,7 +167,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             @Override
             public void onClick(View view) {
                 if (DialogUtil.isConnectionAvailable(getActivity())) {
-                    DialogUtil.displayProgress(getActivity());
                     System.out.println("nw Gson" + new Gson().toJson(saveModel1ArrayList));
 
                     if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
@@ -197,6 +196,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                             dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
 
                         }
+                        DialogUtil.displayProgress(getActivity());
                         System.out.println("data send" + new Gson().toJson(dataModelDbSendArrayListData));
                         Gson gson = new GsonBuilder().setLenient().create();
                         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -232,6 +232,14 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     String Result = jsonObject.getString("RetValue");
                                     if (Result.equalsIgnoreCase("1")) {
                                         uploadImageService();
+                                    }else if (Result.equalsIgnoreCase("0")){
+                                        Snackbar.with(getActivity(), null)
+                                                .type(Type.ERROR)
+                                                .message("Data already exist")
+                                                .duration(Duration.SHORT)
+                                                .fillParent(true)
+                                                .textAlign(Align.CENTER)
+                                                .show();
                                     } else {
                                         Snackbar.with(getActivity(), null)
                                                 .type(Type.ERROR)
@@ -357,6 +365,28 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     .textAlign(Align.CENTER)
                                     .show();
                             onResume();
+                        }else if (Result.equalsIgnoreCase("0")){
+                            for (int i = 0; i < dataModelDbSendArrayList.size(); i++) {
+                                dataModelDbSendArrayList.get(i).setIsuploadtoserver("false");
+                                dataModelDbSendArrayList.get(i).save();
+                                System.out.println("benifishery data fail" + new Gson().toJson(benifisheryDataModelDbSends));
+
+
+                            }
+                            for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
+                                dataModelDbSendArrayListData.get(j).setIsuploadtoserver("false");
+                                dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
+                                dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
+                                dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                                dataModelDbSendArrayListData.get(j).save();
+                            }
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.ERROR)
+                                    .message("Data already exist")
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
                         } else {
                             for (int i = 0; i < dataModelDbSendArrayList.size(); i++) {
                                 dataModelDbSendArrayList.get(i).setIsuploadtoserver("false");
