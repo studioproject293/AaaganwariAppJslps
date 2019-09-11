@@ -1,6 +1,7 @@
 package com.jslps.aaganbariapp.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
-import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -52,7 +52,13 @@ public class VoRecyclerviewAdapter extends RecyclerView.Adapter<VoRecyclerviewAd
         final VOListDataModelDb panchyatDataModelDb = voListDataModelDbs.get(position);
        ArrayList<AanganWariModelDb> panchyatDataModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class)
                 .where(Condition.prop("vocode").eq(panchyatDataModelDb.getVocode())).list();
-        holder.title.setText(panchyatDataModelDb.getVoshg() + " (" + panchyatDataModelDbs.size() + ")");
+        if (TextUtils.isEmpty(prefManager.getPrefLangaugeSelection())) {
+            if (prefManager.getPrefLangaugeSelection().equalsIgnoreCase("english"))
+                holder.title.setText(panchyatDataModelDb.getVoshg() + " (" + panchyatDataModelDbs.size() + ")");
+            else
+                holder.title.setText(panchyatDataModelDb.getVoshghindi() + " (" + panchyatDataModelDbs.size() + ")");
+        }else holder.title.setText(panchyatDataModelDb.getVoshg() + " (" + panchyatDataModelDbs.size() + ")");
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

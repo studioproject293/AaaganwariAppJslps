@@ -19,11 +19,9 @@ public class VOListDataModelDb extends SugarRecord {
     private String villagecode;
     private String vocode;
     private String voshg;
+    private String voshghindi;
 
-    public VOListDataModelDb() {
-    }
-
-    public VOListDataModelDb(String block, String blockcode, String createdby, String createdon, String district, String districtcode, String flag, String voidd, String panchayat, String panchayatcode, String panchayat_vo, String shgcode, String village, String villagecode, String vocode, String voshg) {
+    public VOListDataModelDb(String block, String blockcode, String createdby, String createdon, String district, String districtcode, String flag, String voidd, String panchayat, String panchayatcode, String panchayat_vo, String shgcode, String village, String villagecode, String vocode, String voshg, String voshghindi) {
         this.block = block;
         this.blockcode = blockcode;
         this.createdby = createdby;
@@ -40,6 +38,18 @@ public class VOListDataModelDb extends SugarRecord {
         this.villagecode = villagecode;
         this.vocode = vocode;
         this.voshg = voshg;
+        this.voshghindi = voshghindi;
+    }
+
+    public VOListDataModelDb() {
+    }
+
+    public String getVoshghindi() {
+        return voshghindi;
+    }
+
+    public void setVoshghindi(String voshghindi) {
+        this.voshghindi = voshghindi;
     }
 
     public VOListDataModelDb(String voshg) {

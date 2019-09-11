@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -286,7 +285,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                     mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
                                                     mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
                                                     mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                    mStudentObject1.getTable5().get(i).getVO_SHG());
+                                                    mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
                                             panchyatDataModelDb.save();
                                         }
 
@@ -410,7 +409,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                         mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
                                                         mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
                                                         mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                        mStudentObject1.getTable5().get(i).getVO_SHG());
+                                                        mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
                                                 panchyatDataModelDb.save();
                                             }
 
@@ -523,7 +522,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                     mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
                                                     mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
                                                     mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                    mStudentObject1.getTable5().get(i).getVO_SHG());
+                                                    mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
                                             panchyatDataModelDb.save();
                                         }
 
@@ -550,7 +549,6 @@ public class WelcomeActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     }
-
                                     @Override
                                     public void onFailure(Call<String> call, Throwable t) {
                                         DialogUtil.stopProgressDisplay();
@@ -586,10 +584,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
         dialog.setCancelable(false);
         dialog.show();
-
     }
-
-
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override

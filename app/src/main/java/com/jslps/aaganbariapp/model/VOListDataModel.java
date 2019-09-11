@@ -17,6 +17,15 @@ public class VOListDataModel {
   private String VillageCode;
   private String VOCode;
   private String VO_SHG;
+  private String VO_SHG_Hindi;
+
+    public String getVO_SHG_Hindi() {
+        return VO_SHG_Hindi;
+    }
+
+    public void setVO_SHG_Hindi(String VO_SHG_Hindi) {
+        this.VO_SHG_Hindi = VO_SHG_Hindi;
+    }
 
     public String getBlock() {
         return Block;
