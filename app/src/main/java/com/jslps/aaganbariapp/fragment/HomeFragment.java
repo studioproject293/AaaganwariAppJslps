@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -121,7 +119,7 @@ public class HomeFragment extends BaseFragment  {
                                         mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
                                         mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
                                         mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                        mStudentObject1.getTable5().get(i).getVO_SHG());
+                                        mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
                                 panchyatDataModelDb.save();
                             }
 

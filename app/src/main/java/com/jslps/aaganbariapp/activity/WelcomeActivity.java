@@ -253,7 +253,6 @@ public class WelcomeActivity extends AppCompatActivity {
                                         String fullResponse = response.body();
                                         String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                                         String result = XmlString.replaceAll("</string>", "");
-
                                         System.out.print("fhrjfghf" + result);
                                         LoginDataModel mStudentObject1 = gson.fromJson(result, LoginDataModel.class);
                                         System.out.println("vvh" + gson.toJson(mStudentObject1));
