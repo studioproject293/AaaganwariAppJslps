@@ -83,7 +83,6 @@ public class WelcomeActivity extends AppCompatActivity {
     SharedPreferences preferences;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 3000; // time in milliseconds between successive task executions.
-    private TextView logIn, versionNo;
 
 
     @Override
@@ -115,8 +114,8 @@ public class WelcomeActivity extends AppCompatActivity {
         ImageLoader.getInstance().init(config);
 
         viewPager = findViewById(R.id.view_pager);
-        logIn = findViewById(R.id.logIn);
-        versionNo = findViewById(R.id.versionNo);
+        TextView logIn = findViewById(R.id.logIn);
+        TextView versionNo = findViewById(R.id.versionNo);
         versionNo.setText("Version No: 1.1");
         // making notification bar transparent
         changeStatusBarColor();
@@ -243,73 +242,84 @@ public class WelcomeActivity extends AppCompatActivity {
                                     public void onResponse(Call<String> call, Response<String> response) {
                                         Gson gson = new Gson();
                                         Log.v("Response prof :", "hgfgfrhgs" + response.body());
-                                        if (checkboxRember.isChecked()) {
-                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                            SharedPreferences.Editor editor = pref.edit();
-                                            editor.putString("userName", editTextUserName.getText().toString());
-                                            editor.putString("Password", editTextPassword.getText().toString());
-                                            editor.apply();
-                                        }
+
                                         String fullResponse = response.body();
                                         String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                                         String result = XmlString.replaceAll("</string>", "");
                                         System.out.print("fhrjfghf" + result);
                                         LoginDataModel mStudentObject1 = gson.fromJson(result, LoginDataModel.class);
                                         System.out.println("vvh" + gson.toJson(mStudentObject1));
-                                        LoginModelDb.deleteAll(LoginModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
-                                            LoginModelDb stateModel1 = new LoginModelDb(mStudentObject1.getMaster().get(i).getBlockCode(),
-                                                    mStudentObject1.getMaster().get(i).getContactNo(), mStudentObject1.getMaster().get(i).getCreatedBy(),
-                                                    mStudentObject1.getMaster().get(i).getCreatedOn(), mStudentObject1.getMaster().get(i).getDesignation(),
-                                                    mStudentObject1.getMaster().get(i).getBlockCode(), mStudentObject1.getMaster().get(i).getLoginID(),
-                                                    mStudentObject1.getMaster().get(i).getName(), mStudentObject1.getMaster().get(i).getPanchayatCode(), mStudentObject1.getMaster().get(i).getPassword(),
-                                                    mStudentObject1.getMaster().get(i).getRoleId(), mStudentObject1.getMaster().get(i).getUserName(), mStudentObject1.getMaster().get(i).getVillageCode());
-                                            stateModel1.save();
-                                        }
-                                        PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
-                                            PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
-                                                    mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
-                                                    mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
-                                                    mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
-                                            panchyatDataModelDb.save();
-                                        }
-                                        VOListDataModelDb.deleteAll(VOListDataModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                                            VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
-                                                    mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
-                                                    mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
-                                                    mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
-                                                    mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
-                                                    mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
-                                                    mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
-                                                    mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                    mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
-                                            panchyatDataModelDb.save();
-                                        }
+                                        if (mStudentObject1.getMaster() != null && mStudentObject1.getMaster().size() > 0) {
+                                            if (checkboxRember.isChecked()) {
+                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                                SharedPreferences.Editor editor = pref.edit();
+                                                editor.putString("userName", editTextUserName.getText().toString());
+                                                editor.putString("Password", editTextPassword.getText().toString());
+                                                editor.apply();
+                                            }
+                                            LoginModelDb.deleteAll(LoginModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
+                                                LoginModelDb stateModel1 = new LoginModelDb(mStudentObject1.getMaster().get(i).getBlockCode(),
+                                                        mStudentObject1.getMaster().get(i).getContactNo(), mStudentObject1.getMaster().get(i).getCreatedBy(),
+                                                        mStudentObject1.getMaster().get(i).getCreatedOn(), mStudentObject1.getMaster().get(i).getDesignation(),
+                                                        mStudentObject1.getMaster().get(i).getBlockCode(), mStudentObject1.getMaster().get(i).getLoginID(),
+                                                        mStudentObject1.getMaster().get(i).getName(), mStudentObject1.getMaster().get(i).getPanchayatCode(), mStudentObject1.getMaster().get(i).getPassword(),
+                                                        mStudentObject1.getMaster().get(i).getRoleId(), mStudentObject1.getMaster().get(i).getUserName(), mStudentObject1.getMaster().get(i).getVillageCode());
+                                                stateModel1.save();
+                                            }
+                                            PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
+                                                PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
+                                                        mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
+                                                        mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
+                                                        mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
+                                                panchyatDataModelDb.save();
+                                            }
+                                            VOListDataModelDb.deleteAll(VOListDataModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
+                                                VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                                        mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                                        mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                                        mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                                        mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                                        mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                                        mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                                        mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                                        mStudentObject1.getTable5().get(i).getVO_SHG(), mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
+                                                panchyatDataModelDb.save();
+                                            }
 
-                                        BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
-                                            BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
-                                                    mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
-                                                    mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                                    mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
-                                            panchyatDataModelDb.save();
-                                        }
-                                        AanganWariModelDb.deleteAll(AanganWariModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
-                                            AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
-                                                    mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
-                                                    mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
-                                                    mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
-                                                    mStudentObject1.getTable1().get(i).getAW_ID());
-                                            panchyatDataModelDb.save();
-                                            System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
-                                        }
+                                            BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                                BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
+                                                        mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                                        mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
+                                                        mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                panchyatDataModelDb.save();
+                                            }
+                                            AanganWariModelDb.deleteAll(AanganWariModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
+                                                AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
+                                                        mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
+                                                        mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
+                                                        mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
+                                                        mStudentObject1.getTable1().get(i).getAW_ID());
+                                                panchyatDataModelDb.save();
+                                                System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                            }
 
-                                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Snackbar.with(WelcomeActivity.this, null)
+                                                    .type(Type.ERROR)
+                                                    .message("Invalid User Details ")
+                                                    .duration(Duration.SHORT)
+                                                    .fillParent(true)
+                                                    .textAlign(Align.CENTER)
+                                                    .show();
+                                        }
                                     }
 
                                     @Override
@@ -324,7 +334,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                 .show();
                                     }
                                 });
-                            }else {
+                            } else {
                                 Snackbar.with(WelcomeActivity.this, null)
                                         .type(Type.ERROR)
                                         .message(getString(R.string.no_internet_connection))
@@ -366,13 +376,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                         public void onResponse(Call<String> call, Response<String> response) {
                                             Gson gson = new Gson();
                                             Log.v("Response prof :", "hgfgfrhgs" + response.body());
-                                            if (checkboxRember.isChecked()) {
-                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                                SharedPreferences.Editor editor = pref.edit();
-                                                editor.putString("userName", editTextUserName.getText().toString());
-                                                editor.putString("Password", editTextPassword.getText().toString());
-                                                editor.apply();
-                                            }
+
                                             String fullResponse = response.body();
                                             String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                                             String result = XmlString.replaceAll("</string>", "");
@@ -380,60 +384,77 @@ public class WelcomeActivity extends AppCompatActivity {
                                             System.out.print("fhrjfghf" + result);
                                             LoginDataModel mStudentObject1 = gson.fromJson(result, LoginDataModel.class);
                                             System.out.println("vvh" + gson.toJson(mStudentObject1));
-                                            LoginModelDb.deleteAll(LoginModelDb.class);
-                                            for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
-                                                LoginModelDb stateModel1 = new LoginModelDb(mStudentObject1.getMaster().get(i).getBlockCode(),
-                                                        mStudentObject1.getMaster().get(i).getContactNo(), mStudentObject1.getMaster().get(i).getCreatedBy(),
-                                                        mStudentObject1.getMaster().get(i).getCreatedOn(), mStudentObject1.getMaster().get(i).getDesignation(),
-                                                        mStudentObject1.getMaster().get(i).getBlockCode(), mStudentObject1.getMaster().get(i).getLoginID(),
-                                                        mStudentObject1.getMaster().get(i).getName(), mStudentObject1.getMaster().get(i).getPanchayatCode(), mStudentObject1.getMaster().get(i).getPassword(),
-                                                        mStudentObject1.getMaster().get(i).getRoleId(), mStudentObject1.getMaster().get(i).getUserName(), mStudentObject1.getMaster().get(i).getVillageCode());
-                                                stateModel1.save();
-                                            }
-                                            PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
-                                            for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
-                                                PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
-                                                        mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
-                                                        mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
-                                                        mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
-                                                panchyatDataModelDb.save();
-                                            }
-                                            VOListDataModelDb.deleteAll(VOListDataModelDb.class);
-                                            for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                                                VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
-                                                        mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
-                                                        mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
-                                                        mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
-                                                        mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
-                                                        mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
-                                                        mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
-                                                        mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                        mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
-                                                panchyatDataModelDb.save();
-                                            }
+                                            if (mStudentObject1.getMaster() != null && mStudentObject1.getMaster().size() > 0) {
+                                                if (checkboxRember.isChecked()) {
+                                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                                    SharedPreferences.Editor editor = pref.edit();
+                                                    editor.putString("userName", editTextUserName.getText().toString());
+                                                    editor.putString("Password", editTextPassword.getText().toString());
+                                                    editor.apply();
+                                                }
+                                                LoginModelDb.deleteAll(LoginModelDb.class);
+                                                for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
+                                                    LoginModelDb stateModel1 = new LoginModelDb(mStudentObject1.getMaster().get(i).getBlockCode(),
+                                                            mStudentObject1.getMaster().get(i).getContactNo(), mStudentObject1.getMaster().get(i).getCreatedBy(),
+                                                            mStudentObject1.getMaster().get(i).getCreatedOn(), mStudentObject1.getMaster().get(i).getDesignation(),
+                                                            mStudentObject1.getMaster().get(i).getBlockCode(), mStudentObject1.getMaster().get(i).getLoginID(),
+                                                            mStudentObject1.getMaster().get(i).getName(), mStudentObject1.getMaster().get(i).getPanchayatCode(), mStudentObject1.getMaster().get(i).getPassword(),
+                                                            mStudentObject1.getMaster().get(i).getRoleId(), mStudentObject1.getMaster().get(i).getUserName(), mStudentObject1.getMaster().get(i).getVillageCode());
+                                                    stateModel1.save();
+                                                }
+                                                PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
+                                                for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
+                                                    PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
+                                                            mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
+                                                            mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
+                                                            mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
+                                                    panchyatDataModelDb.save();
+                                                }
+                                                VOListDataModelDb.deleteAll(VOListDataModelDb.class);
+                                                for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
+                                                    VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                                            mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                                            mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                                            mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                                            mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                                            mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                                            mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                                            mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                                            mStudentObject1.getTable5().get(i).getVO_SHG(), mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
+                                                    panchyatDataModelDb.save();
+                                                }
 
-                                            BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
-                                            for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
-                                                BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
-                                                        mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
-                                                        mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                                        mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
-                                                panchyatDataModelDb.save();
-                                            }
-                                            AanganWariModelDb.deleteAll(AanganWariModelDb.class);
+                                                BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
+                                                for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                                    BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
+                                                            mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                                            mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
+                                                            mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                    panchyatDataModelDb.save();
+                                                }
+                                                AanganWariModelDb.deleteAll(AanganWariModelDb.class);
 
-                                            for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
-                                                AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
-                                                        mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
-                                                        mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
-                                                        mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
-                                                        mStudentObject1.getTable1().get(i).getAW_ID());
-                                                panchyatDataModelDb.save();
-                                                System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                                for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
+                                                    AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
+                                                            mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
+                                                            mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
+                                                            mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
+                                                            mStudentObject1.getTable1().get(i).getAW_ID());
+                                                    panchyatDataModelDb.save();
+                                                    System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                                }
+                                                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                Snackbar.with(WelcomeActivity.this, null)
+                                                        .type(Type.ERROR)
+                                                        .message("Please Enter Valid User Details")
+                                                        .duration(Duration.SHORT)
+                                                        .fillParent(true)
+                                                        .textAlign(Align.CENTER)
+                                                        .show();
                                             }
-                                            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
                                         }
 
                                         @Override
@@ -448,7 +469,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                     .show();
                                         }
                                     });
-                                }else {
+                                } else {
                                     Snackbar.with(WelcomeActivity.this, null)
                                             .type(Type.ERROR)
                                             .message(getString(R.string.no_internet_connection))
@@ -479,13 +500,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                     public void onResponse(Call<String> call, Response<String> response) {
                                         Gson gson = new Gson();
                                         Log.v("Response prof :", "hgfgfrhgs" + response.body());
-                                        if (checkboxRember.isChecked()) {
-                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                            SharedPreferences.Editor editor = pref.edit();
-                                            editor.putString("userName", editTextUserName.getText().toString());
-                                            editor.putString("Password", editTextPassword.getText().toString());
-                                            editor.apply();
-                                        }
+
                                         String fullResponse = response.body();
                                         String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                                         String result = XmlString.replaceAll("</string>", "");
@@ -493,61 +508,79 @@ public class WelcomeActivity extends AppCompatActivity {
                                         System.out.print("fhrjfghf" + result);
                                         LoginDataModel mStudentObject1 = gson.fromJson(result, LoginDataModel.class);
                                         System.out.println("vvh" + gson.toJson(mStudentObject1));
-                                        LoginModelDb.deleteAll(LoginModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
-                                            LoginModelDb stateModel1 = new LoginModelDb(mStudentObject1.getMaster().get(i).getBlockCode(),
-                                                    mStudentObject1.getMaster().get(i).getContactNo(), mStudentObject1.getMaster().get(i).getCreatedBy(),
-                                                    mStudentObject1.getMaster().get(i).getCreatedOn(), mStudentObject1.getMaster().get(i).getDesignation(),
-                                                    mStudentObject1.getMaster().get(i).getBlockCode(), mStudentObject1.getMaster().get(i).getLoginID(),
-                                                    mStudentObject1.getMaster().get(i).getName(), mStudentObject1.getMaster().get(i).getPanchayatCode(), mStudentObject1.getMaster().get(i).getPassword(),
-                                                    mStudentObject1.getMaster().get(i).getRoleId(), mStudentObject1.getMaster().get(i).getUserName(), mStudentObject1.getMaster().get(i).getVillageCode());
-                                            stateModel1.save();
-                                        }
-                                        PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
-                                            PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
-                                                    mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
-                                                    mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
-                                                    mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
-                                            panchyatDataModelDb.save();
-                                        }
-                                        VOListDataModelDb.deleteAll(VOListDataModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
-                                            VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
-                                                    mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
-                                                    mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
-                                                    mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
-                                                    mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
-                                                    mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
-                                                    mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
-                                                    mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
-                                                    mStudentObject1.getTable5().get(i).getVO_SHG(),mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
-                                            panchyatDataModelDb.save();
-                                        }
+                                        if (mStudentObject1.getMaster() != null && mStudentObject1.getMaster().size() > 0) {
+                                            if (checkboxRember.isChecked()) {
+                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                                SharedPreferences.Editor editor = pref.edit();
+                                                editor.putString("userName", editTextUserName.getText().toString());
+                                                editor.putString("Password", editTextPassword.getText().toString());
+                                                editor.apply();
+                                            }
+                                            LoginModelDb.deleteAll(LoginModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
+                                                LoginModelDb stateModel1 = new LoginModelDb(mStudentObject1.getMaster().get(i).getBlockCode(),
+                                                        mStudentObject1.getMaster().get(i).getContactNo(), mStudentObject1.getMaster().get(i).getCreatedBy(),
+                                                        mStudentObject1.getMaster().get(i).getCreatedOn(), mStudentObject1.getMaster().get(i).getDesignation(),
+                                                        mStudentObject1.getMaster().get(i).getBlockCode(), mStudentObject1.getMaster().get(i).getLoginID(),
+                                                        mStudentObject1.getMaster().get(i).getName(), mStudentObject1.getMaster().get(i).getPanchayatCode(), mStudentObject1.getMaster().get(i).getPassword(),
+                                                        mStudentObject1.getMaster().get(i).getRoleId(), mStudentObject1.getMaster().get(i).getUserName(), mStudentObject1.getMaster().get(i).getVillageCode());
+                                                stateModel1.save();
+                                            }
+                                            PanchyatDataModelDb.deleteAll(PanchyatDataModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable6().size(); i++) {
+                                                PanchyatDataModelDb panchyatDataModelDb = new PanchyatDataModelDb(mStudentObject1.getTable6().get(i).getBlockCode(),
+                                                        mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
+                                                        mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
+                                                        mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
+                                                panchyatDataModelDb.save();
+                                            }
+                                            VOListDataModelDb.deleteAll(VOListDataModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable5().size(); i++) {
+                                                VOListDataModelDb panchyatDataModelDb = new VOListDataModelDb(mStudentObject1.getTable5().get(i).getBlock(),
+                                                        mStudentObject1.getTable5().get(i).getBlockCode(), mStudentObject1.getTable5().get(i).getCreatedBy(),
+                                                        mStudentObject1.getTable5().get(i).getCreatedOn(), mStudentObject1.getTable5().get(i).getDistrict(),
+                                                        mStudentObject1.getTable5().get(i).getDistrictCode(), mStudentObject1.getTable5().get(i).getFlag(),
+                                                        mStudentObject1.getTable5().get(i).getID(), mStudentObject1.getTable5().get(i).getPanchayat(),
+                                                        mStudentObject1.getTable5().get(i).getPanchayatCode(), mStudentObject1.getTable5().get(i).getPanchayat_VO(),
+                                                        mStudentObject1.getTable5().get(i).getSHGCode(), mStudentObject1.getTable5().get(i).getVillage(),
+                                                        mStudentObject1.getTable5().get(i).getVillageCode(), mStudentObject1.getTable5().get(i).getVOCode(),
+                                                        mStudentObject1.getTable5().get(i).getVO_SHG(), mStudentObject1.getTable5().get(i).getVO_SHG_Hindi());
+                                                panchyatDataModelDb.save();
+                                            }
 
-                                        BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
-                                        for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
-                                            BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
-                                                    mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
-                                                    mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                                    mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
-                                            panchyatDataModelDb.save();
-                                        }
-                                        AanganWariModelDb.deleteAll(AanganWariModelDb.class);
+                                            BenifisheryDataModelDb.deleteAll(BenifisheryDataModelDb.class);
+                                            for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                                BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
+                                                        mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                                        mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
+                                                        mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                panchyatDataModelDb.save();
+                                            }
+                                            AanganWariModelDb.deleteAll(AanganWariModelDb.class);
 
-                                        for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
-                                            AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
-                                                    mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
-                                                    mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
-                                                    mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
-                                                    mStudentObject1.getTable1().get(i).getAW_ID());
-                                            panchyatDataModelDb.save();
-                                            System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                            for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
+                                                AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
+                                                        mStudentObject1.getTable1().get(i).getAnganwadiName(), mStudentObject1.getTable1().get(i).getContactNo(),
+                                                        mStudentObject1.getTable1().get(i).getCreatedBy(), mStudentObject1.getTable1().get(i).getCreatedOn(),
+                                                        mStudentObject1.getTable1().get(i).getType(), mStudentObject1.getTable1().get(i).getVOCode(),
+                                                        mStudentObject1.getTable1().get(i).getAW_ID());
+                                                panchyatDataModelDb.save();
+                                                System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                            }
+                                            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Snackbar.with(WelcomeActivity.this, null)
+                                                    .type(Type.ERROR)
+                                                    .message("Please Enter Valid User Details")
+                                                    .duration(Duration.SHORT)
+                                                    .fillParent(true)
+                                                    .textAlign(Align.CENTER)
+                                                    .show();
                                         }
-                                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
                                     }
+
                                     @Override
                                     public void onFailure(Call<String> call, Throwable t) {
                                         DialogUtil.stopProgressDisplay();
@@ -560,7 +593,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                 .show();
                                     }
                                 });
-                            }else {
+                            } else {
                                 Snackbar.with(WelcomeActivity.this, null)
                                         .type(Type.ERROR)
                                         .message(getString(R.string.no_internet_connection))
@@ -584,6 +617,7 @@ public class WelcomeActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
     }
+
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
