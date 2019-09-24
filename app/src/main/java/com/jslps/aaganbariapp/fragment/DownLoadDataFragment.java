@@ -24,7 +24,6 @@ import com.google.gson.GsonBuilder;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.DialogUtil;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.activity.WelcomeActivity;
 import com.jslps.aaganbariapp.adapter.ReprtsListRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
@@ -280,7 +279,6 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
 
                         }
                         if (snackbarSucess) {
-
                             Snackbar.with(getActivity(), null)
                                     .type(Type.SUCCESS)
                                     .message("Data Download Successfully")
@@ -300,6 +298,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                             if (imageSaveModelArrayList != null && imageSaveModelArrayList.size() > 1) {
 
                             } else {
+
                                 ImageSaveModel benifisheryDataModelDbSend = new ImageSaveModel(mStudentObject1.getTable1().get(j).getImagebyte(),
                                         mStudentObject1.getTable1().get(j).getImagename(), null, null,
                                         mStudentObject1.getTable1().get(j).getGuid(), mStudentObject1.getTable1().get(j).getPanchyatcode(),

@@ -43,7 +43,6 @@ import com.jslps.aaganbariapp.activity.GalleryActivity;
 import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.adapter.AttachmentImgeAdapter;
 import com.jslps.aaganbariapp.adapter.BenifisheryRowEditRecyclerviewAdapter;
-import com.jslps.aaganbariapp.adapter.CreateAppointmentAttachmentAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
@@ -59,7 +58,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentListItemSelectListener {
@@ -332,7 +330,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
                         .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
                                 Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())).list();
+                                Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())
+                                ,Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                                Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
                 if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
                     for (int i = 0; i < arrayListVillage1.size(); i++) {
                         ImageSaveModel imageSaveModel = new ImageSaveModel();

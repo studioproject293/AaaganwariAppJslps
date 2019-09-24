@@ -116,7 +116,7 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         TextView logIn = findViewById(R.id.logIn);
         TextView versionNo = findViewById(R.id.versionNo);
-        versionNo.setText("Version No: 1.1");
+        versionNo.setText("Version No: 1.2");
         // making notification bar transparent
         changeStatusBarColor();
         MyCustomPagerAdapter myCustomPagerAdapter = new MyCustomPagerAdapter(WelcomeActivity.this, images);
@@ -165,7 +165,7 @@ public class WelcomeActivity extends AppCompatActivity {
         ImageView closeButton = dialog.findViewById(R.id.closeButton);
         final EditText editTextUserName = dialog.findViewById(R.id.etusername);
         final EditText editTextPassword = dialog.findViewById(R.id.etpass);
-        Button sigiin = dialog.findViewById(R.id.sigiin);
+        final Button sigiin = dialog.findViewById(R.id.sigiin);
         checkBox = dialog.findViewById(R.id.checkbox);
         checkboxRember = dialog.findViewById(R.id.checkboxRember);
         preferences = getSharedPreferences("MyPref",
@@ -205,6 +205,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     editTextPassword.requestFocus();
                     showError(editTextPassword);
                 } else {
+                    DialogUtil.hideKeyboard(sigiin,WelcomeActivity.this);
+                    dialog.cancel();
                     ArrayList<LoginModelDb> arrayListVillage1 = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class)
                             .where(Condition.prop("username").eq(editTextUserName.getText().toString()),
                                     Condition.prop("password").eq(editTextPassword.getText().toString())).list();
@@ -374,6 +376,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                     changePhotoResponseModelCall.enqueue(new Callback<String>() {
                                         @Override
                                         public void onResponse(Call<String> call, Response<String> response) {
+                                            DialogUtil.stopProgressDisplay();
                                             Gson gson = new Gson();
                                             Log.v("Response prof :", "hgfgfrhgs" + response.body());
 
@@ -480,6 +483,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 }
                             }
                         } else {
+
                             if (DialogUtil.isConnectionAvailable(WelcomeActivity.this)) {
                                 DialogUtil.displayProgress(WelcomeActivity.this);
                                 Gson gson = new GsonBuilder().setLenient().create();
@@ -498,6 +502,8 @@ public class WelcomeActivity extends AppCompatActivity {
                                 changePhotoResponseModelCall.enqueue(new Callback<String>() {
                                     @Override
                                     public void onResponse(Call<String> call, Response<String> response) {
+                                        DialogUtil.stopProgressDisplay();
+
                                         Gson gson = new Gson();
                                         Log.v("Response prof :", "hgfgfrhgs" + response.body());
 
