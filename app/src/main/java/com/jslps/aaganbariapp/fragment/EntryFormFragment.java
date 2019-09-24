@@ -67,7 +67,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -75,27 +74,22 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
     private View rootView;
     private EditText editTextRemarks;
-    Spinner monthSpiner, yearSppiner;
-    ArrayList<String> arrayListMonth;
-    ArrayList<String> arrayListYear;
-    Button uploadImage;
-    int PICK_IMAGE_MULTIPLE = 1;
-    String imageEncoded;
-    List<String> imagesEncodedList;
+    private ArrayList<String> arrayListMonth;
+    private ArrayList<String> arrayListYear;
+    private Button uploadImage;
     public static RecyclerView attachmentRecycler;
     public static LinearLayout imageLayout;
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int REQUEST_PERMISSIONS_CAMERA = 101;
     RecyclerView recyclerViewBenifishery;
     ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList;
-
     public static TextView textViewtotalAll;
     Button saveData;
     PrefManager prefManager;
-    int SELECT_FILE = 4;
     static AanganWariModelDb aanganWariModelDbrec;
     Switch switchtrue;
     LinearLayout totalLyout, tableLayout;
+    BenifisheryRowRecyclerviewAdapter benifisheryRowRecyclerviewAdapter;
 
     public EntryFormFragment() {
         // Required empty public constructor
@@ -111,21 +105,9 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, aanganWariModelDbrec.getAnganwadiname()));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.ENTRY_FORM_FRAGNMENT);
-        benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDb>) BenifisheryDataModelDb.listAll(BenifisheryDataModelDb.class);
+        if (MainActivity.newCall)
+            benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDb>) BenifisheryDataModelDb.listAll(BenifisheryDataModelDb.class);
 
-       /* if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
-            Constant.finalbytes.clear();
-            Constant.finalnames.clear();
-            Constant.finalsizes.clear();
-            Constant.finaltypes.clear();
-            for (int i = 0; i < arrayListVillage1.size(); i++) {
-
-                Constant.finalbytes.add(arrayListVillage1.get(i).getImgebytes());
-                Constant.finalsizes.add(arrayListVillage1.get(i).getFinalsizes());
-                Constant.finaltypes.add(arrayListVillage1.get(i).getFinaltypes());
-                Constant.finalnames.add(arrayListVillage1.get(i).getFinalnames());
-            }
-        }*/
         if (Constant.finalbytes.size() != 0) {
             Constant.editFlag = true;
             imageLayout.setVisibility(View.VISIBLE);
@@ -158,7 +140,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.layout_input_form, container, false);
         prefManager = PrefManager.getInstance();
-        monthSpiner = rootView.findViewById(R.id.sppinermonth);
+        Spinner monthSpiner = rootView.findViewById(R.id.sppinermonth);
         totalLyout = (LinearLayout) rootView.findViewById(R.id.totalLyout);
         tableLayout = (LinearLayout) rootView.findViewById(R.id.tableLayout);
         imageLayout = (LinearLayout) rootView.findViewById(R.id.image_layout);
@@ -169,7 +151,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         attachmentRecycler = (RecyclerView) rootView.findViewById(R.id.attachmentRecycler);
         recyclerViewBenifishery = (RecyclerView) rootView.findViewById(R.id.recyclerviewBenifishry);
         attachmentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        yearSppiner = rootView.findViewById(R.id.sppinerYear);
+        Spinner yearSppiner = rootView.findViewById(R.id.sppinerYear);
         uploadImage = rootView.findViewById(R.id.uploadImage);
         arrayListMonth = new ArrayList<String>();
         arrayListMonth.add("जनवरी");
@@ -216,13 +198,14 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.newCall = false;
                 if ((ActivityCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)&&(ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.CAMERA) !=  PackageManager.PERMISSION_GRANTED)) {
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     if ((ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE))&&(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                             Manifest.permission.CAMERA))) {
 
                     } else {

@@ -245,7 +245,6 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                             if (benifisheryDataModelDbSendArrayList != null && benifisheryDataModelDbSendArrayList.size() > 3) {
                                 snackbarerror = true;
                             } else {
-
                                 ArrayList<PanchyatDataModelDb> panchyatDataModelDbs = (ArrayList<PanchyatDataModelDb>) Select.from(PanchyatDataModelDb.class).
                                         where(Condition.prop("clustercode").eq(mStudentObject1.getMaster().get(i).getPanchyatcode())).list();
                                 ArrayList<VOListDataModelDb> voListDataModelDbArrayList1 = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class).

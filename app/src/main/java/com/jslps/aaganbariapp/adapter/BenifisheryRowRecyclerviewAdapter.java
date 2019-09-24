@@ -51,7 +51,7 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
 
         holder.textViewTotal.setText(total.toString());
         benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
-        benifisheryDataModelDb.save();
+
         holder.noOfBenifishery.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before,
@@ -148,5 +148,9 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
             noOfBenifishery = itemView.findViewById(R.id.noofbenifishery);
             noofmealinmonth = itemView.findViewById(R.id.noofmealinmonth);
         }
+    }
+    public void updateList(ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList) {
+        this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;
+        notifyDataSetChanged();
     }
 }

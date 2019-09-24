@@ -14,21 +14,18 @@ import com.chootdev.csnackbar.Align;
 import com.chootdev.csnackbar.Duration;
 import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
-import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
+import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.adapter.AanganWariRecyclerviewAdapter;
-import com.jslps.aaganbariapp.adapter.VoRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.HeaderData;
-import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AaganWariListFragment extends BaseFragment implements OnFragmentListItemSelectListener {
 
@@ -50,7 +47,7 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
     public void onResume() {
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.choose_aaganwari)));
-        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT,Constant.AAGANWARI_LIST_FRAGNMENT);
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.AAGANWARI_LIST_FRAGNMENT);
         panchyatDataModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class)
                 .where(Condition.prop("vocode").eq(voListDataModelDbRec.getVocode())).list();
         updateList(panchyatDataModelDbs);
@@ -58,12 +55,12 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
 
     private void updateList(ArrayList<AanganWariModelDb> panchyatDataModelDbs) {
 
-        if (panchyatDataModelDbs!=null && panchyatDataModelDbs.size()>0){
+        if (panchyatDataModelDbs != null && panchyatDataModelDbs.size() > 0) {
             recyclerViewPanchyat.setVisibility(View.VISIBLE);
-            AanganWariRecyclerviewAdapter panchyatRecyclerviewAdapter = new AanganWariRecyclerviewAdapter(getActivity(), panchyatDataModelDbs,voListDataModelDbRec);
+            AanganWariRecyclerviewAdapter panchyatRecyclerviewAdapter = new AanganWariRecyclerviewAdapter(getActivity(), panchyatDataModelDbs, voListDataModelDbRec);
             panchyatRecyclerviewAdapter.setListner(this);
             recyclerViewPanchyat.setAdapter(panchyatRecyclerviewAdapter);
-        }else {
+        } else {
             recyclerViewPanchyat.setVisibility(View.GONE);
             Snackbar.with(getActivity(), null)
                     .type(Type.ERROR)
@@ -88,6 +85,7 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
 
     @Override
     public void onListItemSelected(int itemId, Object data) {
+        MainActivity.newCall = true;
         mListener.onFragmentInteraction(Constant.ENTRY_FORM_FRAGNMENT, data);
     }
 

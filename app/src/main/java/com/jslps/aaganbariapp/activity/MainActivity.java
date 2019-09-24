@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +36,6 @@ import com.jslps.aaganbariapp.listener.OnFragmentInteractionListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
-import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public static RadioGroup radioGroup;
     PrefManager prefManager;
     RadioButton button_bank_connection, button_brand_connection;
-
+    public static boolean newCall=false;
     @Override
     protected void onResume() {
         super.onResume();
