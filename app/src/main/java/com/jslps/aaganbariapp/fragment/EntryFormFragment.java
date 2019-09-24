@@ -48,7 +48,6 @@ import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.activity.GalleryActivity;
 import com.jslps.aaganbariapp.activity.MainActivity;
-import com.jslps.aaganbariapp.activity.WelcomeActivity;
 import com.jslps.aaganbariapp.adapter.BenifisheryRowRecyclerviewAdapter;
 import com.jslps.aaganbariapp.adapter.CreateAppointmentAttachmentAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
@@ -57,6 +56,7 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
+import com.jslps.aaganbariapp.model.LoginModelDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -297,6 +297,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
                     benifisheryDataModelDbSend.setGuid(id);
                     benifisheryDataModelDbSend.setIsuploadtoserver("false");
+                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                    benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
                     benifisheryDataModelDbSend.save();
                     Snackbar.with(getActivity(), null)
                             .type(Type.SUCCESS)
@@ -323,6 +325,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
                             imageSaveModel.setMonth(monthSeleted + "");
                             imageSaveModel.setGuid(id);
+                            ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                            imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
                             imageSaveModel.setYear(yearSelect);
                             imageSaveModel.save();
 
@@ -363,9 +367,11 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                                 benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
                                 benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                benifisheryDataModelDbSend.setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
+                                ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                                benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
                                 benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
                                 benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+
                                 benifisheryDataModelDbSend.setIsuploadtoserver("false");
                                 benifisheryDataModelDbSend.save();
                                 arrayList.add(benifisheryDataModelDbSend);

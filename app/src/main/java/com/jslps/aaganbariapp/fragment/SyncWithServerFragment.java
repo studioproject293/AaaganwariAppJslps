@@ -215,7 +215,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                         benifisherydataUpload.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-
+                                DialogUtil.stopProgressDisplay();
                                 System.out.println("Response  data" + response.body());
                                 String fullResponse = response.body();
                                 String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
@@ -315,7 +315,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                             .list();
                     for (int j = 0; j < benifisheryDataModelDbSendArrayListImage.size(); j++) {
                         benifisheryDataModelDbSendArrayListImage.get(j).setId(null);
-                        benifisheryDataModelDbSendArrayListImage.get(j).setIsuploadtoserver(null);
                         benifisheryDataModelDbSendArrayListImage.get(j).setIsuploadtoserver(null);
                     }
                     dataModelDbSendArrayList.addAll(benifisheryDataModelDbSendArrayListImage);

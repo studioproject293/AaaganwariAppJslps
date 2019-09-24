@@ -303,7 +303,8 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                         mStudentObject1.getTable1().get(j).getImagename(), null, null,
                                         mStudentObject1.getTable1().get(j).getGuid(), mStudentObject1.getTable1().get(j).getPanchyatcode(),
                                         mStudentObject1.getTable1().get(j).getVocode(), mStudentObject1.getTable1().get(j).getAwccode(),
-                                        mStudentObject1.getTable1().get(j).getMonth(), mStudentObject1.getTable1().get(j).getYear(), "true");
+                                        mStudentObject1.getTable1().get(j).getMonth(), mStudentObject1.getTable1().get(j).getYear(), "true"
+                                        ,mStudentObject1.getTable1().get(j).getCreatedby());
                                 benifisheryDataModelDbSend.save();
                             }
                         }

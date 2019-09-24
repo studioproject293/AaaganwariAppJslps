@@ -14,6 +14,7 @@ public class ImageSaveModel extends SugarRecord {
     private String month;
     private String year;
     private String isuploadtoserver;
+    private String createdby;
 
     public String getIsuploadtoserver() {
         return isuploadtoserver;
@@ -26,7 +27,7 @@ public class ImageSaveModel extends SugarRecord {
     public ImageSaveModel() {
     }
 
-    public ImageSaveModel(String imagebyte, String imagename, Long finalsizes, String finaltypes, String guid, String panchyatcode, String vocode, String awccode, String month, String year, String isuploadtoserver) {
+    public ImageSaveModel(String imagebyte, String imagename, Long finalsizes, String finaltypes, String guid, String panchyatcode, String vocode, String awccode, String month, String year, String isuploadtoserver, String createdby) {
         this.imagebyte = imagebyte;
         this.imagename = imagename;
         this.finalsizes = finalsizes;
@@ -38,6 +39,7 @@ public class ImageSaveModel extends SugarRecord {
         this.month = month;
         this.year = year;
         this.isuploadtoserver = isuploadtoserver;
+        this.createdby = createdby;
     }
 
     public String getImagebyte() {
@@ -118,5 +120,13 @@ public class ImageSaveModel extends SugarRecord {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public String getCreatedby() {
+        return createdby;
+    }
+
+    public void setCreatedby(String createdby) {
+        this.createdby = createdby;
     }
 }

@@ -47,6 +47,7 @@ import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
+import com.jslps.aaganbariapp.model.LoginModelDb;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -127,6 +128,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                    imageSaveModel.setCreatedby(loginModelDbs.get(0).getCreatedby());
                     arrayListVillage1.add(1, imageSaveModel);
 
                 }
@@ -157,6 +160,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                    imageSaveModel.setCreatedby(loginModelDbs.get(0).getCreatedby());
                     arrayListVillage1.add(imageSaveModel);
                 }
                 Constant.finalbytes.clear();
@@ -343,6 +348,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                         imageSaveModel.setImagename(arrayListVillage1.get(i).getImagename());
                         imageSaveModel.setImagebyte(arrayListVillage1.get(i).getImagebyte());
                         imageSaveModel.setMonth(monthSeleted + "");
+                        ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                        imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
                         imageSaveModel.setYear(yearSelect);
                         arrayListVillage1.get(i).delete();
                         imageSaveModel.save();
@@ -351,11 +358,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         String id = UUID.randomUUID().toString();
                         if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
-
                             benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
                             benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
                             benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
-
                             benifisheryDataModelDbSends.get(i).setMonth(monthSeleted + "");
                             benifisheryDataModelDbSends.get(i).setYear(yearSelect);
                             benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
@@ -365,7 +370,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                             benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
                             benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                            benifisheryDataModelDbSends.get(i).setCreatedby(benifisheryDataModelDbArrayList.get(i).getCreatedby());
+                            ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                            benifisheryDataModelDbSends.get(i).setCreatedby(loginModelDbs.get(0).getUsername());
                             benifisheryDataModelDbSends.get(i).setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
                             benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
                             benifisheryDataModelDbSends.get(i).save();
@@ -375,7 +381,6 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             startActivity(intent);
                         }
                     }
-
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                 }
