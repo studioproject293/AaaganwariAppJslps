@@ -100,7 +100,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                         Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
                         Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
-                ,Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                        , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
                         Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
         editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
@@ -224,7 +224,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         arrayListYear.add("2020");
 
         Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
+        final int year = c.get(Calendar.YEAR);
         final int month = c.get(Calendar.MONTH);
         System.out.println("" + year + "fvhfdd" + month);
         recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -331,66 +331,75 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             @Override
             public void onClick(View view) {
 
+                if (Integer.parseInt(yearSelect) <= year) {
+                    if (monthSeleted - 1 <= month) {
+                        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                                .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
+                                        Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
+                                        Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())
+                                        , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                                        Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+                        if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+                            for (int i = 0; i < arrayListVillage1.size(); i++) {
+                                ImageSaveModel imageSaveModel = new ImageSaveModel();
+                                imageSaveModel.setAwccode(arrayListVillage1.get(i).getAwccode());
+                                imageSaveModel.setPanchyatcode(arrayListVillage1.get(i).getPanchyatcode());
+                                imageSaveModel.setVocode(arrayListVillage1.get(i).getVocode());
+                                imageSaveModel.setIsuploadtoserver("false");
+                                imageSaveModel.setImagename(arrayListVillage1.get(i).getImagename());
+                                imageSaveModel.setImagebyte(arrayListVillage1.get(i).getImagebyte());
+                                imageSaveModel.setMonth(monthSeleted + "");
+                                ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                                imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
+                                imageSaveModel.setYear(yearSelect);
+                                arrayListVillage1.get(i).delete();
+                                imageSaveModel.save();
+                            }
 
-                ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                        .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                                Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())
-                                ,Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
-                                Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
-                if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
-                    for (int i = 0; i < arrayListVillage1.size(); i++) {
-                        ImageSaveModel imageSaveModel = new ImageSaveModel();
-                        imageSaveModel.setAwccode(arrayListVillage1.get(i).getAwccode());
-                        imageSaveModel.setPanchyatcode(arrayListVillage1.get(i).getPanchyatcode());
-                        imageSaveModel.setVocode(arrayListVillage1.get(i).getVocode());
-                        imageSaveModel.setIsuploadtoserver("false");
-                        imageSaveModel.setImagename(arrayListVillage1.get(i).getImagename());
-                        imageSaveModel.setImagebyte(arrayListVillage1.get(i).getImagebyte());
-                        imageSaveModel.setMonth(monthSeleted + "");
-                        ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                        imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
-                        imageSaveModel.setYear(yearSelect);
-                        arrayListVillage1.get(i).delete();
-                        imageSaveModel.save();
-                    }
-
-                    for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-                        String id = UUID.randomUUID().toString();
-                        if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
-                            benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                            benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
-                            benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
-                            benifisheryDataModelDbSends.get(i).setMonth(monthSeleted + "");
-                            benifisheryDataModelDbSends.get(i).setYear(yearSelect);
-                            benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
-                            benifisheryDataModelDbSends.get(i).setGuid(id);
-                            benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
-                            benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                            benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                            benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                            benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                            ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                            benifisheryDataModelDbSends.get(i).setCreatedby(loginModelDbs.get(0).getUsername());
-                            benifisheryDataModelDbSends.get(i).setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
-                            benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
-                            benifisheryDataModelDbSends.get(i).save();
-                            Toast.makeText(getActivity(), getString(R.string.update_data_toServer), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                                String id = UUID.randomUUID().toString();
+                                if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
+                                    benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                    benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
+                                    benifisheryDataModelDbSends.get(i).setMonth(monthSeleted + "");
+                                    benifisheryDataModelDbSends.get(i).setYear(yearSelect);
+                                    benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
+                                    benifisheryDataModelDbSends.get(i).setGuid(id);
+                                    benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
+                                    benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
+                                    benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                    benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
+                                    benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
+                                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                                    benifisheryDataModelDbSends.get(i).setCreatedby(loginModelDbs.get(0).getUsername());
+                                    benifisheryDataModelDbSends.get(i).setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
+                                    benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
+                                    benifisheryDataModelDbSends.get(i).save();
+                                    Toast.makeText(getActivity(), getString(R.string.update_data_toServer), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(getActivity(), "Please Select current month", Toast.LENGTH_SHORT).show();
                     }
+
                 } else {
-                    Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please Select current Year", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
         return rootView;
     }
 
-    int monthSeleted;
-    String yearSelect = null;
+    private int monthSeleted;
+    private String yearSelect = null;
 
     private void setId() {
         monthSpiner = rootView.findViewById(R.id.sppinermonth);
