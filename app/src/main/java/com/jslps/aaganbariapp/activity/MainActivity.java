@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     PrefManager prefManager;
     RadioButton button_bank_connection, button_brand_connection;
     public static boolean newCall=false;
+    public static boolean newCall1=false;
     @Override
     protected void onResume() {
         super.onResume();

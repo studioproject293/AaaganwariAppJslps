@@ -15,6 +15,15 @@ public class ImageSaveModel extends SugarRecord {
     private String year;
     private String isuploadtoserver;
     private String createdby;
+    private String imgid;
+
+    public String getImgid() {
+        return imgid;
+    }
+
+    public void setImgid(String imgid) {
+        this.imgid = imgid;
+    }
 
     public String getIsuploadtoserver() {
         return isuploadtoserver;

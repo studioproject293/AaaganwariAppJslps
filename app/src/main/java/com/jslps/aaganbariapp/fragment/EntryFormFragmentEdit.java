@@ -43,6 +43,7 @@ import com.jslps.aaganbariapp.activity.GalleryActivity;
 import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.adapter.AttachmentImgeAdapter;
 import com.jslps.aaganbariapp.adapter.BenifisheryRowEditRecyclerviewAdapter;
+import com.jslps.aaganbariapp.cache.CartCache;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
@@ -96,12 +97,14 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.entryform_edit)));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_ENTRY_EDIT);
-        benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
-                        Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
-                        Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
-                        , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
-                        Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+        if (MainActivity.newCall1) {
+            benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                    .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
+                            Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
+                            Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
+                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+        }
         editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
@@ -119,7 +122,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             Constant.maxAttachment = 1;
 
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
+                    String id = UUID.randomUUID().toString();
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
                     imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
                     imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPancayatcode());
@@ -128,6 +133,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    imageSaveModel.setGuid(id);
                     ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
                     imageSaveModel.setCreatedby(loginModelDbs.get(0).getCreatedby());
                     arrayListVillage1.add(1, imageSaveModel);
@@ -150,8 +156,14 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         } else {
             Constant.maxAttachment = 2;
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-
+                if (CartCache.getInstance().getImageSaveModels() != null &&CartCache.getInstance().getImageSaveModels().size()>0) {
+                    Constant.finalbytes.add(CartCache.getInstance().getImageSaveModels().get(0).getImagebyte());
+                    Constant.finaltypes.add(CartCache.getInstance().getImageSaveModels().get(0).getFinaltypes());
+                    Constant.finalsizes.add(CartCache.getInstance().getImageSaveModels().get(0).getFinalsizes());
+                    Constant.finalnames.add(CartCache.getInstance().getImageSaveModels().get(0).getImagename());
+                }
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
+                    String id = UUID.randomUUID().toString();
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
                     imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
                     imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPancayatcode());
@@ -160,9 +172,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
                     imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
                     imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    imageSaveModel.setGuid(id);
                     ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
                     imageSaveModel.setCreatedby(loginModelDbs.get(0).getCreatedby());
                     arrayListVillage1.add(imageSaveModel);
+                    CartCache.getInstance().setImageSaveModels(arrayListVillage1);
                 }
                 Constant.finalbytes.clear();
                 Constant.finalnames.clear();
@@ -172,7 +186,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             imageLayout.setVisibility(View.VISIBLE);
             AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
                     , arrayListVillage1);
+
             attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
+            createAppointmentAttachmentAdapter.notifyDataSetChanged();
         }
     }
 
@@ -204,8 +220,6 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         prefManager = PrefManager.getInstance();
         setId();
 
-        /*imageView1 = rootView.findViewById(R.id.image1);
-        imageView2 = rootView.findViewById(R.id.image2);*/
         arrayListMonth = new ArrayList<String>();
         arrayListMonth.add("जनवरी");
         arrayListMonth.add("फ़रवरी");
@@ -266,6 +280,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.newCall1 = false;
                 if ((ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
@@ -290,7 +305,6 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             Constant.maxAttachment = 2;
                             attchmemntPopup(getActivity());
                         }
-
                     } else {
                         Constant.maxAttachment = 2;
                         attchmemntPopup(getActivity());
@@ -307,7 +321,6 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 } else {
                     yearSelect = "2020";
                 }
-
             }
 
             @Override
@@ -340,7 +353,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                                         , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
                                         Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
                         if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+
                             for (int i = 0; i < arrayListVillage1.size(); i++) {
+                                String id1 = UUID.randomUUID().toString();
                                 ImageSaveModel imageSaveModel = new ImageSaveModel();
                                 imageSaveModel.setAwccode(arrayListVillage1.get(i).getAwccode());
                                 imageSaveModel.setPanchyatcode(arrayListVillage1.get(i).getPanchyatcode());
@@ -349,6 +364,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                                 imageSaveModel.setImagename(arrayListVillage1.get(i).getImagename());
                                 imageSaveModel.setImagebyte(arrayListVillage1.get(i).getImagebyte());
                                 imageSaveModel.setMonth(monthSeleted + "");
+                                imageSaveModel.setGuid(id1);
                                 ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
                                 imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
                                 imageSaveModel.setYear(yearSelect);
@@ -526,8 +542,12 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
 
     @Override
     public void onListItemSelected(int itemId, Object data) {
-        arrayListVillage1.get(itemId).delete();
-        onResume();
+        ImageSaveModel imageSaveModel = (ImageSaveModel) data;
+        arrayListVillage1.remove(imageSaveModel);
+        //arrayListVillage1.get(itemId).delete();
+       /* ImageSaveModel author = ImageSaveModel.findById(ImageSaveModel.class, imageSaveModel.getId());
+        author.delete();*/
+        // onResume();
     }
 
     @Override
@@ -771,6 +791,8 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         Constant.finalsizes.clear();
         Constant.finaltypes.clear();
         Constant.editFlag = false;
+        MainActivity.newCall1 = false;
+        CartCache.getInstance().setImageSaveModels(null);
     }
 
 }

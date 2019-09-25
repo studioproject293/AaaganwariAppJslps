@@ -846,6 +846,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         Constant.finalsizes.clear();
         Constant.finaltypes.clear();
         Constant.editFlag = false;
+        MainActivity.newCall = false;
     }
 
     private String getDate(long time) {

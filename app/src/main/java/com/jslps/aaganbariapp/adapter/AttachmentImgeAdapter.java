@@ -14,9 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jslps.aaganbariapp.Constant;
-import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.fragment.EntryFormFragmentEdit;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 
@@ -44,7 +42,7 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
     @Override
     public void onBindViewHolder(@NonNull final AttachmentImgeAdapter.ViewHolder holder, final int position) {
         try {
-            Log.d("Image", TAG + "Gallery On item Click-->" + "IO Exception-->" + position);
+            Log.d("Image", TAG + "Gallery On item Click-->" + "" + position);
 
             byte[] byteArray = Base64.decode(imageSaveModels.get(position).getImagebyte(), 0);
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -63,11 +61,12 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
         holder.removeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* notifyItemRemoved(position);
+                notifyItemRemoved(position);
                 imageSaveModels.get(position).delete();
+
                 imageSaveModels.remove(position);
-                notifyItemRangeChanged(position, imageSaveModels.size());*/
-                onFragmentListItemSelectListener.onListItemSelected(position, null);
+                notifyItemRangeChanged(position, imageSaveModels.size());
+                //onFragmentListItemSelectListener.onListItemSelected(position, imageSaveModels.get(position));
                 if (Constant.editFlag) {
                     if (imageSaveModels.size() == 1)
                         holder.removeImage.setVisibility(View.GONE);

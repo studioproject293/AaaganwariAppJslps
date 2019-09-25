@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragmentEdit;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 
 import java.util.ArrayList;
@@ -84,6 +82,25 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                                 Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                     }
                     EntryFormFragmentEdit.textViewtotalAll.setText(totalAll.toString());
+                }else {
+                    Double total = 0.0;
+
+                    total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDb.getNoofmeal()) ;
+                    holder.textViewTotal.setText(total.toString());
+                    benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
+                    benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
+                    benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
+                    benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());
+                    Double totalAll = 0.0;
+                    for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
+                        if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofbenf())) {
+                            totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
+                                    Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                        }else {
+                            totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
+                        }
+                    }
+                    EntryFormFragmentEdit.textViewtotalAll.setText(totalAll.toString());
                 }
             }
 
@@ -121,6 +138,24 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     }
                     EntryFormFragmentEdit.textViewtotalAll.setText(totalAll.toString());
 
+                }else {
+                    Double total = 0.0;
+
+                    total = Double.parseDouble(s.toString()) *
+                            Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
+
+                    holder.textViewTotal.setText(total.toString());
+                    Double totalAll = 0.0;
+                    for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
+                        if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofmeal())) {
+                            totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
+                                    Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                        }else {
+                            totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) *
+                                    Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                        }
+                    }
+                    EntryFormFragmentEdit.textViewtotalAll.setText(totalAll.toString());
                 }
             }
 

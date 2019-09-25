@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,11 +16,9 @@ import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.adapter.AanganWariRecyclerviewAdapter;
+import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.adapter.ReprtsListRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
-import com.jslps.aaganbariapp.model.AanganWariModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
@@ -31,12 +27,6 @@ import com.orm.query.Condition;
 import com.orm.query.Select;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toCollection;
 
 public class ReportsListFragment extends BaseFragment implements OnFragmentListItemSelectListener {
 
@@ -146,11 +136,13 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 break;
             case R.id.edit:
                 Constant.editFlag = true;
+                MainActivity.newCall1 = true;
                 ReportDisplayFormModel benifisheryDataModelDbSend2 = (ReportDisplayFormModel) data;
                 mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend2);
                 break;
             default:
                 Constant.editFlag = false;
+                MainActivity.newCall1 = true;
                 ReportDisplayFormModel benifisheryDataModelDbSend1 = (ReportDisplayFormModel) data;
                 mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend1);
                 break;
