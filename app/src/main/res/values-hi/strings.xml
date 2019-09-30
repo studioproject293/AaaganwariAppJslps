@@ -45,4 +45,5 @@
     <string name="no_internet_connection">इंटरनेट कनेक्शन उपलब्ध नहीं है</string>
     <string name="no_record_sync"> अपलोड करने के लिए कोई डेटा उपलब्ध नहीं है</string>
     <string name="update_data_toServer"> डेटा सफलतापूर्वक अपडेट किया गया</string>
+    <string name="data_download_from_server">सर्वर से डेटा डाउनलोड करें</string>
 </resources>

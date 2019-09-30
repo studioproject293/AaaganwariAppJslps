@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -106,6 +107,19 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
         }
         editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
+        if (Constant.editFlag) {
+            editTextRemarks.setVisibility(View.VISIBLE);
+            editTextRemarks.setEnabled(true);
+        } else {
+            if (benifisheryDataModelDbArrayList!=null){
+                if (TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(0).getRemarks()))
+                    editTextRemarks.setVisibility(View.GONE);
+                else {
+                    editTextRemarks.setVisibility(View.VISIBLE);
+                    editTextRemarks.setEnabled(false);
+                }
+            }else  editTextRemarks.setVisibility(View.GONE);
+        }
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
@@ -270,12 +284,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             yearSppiner.setEnabled(true);
             monthSpiner.setEnabled(true);
             butonLayout.setVisibility(View.VISIBLE);
-            editTextRemarks.setVisibility(View.VISIBLE);
+
         } else {
             yearSppiner.setEnabled(false);
             monthSpiner.setEnabled(false);
             butonLayout.setVisibility(View.GONE);
-            editTextRemarks.setVisibility(View.GONE);
         }
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override

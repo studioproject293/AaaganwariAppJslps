@@ -44,5 +44,6 @@
     <string name="download_data">Download</string>
     <string name="no_internet_connection">Unable to connect. Please check your Internet Connection.</string>
     <string name="update_data_toServer">Data Update Successfully</string>
+    <string name="data_download_from_server">Data Download From Server</string>
 
 </resources>
