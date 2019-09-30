@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -116,7 +118,14 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         TextView logIn = findViewById(R.id.logIn);
         TextView versionNo = findViewById(R.id.versionNo);
-        versionNo.setText("Version No: 1.2");
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            versionNo.setText("Version No: "+version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // making notification bar transparent
         changeStatusBarColor();
         MyCustomPagerAdapter myCustomPagerAdapter = new MyCustomPagerAdapter(WelcomeActivity.this, images);

@@ -1,29 +1,19 @@
 package com.jslps.aaganbariapp.adapter;
 
 import android.app.Activity;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.DataSaveModel1;
-import com.orm.query.Condition;
-import com.orm.query.Select;
 
 import java.util.ArrayList;
 
@@ -57,17 +47,17 @@ public class SyncWithServerRecyclerviewAdapter extends RecyclerView.Adapter<Sync
         holder.noofmealinmonth.setText(benifisheryDataModelDbSend.getAaganwaricount());
 
         if (holder.checkBoxUnit.isChecked()) {
-            dataSaveModel1ArrayListNew.add(position, benifisheryDataModelDbSend);
+            dataSaveModel1ArrayListNew.add(benifisheryDataModelDbSend);
             onFragmentListItemSelectListener.onListItemLongClickedSnd(1, dataSaveModel1ArrayListNew, position);
         }
         holder.checkBoxUnit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
-                    dataSaveModel1ArrayListNew.add(position, benifisheryDataModelDbSend);
+                    dataSaveModel1ArrayListNew.add(benifisheryDataModelDbSend);
                     onFragmentListItemSelectListener.onListItemLongClickedSnd(1, dataSaveModel1ArrayListNew, position);
                 } else {
-                    dataSaveModel1ArrayListNew.remove(position);
+                    dataSaveModel1ArrayListNew.remove(benifisheryDataModelDbSend);
                     onFragmentListItemSelectListener.onListItemLongClickedSnd(0, dataSaveModel1ArrayListNew, position);
 
                 }

@@ -285,22 +285,23 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
                             benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
                             benifisheryDataModelDbSend.save();
-                            Snackbar.with(getActivity(), null)
+                           /* Snackbar.with(getActivity(), null)
                                     .type(Type.SUCCESS)
                                     .message(getString(R.string.save_message))
                                     .duration(Duration.SHORT)
                                     .fillParent(true)
                                     .textAlign(Align.CENTER)
-                                    .show();
-                            //Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                                    .show();*/
+                            Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
                             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                                String id = UUID.randomUUID().toString();
+
                                 ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
                                 for (int j = 0; j < Constant.finalbytes.size(); j++) {
+                                    String id = UUID.randomUUID().toString();
                                     ImageSaveModel imageSaveModel = new ImageSaveModel();
                                     imageSaveModel.setAwccode(prefManager.getPrefAaganwariCode());
                                     imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());

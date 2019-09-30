@@ -1,6 +1,7 @@
 package com.jslps.aaganbariapp.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +10,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
+import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.model.FeedbackModelDb;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.LoginModelDb;
@@ -87,6 +88,10 @@ public class FeedbackFragment extends BaseFragment {
         feedbackModelDb.setPhone(editTextphone.getText().toString());
         feedbackModelDb.setEmailid(loginModelDbArrayList.get(0).getCreatedby());
         feedbackModelDb.save();
+        Toast.makeText(getActivity(), "Feedback added successfully", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void showError(EditText editText) {

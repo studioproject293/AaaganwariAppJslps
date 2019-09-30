@@ -232,8 +232,8 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                         System.out.print("fhrjfghf" + result);
                         DownloadModelSend mStudentObject1 = gson.fromJson(result, DownloadModelSend.class);
                         System.out.println("vvh" + gson.toJson(mStudentObject1));
-                        boolean snackbarerror = false;
-                        boolean snackbarSucess = false;
+                        int count = 0;
+                        int countError = 0;
                         ArrayList<String> arrayList = new ArrayList<>();
                         ArrayList<String> arrayList1 = new ArrayList<>();
                         for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
@@ -246,9 +246,28 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                             Condition.prop("guid").eq(mStudentObject1.getMaster().get(i).getGuid())).list();
                             String ampCode = mStudentObject1.getMaster().get(i).getPanchyatcode() + mStudentObject1.getMaster().get(i).getAaganwaricode()
                                     + mStudentObject1.getMaster().get(i).getMonth() + mStudentObject1.getMaster().get(i).getYear() +
-                                    mStudentObject1.getMaster().get(i).getVocode() + mStudentObject1.getMaster().get(i).getGuid()+
+                                    mStudentObject1.getMaster().get(i).getVocode() + mStudentObject1.getMaster().get(i).getGuid() +
                                     mStudentObject1.getMaster().get(i).getBenfid();
+                            if (benifisheryDataModelDbSendArrayList != null) {
+                                for (int m = 0; m < benifisheryDataModelDbSendArrayList.size(); m++) {
+                                    String ampCode1 = benifisheryDataModelDbSendArrayList.get(m).getPanchyatcode() + benifisheryDataModelDbSendArrayList.get(m).getAaganwaricode()
+                                            + benifisheryDataModelDbSendArrayList.get(m).getMonth() + benifisheryDataModelDbSendArrayList.get(m).getYear() +
+                                            benifisheryDataModelDbSendArrayList.get(m).getVocode() + benifisheryDataModelDbSendArrayList.get(m).getGuid() +
+                                            benifisheryDataModelDbSendArrayList.get(m).getBenfid();
+                                    arrayList.add(ampCode1);
+                                }
+                            }
                             if (!arrayList.contains(ampCode)) {
+                                count++;
+                                if (count == 1) {
+                                    Snackbar.with(getActivity(), null)
+                                            .type(Type.SUCCESS)
+                                            .message("Data Download Successfully")
+                                            .duration(Duration.SHORT)
+                                            .fillParent(true)
+                                            .textAlign(Align.CENTER)
+                                            .show();
+                                }
                                 arrayList.add(ampCode);
                                 ArrayList<PanchyatDataModelDb> panchyatDataModelDbs = (ArrayList<PanchyatDataModelDb>) Select.from(PanchyatDataModelDb.class).
                                         where(Condition.prop("clustercode").eq(mStudentObject1.getMaster().get(i).getPanchyatcode())).list();
@@ -266,14 +285,17 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                         voListDataModelDbArrayList1.get(0).getVoshg(),
                                         aanganWariModelDbArrayList.get(0).getAnganwadiname(), "true");
                                 benifisheryDataModelDbSend.save();
-                            }else {
-                                Snackbar.with(getActivity(), null)
-                                        .type(Type.ERROR)
-                                        .message("You have already data")
-                                        .duration(Duration.SHORT)
-                                        .fillParent(true)
-                                        .textAlign(Align.CENTER)
-                                        .show();
+                            } else {
+                                countError++;
+                                if (countError == 1) {
+                                    Snackbar.with(getActivity(), null)
+                                            .type(Type.ERROR)
+                                            .message("You have already data")
+                                            .duration(Duration.SHORT)
+                                            .fillParent(true)
+                                            .textAlign(Align.CENTER)
+                                            .show();
+                                }
                             }
                                /* snackbarSucess = true;
                                 snackbarerror = false;
@@ -311,10 +333,17 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                            /* if (imageSaveModelArrayList != null && imageSaveModelArrayList.size() > 0) {
 
                             } else {*/
+                            if (imageSaveModelArrayList != null) {
+                                for (int n = 0; n < imageSaveModelArrayList.size(); n++) {
+                                    String ampCode2 = imageSaveModelArrayList.get(n).getPanchyatcode() + imageSaveModelArrayList.get(n).getAwccode()
+                                            + imageSaveModelArrayList.get(n).getMonth() + imageSaveModelArrayList.get(n).getYear() +
+                                            imageSaveModelArrayList.get(n).getVocode() + imageSaveModelArrayList.get(n).getGuid();
+                                    arrayList1.add(ampCode2);
+                                }
+                            }
                             String ampCode1 = mStudentObject1.getTable1().get(j).getPanchyatcode() + mStudentObject1.getTable1().get(j).getAwccode()
                                     + mStudentObject1.getTable1().get(j).getMonth() + mStudentObject1.getTable1().get(j).getYear() +
-                                    mStudentObject1.getTable1().get(j).getVocode() + mStudentObject1.getTable1().get(j).getGuid()+
-                                    mStudentObject1.getTable1().get(j).getImgid();
+                                    mStudentObject1.getTable1().get(j).getVocode() + mStudentObject1.getTable1().get(j).getGuid();
                             if (!arrayList1.contains(ampCode1)) {
                                 arrayList1.add(ampCode1);
                                 ImageSaveModel benifisheryDataModelDbSend = new ImageSaveModel(mStudentObject1.getTable1().get(j).getImagebyte(),
@@ -322,10 +351,10 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                         mStudentObject1.getTable1().get(j).getGuid(), mStudentObject1.getTable1().get(j).getPanchyatcode(),
                                         mStudentObject1.getTable1().get(j).getVocode(), mStudentObject1.getTable1().get(j).getAwccode(),
                                         mStudentObject1.getTable1().get(j).getMonth(), mStudentObject1.getTable1().get(j).getYear(), "true"
-                                        , mStudentObject1.getTable1().get(j).getCreatedby());
+                                        , mStudentObject1.getTable1().get(j).getCreatedby(), mStudentObject1.getTable1().get(j).getImgid());
                                 benifisheryDataModelDbSend.save();
                             }
-                           // }
+                            // }
                         }
                         /*ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
                         ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
