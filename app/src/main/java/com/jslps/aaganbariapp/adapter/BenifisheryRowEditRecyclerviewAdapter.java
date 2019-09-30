@@ -47,11 +47,11 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
         holder.noOfBenifishery.setText(benifisheryDataModelDb.getNoofbenf());
         holder.unitRate.setText(benifisheryDataModelDb.getUnitrateofmeal());
         Double total = 0.0;
-        if (Constant.editFlag){
+        if (Constant.editFlag) {
             holder.noOfBenifishery.setEnabled(true);
             holder.noofmealinmonth.setEnabled(true);
 
-        }else {
+        } else {
             holder.noOfBenifishery.setEnabled(false);
             holder.noofmealinmonth.setEnabled(false);
         }
@@ -74,29 +74,29 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
                     benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
-                    benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());
+                    benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
                     //benifisheryDataModelDb.save();
                     Double totalAll = 0.0;
-                    for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
+                    for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                                 Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                     }
                     EntryFormFragmentEdit.textViewtotalAll.setText(totalAll.toString());
-                }else {
+                } else {
                     Double total = 0.0;
 
-                    total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDb.getNoofmeal()) ;
+                    total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDb.getNoofmeal());
                     holder.textViewTotal.setText(total.toString());
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
                     benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
-                    benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());
+                    benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
                     Double totalAll = 0.0;
-                    for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
+                    for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofbenf())) {
                             totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                                     Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                        }else {
+                        } else {
                             totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
                         }
                     }
@@ -129,28 +129,30 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
                     benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
-                    benifisheryDataModelDb.setAmount( holder.textViewTotal.getText().toString());
+                    benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
                     //benifisheryDataModelDb.save();
                     Double totalAll = 0.0;
-                    for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
+                    for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                                 Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                     }
                     EntryFormFragmentEdit.textViewtotalAll.setText(totalAll.toString());
 
-                }else {
+                } else {
                     Double total = 0.0;
-
-                    total = Double.parseDouble(s.toString()) *
-                            Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
-
+                    if (!TextUtils.isEmpty(s.toString()))
+                        total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(s.toString()) *
+                                Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
+                    else
+                        total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal())  *
+                                Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
                     holder.textViewTotal.setText(total.toString());
                     Double totalAll = 0.0;
-                    for (int i=0;i<benifisheryDataModelDbArrayList.size();i++) {
+                    for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofmeal())) {
                             totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                                     Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                        }else {
+                        } else {
                             totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) *
                                     Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                         }
