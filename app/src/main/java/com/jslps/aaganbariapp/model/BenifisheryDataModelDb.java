@@ -86,6 +86,5 @@ public  class BenifisheryDataModelDb extends SugarRecord {
         this.noofbenf = noofbenf;
     }
 
-    public BenifisheryDataModelDb() {
-    }
+    public BenifisheryDataModelDb() { }
 }

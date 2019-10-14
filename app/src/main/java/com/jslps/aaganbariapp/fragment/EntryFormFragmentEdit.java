@@ -111,14 +111,14 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             editTextRemarks.setVisibility(View.VISIBLE);
             editTextRemarks.setEnabled(true);
         } else {
-            if (benifisheryDataModelDbArrayList!=null){
+            if (benifisheryDataModelDbArrayList != null) {
                 if (TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(0).getRemarks()))
                     editTextRemarks.setVisibility(View.GONE);
                 else {
                     editTextRemarks.setVisibility(View.VISIBLE);
                     editTextRemarks.setEnabled(false);
                 }
-            }else  editTextRemarks.setVisibility(View.GONE);
+            } else editTextRemarks.setVisibility(View.GONE);
         }
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
@@ -130,6 +130,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         System.out.println("dsbfhjhxjkf" + new Gson().toJson(arrayListVillage1));
         if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
             updateList(benifisheryDataModelDbArrayList);
+            if (benifisheryDataModelDbArrayList.size() == 1)
+                uploadImage.setVisibility(View.GONE);
+            else uploadImage.setVisibility(View.VISIBLE);
+        } else {
+            uploadImage.setVisibility(View.GONE);
         }
 
         if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
@@ -170,7 +175,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         } else {
             Constant.maxAttachment = 2;
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                if (CartCache.getInstance().getImageSaveModels() != null &&CartCache.getInstance().getImageSaveModels().size()>0) {
+                if (CartCache.getInstance().getImageSaveModels() != null && CartCache.getInstance().getImageSaveModels().size() > 0) {
                     Constant.finalbytes.add(CartCache.getInstance().getImageSaveModels().get(0).getImagebyte());
                     Constant.finaltypes.add(CartCache.getInstance().getImageSaveModels().get(0).getFinaltypes());
                     Constant.finalsizes.add(CartCache.getInstance().getImageSaveModels().get(0).getFinalsizes());
@@ -213,6 +218,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         totalLyout.setVisibility(View.VISIBLE);
         if (benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal() != null && benifisheryDataModelDbArrayList.get(0).getNoofmeal() != null) {
             BenifisheryRowEditRecyclerviewAdapter benifisheryRowRecyclerviewAdapter = new BenifisheryRowEditRecyclerviewAdapter(getActivity(), benifisheryDataModelDbArrayList);
+            benifisheryRowRecyclerviewAdapter.setListner(this);
             recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
             totalAll = 0.0;
             for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
@@ -398,6 +404,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                                     benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
                                     benifisheryDataModelDbSends.get(i).setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
                                     benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                    benifisheryDataModelDbSends.get(i).setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
                                     benifisheryDataModelDbSends.get(i).setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
                                     benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
                                     ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
@@ -405,12 +412,13 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                                     benifisheryDataModelDbSends.get(i).setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
                                     benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
                                     benifisheryDataModelDbSends.get(i).save();
-                                    Toast.makeText(getActivity(), getString(R.string.update_data_toServer), Toast.LENGTH_SHORT).show();
+
                                     Intent intent = new Intent(getActivity(), MainActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }
                             }
+                            Toast.makeText(getActivity(), getString(R.string.update_data_toServer), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                         }
@@ -555,8 +563,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
 
     @Override
     public void onListItemSelected(int itemId, Object data) {
-        ImageSaveModel imageSaveModel = (ImageSaveModel) data;
-        arrayListVillage1.remove(imageSaveModel);
+        /*ImageSaveModel imageSaveModel = (ImageSaveModel) data;
+        arrayListVillage1.remove(imageSaveModel);*/
+
         //arrayListVillage1.get(itemId).delete();
        /* ImageSaveModel author = ImageSaveModel.findById(ImageSaveModel.class, imageSaveModel.getId());
         author.delete();*/

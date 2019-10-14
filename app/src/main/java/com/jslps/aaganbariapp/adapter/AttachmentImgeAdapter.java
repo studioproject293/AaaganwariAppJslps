@@ -63,7 +63,6 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
             public void onClick(View v) {
                 notifyItemRemoved(position);
                 imageSaveModels.get(position).delete();
-
                 imageSaveModels.remove(position);
                 notifyItemRangeChanged(position, imageSaveModels.size());
                 //onFragmentListItemSelectListener.onListItemSelected(position, imageSaveModels.get(position));
