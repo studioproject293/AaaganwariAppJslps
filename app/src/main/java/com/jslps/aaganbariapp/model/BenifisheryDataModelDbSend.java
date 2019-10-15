@@ -22,6 +22,12 @@ public  class BenifisheryDataModelDbSend extends SugarRecord {
     private String voname;
     private String aaganwariname;
     private String isuploadtoserver;
+    private String chexkboxchickpea;
+    private String checkboxrice;
+    private String checkboxdal;
+    private String checkboxpenauts;
+    private String checkboxjaggery;
+    private String checkboxpotato;
 
     public BenifisheryDataModelDbSend(String benfid, String benfname, String createdby, String createdon, String noofmeal, String unitrateofmeal, String noofbenf, String amount, String month, String year, String remarks, String guid, String panchyatcode, String vocode, String aaganwaricode, String panchyatname, String voname, String aaganwariname, String isuploadtoserver) {
         this.benfid = benfid;
@@ -43,6 +49,54 @@ public  class BenifisheryDataModelDbSend extends SugarRecord {
         this.voname = voname;
         this.aaganwariname = aaganwariname;
         this.isuploadtoserver = isuploadtoserver;
+    }
+
+    public String getChexkboxchickpea() {
+        return chexkboxchickpea;
+    }
+
+    public void setChexkboxchickpea(String chexkboxchickpea) {
+        this.chexkboxchickpea = chexkboxchickpea;
+    }
+
+    public String getCheckboxrice() {
+        return checkboxrice;
+    }
+
+    public void setCheckboxrice(String checkboxrice) {
+        this.checkboxrice = checkboxrice;
+    }
+
+    public String getCheckboxdal() {
+        return checkboxdal;
+    }
+
+    public void setCheckboxdal(String checkboxdal) {
+        this.checkboxdal = checkboxdal;
+    }
+
+    public String getCheckboxpenauts() {
+        return checkboxpenauts;
+    }
+
+    public void setCheckboxpenauts(String checkboxpenauts) {
+        this.checkboxpenauts = checkboxpenauts;
+    }
+
+    public String getCheckboxjaggery() {
+        return checkboxjaggery;
+    }
+
+    public void setCheckboxjaggery(String checkboxjaggery) {
+        this.checkboxjaggery = checkboxjaggery;
+    }
+
+    public String getCheckboxpotato() {
+        return checkboxpotato;
+    }
+
+    public void setCheckboxpotato(String checkboxpotato) {
+        this.checkboxpotato = checkboxpotato;
     }
 
     public String getPanchyatname() {

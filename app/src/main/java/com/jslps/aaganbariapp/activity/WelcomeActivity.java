@@ -50,6 +50,7 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.LoginDataModel;
 import com.jslps.aaganbariapp.model.LoginModelDb;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
+import com.jslps.aaganbariapp.model.UnitRateModelDb;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 import com.jslps.aaganbariapp.services.ApiServices;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -305,7 +306,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                 BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
                                                         mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
                                                         mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                                        mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                        "", mStudentObject1.getTable2().get(i).getNo_of_Benf());
                                                 panchyatDataModelDb.save();
                                             }
                                             AanganWariModelDb.deleteAll(AanganWariModelDb.class);
@@ -317,6 +318,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                                         mStudentObject1.getTable1().get(i).getAW_ID());
                                                 panchyatDataModelDb.save();
                                                 System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                            }
+                                            UnitRateModelDb.deleteAll(UnitRateModelDb.class);
+                                            for (int v = 0; v < mStudentObject1.getTable7().size(); v++) {
+                                                UnitRateModelDb panchyatDataModelDb = new UnitRateModelDb(mStudentObject1.getTable7().get(v).getItem(),
+                                                        mStudentObject1.getTable7().get(v).getB1(), mStudentObject1.getTable7().get(v).getB2(),
+                                                        mStudentObject1.getTable7().get(v).getB3(), mStudentObject1.getTable7().get(v).getB4());
+                                                panchyatDataModelDb.save();
                                             }
 
                                             Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
@@ -441,7 +449,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                     BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
                                                             mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
                                                             mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                                            mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                            "", mStudentObject1.getTable2().get(i).getNo_of_Benf());
                                                     panchyatDataModelDb.save();
                                                 }
                                                 AanganWariModelDb.deleteAll(AanganWariModelDb.class);
@@ -454,6 +462,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                                             mStudentObject1.getTable1().get(i).getAW_ID());
                                                     panchyatDataModelDb.save();
                                                     System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                                }
+                                                UnitRateModelDb.deleteAll(UnitRateModelDb.class);
+                                                for (int v = 0; v < mStudentObject1.getTable7().size(); v++) {
+                                                    UnitRateModelDb panchyatDataModelDb = new UnitRateModelDb(mStudentObject1.getTable7().get(v).getItem(),
+                                                            mStudentObject1.getTable7().get(v).getB1(), mStudentObject1.getTable7().get(v).getB2(),
+                                                            mStudentObject1.getTable7().get(v).getB3(), mStudentObject1.getTable7().get(v).getB4());
+                                                    panchyatDataModelDb.save();
                                                 }
                                                 Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                                                 startActivity(intent);
@@ -568,7 +583,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                 BenifisheryDataModelDb panchyatDataModelDb = new BenifisheryDataModelDb(mStudentObject1.getTable2().get(i).getBenfID(),
                                                         mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
                                                         mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_meal(),
-                                                        mStudentObject1.getTable2().get(i).getUnitRate_of_meal(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                        "", mStudentObject1.getTable2().get(i).getNo_of_Benf());
                                                 panchyatDataModelDb.save();
                                             }
                                             AanganWariModelDb.deleteAll(AanganWariModelDb.class);
@@ -581,6 +596,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                                         mStudentObject1.getTable1().get(i).getAW_ID());
                                                 panchyatDataModelDb.save();
                                                 System.out.println("Aaganwari Dat" + new Gson().toJson(panchyatDataModelDb));
+                                            }
+                                            UnitRateModelDb.deleteAll(UnitRateModelDb.class);
+                                            for (int v = 0; v < mStudentObject1.getTable7().size(); v++) {
+                                                UnitRateModelDb panchyatDataModelDb = new UnitRateModelDb(mStudentObject1.getTable7().get(v).getItem(),
+                                                        mStudentObject1.getTable7().get(v).getB1(), mStudentObject1.getTable7().get(v).getB2(),
+                                                        mStudentObject1.getTable7().get(v).getB3(), mStudentObject1.getTable7().get(v).getB4());
+                                                panchyatDataModelDb.save();
                                             }
                                             Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                                             startActivity(intent);

@@ -10,6 +10,15 @@ public class LoginDataModel {
     private List<BenifisheryDataModel> Table4 = null;*/
     private List<VOListDataModel> Table5 = null;
     private List<PanchyatDataModel> Table6 = null;
+    private List<UnitRateModel> Table7 = null;
+
+    public List<UnitRateModel> getTable7() {
+        return Table7;
+    }
+
+    public void setTable7(List<UnitRateModel> table7) {
+        Table7 = table7;
+    }
 
     public List<LoginModel> getMaster() {
         return Master;

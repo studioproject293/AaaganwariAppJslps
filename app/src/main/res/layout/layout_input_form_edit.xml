@@ -63,7 +63,71 @@
                     android:padding="10dp" />
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:id="@+id/productList"
+            android:text="Product List :"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
 
+            android:weightSum="6"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_margin="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:text="Rice"
+                android:id="@+id/rice"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:text="Dal"
+                android:id="@+id/Dal"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_weight="1.1"
+                android:text="Peanuts"
+                android:checked="true"
+                android:id="@+id/Peanuts"
+                android:layout_height="wrap_content"
+                />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_weight="1.1"
+                android:text="Jaggery"
+                android:id="@+id/Jaggery"
+                android:checked="true"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Potato"
+                android:id="@+id/Potato"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                />
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_weight="1.2"
+                android:text="Chickpea"
+                android:id="@+id/Chickpea"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

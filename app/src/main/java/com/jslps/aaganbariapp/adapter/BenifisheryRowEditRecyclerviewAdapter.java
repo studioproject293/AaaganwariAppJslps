@@ -19,6 +19,7 @@ import com.jslps.aaganbariapp.fragment.EntryFormFragmentEdit;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<BenifisheryRowEditRecyclerviewAdapter.ViewHolder> {
@@ -45,7 +46,7 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
         holder.benifisheryName.setText(benifisheryDataModelDb.getBenfname());
         holder.noofmealinmonth.setText(benifisheryDataModelDb.getNoofmeal());
         holder.noOfBenifishery.setText(benifisheryDataModelDb.getNoofbenf());
-        holder.unitRate.setText(benifisheryDataModelDb.getUnitrateofmeal());
+        holder.unitRate.setText(new DecimalFormat("##.##").format(Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal())));
         Double total = 0.0;
         if (Constant.editFlag) {
             holder.noOfBenifishery.setEnabled(true);
@@ -58,7 +59,7 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
         total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDb.getNoofmeal()) *
                 Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
 
-        holder.textViewTotal.setText(total.toString());
+        holder.textViewTotal.setText(new DecimalFormat("##.##").format(Double.parseDouble(total.toString())));
         holder.noOfBenifishery.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before,
@@ -86,11 +87,11 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     Double total = 0.0;
 
                     total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDb.getNoofmeal());
-                    holder.textViewTotal.setText(total.toString());
+                    holder.textViewTotal.setText(new DecimalFormat("##.##").format(Double.parseDouble(total.toString())));
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
-                    benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
-                    benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
+                    benifisheryDataModelDb.setUnitrateofmeal(new DecimalFormat("##.##").format(Double.parseDouble(holder.unitRate.getText().toString())));
+                    benifisheryDataModelDb.setAmount(new DecimalFormat("##.##").format(Double.parseDouble( holder.textViewTotal.getText().toString())));
                     Double totalAll = 0.0;
                     for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                         if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofbenf())) {
@@ -125,11 +126,11 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(s.toString()) *
                             Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
 
-                    holder.textViewTotal.setText(total.toString());
+                    holder.textViewTotal.setText(new DecimalFormat("##.##").format(Double.parseDouble(total.toString())));
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
-                    benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
-                    benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
+                    benifisheryDataModelDb.setUnitrateofmeal(new DecimalFormat("##.##").format(Double.parseDouble(holder.unitRate.getText().toString())));
+                    benifisheryDataModelDb.setAmount(new DecimalFormat("##.##").format(Double.parseDouble( holder.textViewTotal.getText().toString())));
                     //benifisheryDataModelDb.save();
                     Double totalAll = 0.0;
                     for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
