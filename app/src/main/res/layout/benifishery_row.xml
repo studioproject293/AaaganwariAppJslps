@@ -81,6 +81,8 @@
             android:layout_gravity="center"
             android:layout_weight="0.7"
             android:alpha="0.5"
+            android:digits="0123456789."
+            android:inputType="number"
             android:background="@null"
             android:backgroundTint="@null"
             android:gravity="center"

@@ -62,6 +62,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -83,6 +84,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
     ArrayList<ImageSaveModel> arrayListVillage1;
     public static TextView textViewtotalAll, productList;
     Button saveData;
+    ArrayList<BenifisheryDataModelDbSend>arrayList;
     static ReportDisplayFormModel BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
     LinearLayout totalLyout, tableLayout, butonLayout;
@@ -152,6 +154,14 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             }else {
                 checkBoxChickpea.setChecked(false);
             }
+            arrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                    .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
+                            Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
+                            Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
+                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+
+
         }
         editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
 
@@ -178,7 +188,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
         System.out.println("dsbfhjhxjkf" + new Gson().toJson(arrayListVillage1));
         final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
 
-        if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
+        /*if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -192,10 +202,11 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
 
-        }
-        if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-            updateList(benifisheryDataModelDbArrayList);
-            if (benifisheryDataModelDbArrayList.size() == 1)
+        }*/
+        if (arrayList != null && arrayList.size() > 0) {
+
+            updateList(arrayList);
+            if (arrayList.size() == 1)
                 uploadImage.setVisibility(View.GONE);
             else uploadImage.setVisibility(View.VISIBLE);
         } else {
@@ -290,10 +301,9 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                         Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
             }
+
             textViewtotalAll.setText(totalAll.toString());
-        } else {
-            tableLayout.setVisibility(View.GONE);
-            totalLyout.setVisibility(View.GONE);
+
         }
     }
 
@@ -388,34 +398,46 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
+                        /* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {*/
+                        /*benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
+                                + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
-                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB2() + unitRateModelDbArrayList.get(5).getB1()));
-                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB3() + unitRateModelDbArrayList.get(5).getB3()));
-                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
-
-                        }
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
+                                + unitRateModelDbArrayList.get(3).getB2() + unitRateModelDbArrayList.get(4).getB2() + unitRateModelDbArrayList.get(5).getB1()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
+                                + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(4).getB3() + unitRateModelDbArrayList.get(5).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
+                                + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
+*/
+//                        }
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(5).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(5).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(5).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(5).getB4()));
                         updateList(benifisheryDataModelDbArrayList);
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
-                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1()));
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(5).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(5).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(5).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(5).getB4()));
 
-                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB2()));
+                          /*  benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
+                                    + unitRateModelDbArrayList.get(3).getB2() + unitRateModelDbArrayList.get(4).getB2()));
                             benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB3()));
+                                    + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(4).getB3()));
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB4()));
+                                    + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4()));*/
+                        if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                && !checkBoxPenauts.isChecked()) {
+                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                         }
                         updateList(benifisheryDataModelDbArrayList);
@@ -423,12 +445,14 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                 }
             }
         });
-        checkBoxRice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+
+
+                checkBoxRice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (compoundButton.isChecked()) {
+                            if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -441,12 +465,16 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
-                        }
-                        updateList(benifisheryDataModelDbArrayList);
-                    }
-                } else {
-                    if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        }*/
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB1()));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB2()));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB3()));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB4()));
+                                updateList(benifisheryDataModelDbArrayList);
+                            }
+                        } else {
+                            if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
+                       /* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -460,19 +488,40 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
 
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
+                            if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                    && !checkBoxPenauts.isChecked()) {
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
+                            }
+                        }*/
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB1()));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB2()));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB3()));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB4()));
+                                if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                        && !checkBoxPenauts.isChecked()) {
+                                    benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
+
+                                }
+                                updateList(benifisheryDataModelDbArrayList);
+                            }
                         }
-                        updateList(benifisheryDataModelDbArrayList);
                     }
-                }
-            }
-        });
+                });
+
+
         checkBoxDal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                       /* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -485,12 +534,16 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
-                        }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB4()));
                         updateList(benifisheryDataModelDbArrayList);
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -505,6 +558,25 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
+                            if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                    && !checkBoxPenauts.isChecked()) {
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
+
+                            }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB4()));
+                        if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                && !checkBoxPenauts.isChecked()) {
+                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                         }
                         updateList(benifisheryDataModelDbArrayList);
@@ -517,7 +589,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -531,12 +603,16 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
 
-                        }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB4()));
                         updateList(benifisheryDataModelDbArrayList);
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -551,6 +627,25 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
+                            if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                    && !checkBoxPenauts.isChecked()) {
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
+
+                            }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB4()));
+                        if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                && !checkBoxPenauts.isChecked()) {
+                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                         }
                         updateList(benifisheryDataModelDbArrayList);
@@ -563,7 +658,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -577,12 +672,16 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
 
-                        }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB4()));
                         updateList(benifisheryDataModelDbArrayList);
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1()
@@ -597,6 +696,25 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
+                            if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                    && !checkBoxPenauts.isChecked()) {
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
+
+                            }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB4()));
+                        if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                && !checkBoxPenauts.isChecked()) {
+                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                         }
                         updateList(benifisheryDataModelDbArrayList);
@@ -609,7 +727,7 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -622,25 +740,50 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
-                        }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB1()));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB2()));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB3()));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB4()));
                         updateList(benifisheryDataModelDbArrayList);
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
-                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
-                                    + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(5).getB1()));
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
+                                        + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
-                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
-                                    + unitRateModelDbArrayList.get(3).getB2() + unitRateModelDbArrayList.get(5).getB1()));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
+                                        + unitRateModelDbArrayList.get(3).getB2() + unitRateModelDbArrayList.get(5).getB2()));
 
-                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB3() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
-                                    + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(5).getB3()));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB3() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
+                                        + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(5).getB3()));
 
-                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
-                                    + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(5).getB4()));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
+                                        + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(5).getB4()));
+
+                                if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                        && !checkBoxPenauts.isChecked()) {
+                                    benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
+
+
+                                }
+                        }*/
+                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB1())))));
+                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB2())))));
+                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB3())))));
+                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB4())))));
+                        if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                && !checkBoxPenauts.isChecked()) {
+                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
 
                         }
@@ -747,6 +890,18 @@ public class EntryFormFragmentEdit extends BaseFragment implements OnFragmentLis
                             for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                                 String id = UUID.randomUUID().toString();
                                 if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
+                                    if (checkBoxChickpea.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setChexkboxchickpea("checkBoxChickpea");
+                                    if (checkBoxRice.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxrice("checkBoxRice");
+                                    if (checkBoxPenauts.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxpenauts("checkBoxPenauts");
+                                    if (checkBoxDal.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxdal("checkBoxDal");
+                                    if (checkBoxJaggery.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxjaggery("checkBoxJaggery");
+                                    if (checkBoxPotato.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxpotato("checkBoxPotato");
                                     benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
                                     benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
                                     benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());

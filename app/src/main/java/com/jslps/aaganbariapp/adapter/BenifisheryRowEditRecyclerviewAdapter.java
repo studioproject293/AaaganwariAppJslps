@@ -74,7 +74,7 @@ public class BenifisheryRowEditRecyclerviewAdapter extends RecyclerView.Adapter<
                     holder.textViewTotal.setText(total.toString());
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
-                    benifisheryDataModelDb.setUnitrateofmeal(holder.unitRate.getText().toString());
+                    benifisheryDataModelDb.setUnitrateofmeal(new DecimalFormat("##.##").format(holder.unitRate.getText().toString()));
                     benifisheryDataModelDb.setAmount(holder.textViewTotal.getText().toString());
                     //benifisheryDataModelDb.save();
                     Double totalAll = 0.0;

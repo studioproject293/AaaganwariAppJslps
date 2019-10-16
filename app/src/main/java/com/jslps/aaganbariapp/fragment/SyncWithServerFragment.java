@@ -183,6 +183,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 benifisheryDataModelDbSend.setPanchyatname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getPanchyatname());
                                 benifisheryDataModelDbSend.setAaganwariname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getAaganwariname());
                                 benifisheryDataModelDbSend.setVoname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getVoname());
+                                benifisheryDataModelDbSend.setCheckboxdal(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxdal());
+                                benifisheryDataModelDbSend.setCheckboxjaggery(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxjaggery());
+                                benifisheryDataModelDbSend.setCheckboxpenauts(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpenauts());
+                                benifisheryDataModelDbSend.setCheckboxpotato(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpotato());
+                                benifisheryDataModelDbSend.setCheckboxrice(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxrice());
+                                benifisheryDataModelDbSend.setChexkboxchickpea(benifisheryDataModelDbSendArrayListSendToServer.get(l).getChexkboxchickpea());
                                 newArrr.add(benifisheryDataModelDbSend);
                             }
                             for (int j = 0; j < benifisheryDataModelDbSendArrayListSendToServer.size(); j++) {
@@ -192,6 +198,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setId(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setCreatedon(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setIsuploadtoserver(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxdal(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxjaggery(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpenauts(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpotato(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxrice(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);
                             }
                             dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
 
@@ -354,6 +366,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
                                 dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                                dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
+                                dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
+                                dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
+                                dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
+                                dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
+                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());
                                 dataModelDbSendArrayListData.get(j).save();
                             }
                             Snackbar.with(getActivity(), null)
@@ -377,6 +395,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
                                 dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                                dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
+                                dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
+                                dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
+                                dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
+                                dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
+                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());
                                 dataModelDbSendArrayListData.get(j).save();
                             }
                             Snackbar.with(getActivity(), null)
@@ -399,6 +423,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
                                 dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                                dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
+                                dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
+                                dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
+                                dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
+                                dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
+                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());
                                 dataModelDbSendArrayListData.get(j).save();
                             }
                             Snackbar.with(getActivity(), null)

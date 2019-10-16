@@ -75,7 +75,7 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
                         totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                                 Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                     }
-                    EntryFormFragment.textViewtotalAll.setText(totalAll.toString());
+                    EntryFormFragment.textViewtotalAll.setText((new DecimalFormat("##.##").format(totalAll)).toString());
                 }
             }
 
@@ -111,8 +111,7 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
                         totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
                                 Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
                     }
-                    EntryFormFragment.textViewtotalAll.setText(totalAll.toString());
-
+                    EntryFormFragment.textViewtotalAll.setText((new DecimalFormat("##.##").format(totalAll)).toString());
                 }
             }
 
