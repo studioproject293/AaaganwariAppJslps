@@ -16,7 +16,11 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">#FFF</item>
     </style>
-
+    <style name="Divider1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">#000</item>
+    </style>
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">#46bdbf</item>

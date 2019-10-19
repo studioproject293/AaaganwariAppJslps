@@ -112,6 +112,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
     @Override
     public void onResume() {
         super.onResume();
+
         arrayListMonth = new ArrayList<String>();
         arrayListMonth.add("जनवरी");
         arrayListMonth.add("फ़रवरी");
@@ -235,8 +236,9 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.layout_input_form, container, false);
+        rootView = inflater.inflate(R.layout.layout_input_form_new, container, false);
         prefManager = PrefManager.getInstance();
 
         monthSpiner = rootView.findViewById(R.id.sppinermonth);

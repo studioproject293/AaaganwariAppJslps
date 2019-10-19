@@ -436,7 +436,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     .message("Please try again")
                                     .duration(Duration.SHORT)
                                     .fillParent(true)
-                                    .textAlign(Align.CENTER)
+                                    .textAlign (Align.CENTER)
                                     .show();
                         }
 
