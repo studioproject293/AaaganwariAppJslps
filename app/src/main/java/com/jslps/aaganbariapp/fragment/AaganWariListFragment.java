@@ -86,7 +86,7 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
     @Override
     public void onListItemSelected(int itemId, Object data) {
         MainActivity.newCall = true;
-        mListener.onFragmentInteraction(Constant.ENTRY_FORM_FRAGNMENT, data);
+        mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRYFORM_NEW, data);
     }
 
     @Override

@@ -26,6 +26,8 @@ import com.jslps.aaganbariapp.fragment.AaganWariListFragment;
 import com.jslps.aaganbariapp.fragment.DownLoadDataFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragment;
 import com.jslps.aaganbariapp.fragment.EntryFormFragmentEdit;
+import com.jslps.aaganbariapp.fragment.EntryFormFragmentEditNew;
+import com.jslps.aaganbariapp.fragment.EntryFormFragmentNew;
 import com.jslps.aaganbariapp.fragment.FeedbackFragment;
 import com.jslps.aaganbariapp.fragment.HomeFragment;
 import com.jslps.aaganbariapp.fragment.PanchyatFragment;
@@ -199,7 +201,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 radioGroup.setVisibility(View.GONE);
                 mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new DownLoadDataFragment(), mFragmentTag).commitAllowingStateLoss();
                 break;
-
+            case Constant.FRAGMENT_ENTRYFORM_NEW:
+                radioGroup.setVisibility(View.GONE);
+                mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new EntryFormFragmentNew().newInstance((AanganWariModelDb) data), mFragmentTag).commitAllowingStateLoss();
+                break;
+            case Constant.FRAGMENT_ENTRY_EDIT_NEW:
+                radioGroup.setVisibility(View.GONE);
+                mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new EntryFormFragmentEditNew().newInstance((ReportDisplayFormModel) data), mFragmentTag).commitAllowingStateLoss();
+                break;
         }
     }
 

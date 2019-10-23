@@ -12,7 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.format.DateFormat;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,12 +24,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,25 +36,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chootdev.csnackbar.Align;
-import com.chootdev.csnackbar.Duration;
-import com.chootdev.csnackbar.Snackbar;
-import com.chootdev.csnackbar.Type;
 import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.activity.GalleryActivity;
 import com.jslps.aaganbariapp.activity.MainActivity;
-import com.jslps.aaganbariapp.adapter.BenifisheryRowRecyclerviewAdapter;
-import com.jslps.aaganbariapp.adapter.CreateAppointmentAttachmentAdapter;
+import com.jslps.aaganbariapp.adapter.AttachmentImgeAdapter;
+import com.jslps.aaganbariapp.adapter.BenifisheryRowEditRecyclerviewAdapterNew;
+import com.jslps.aaganbariapp.cache.CartCache;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
-import com.jslps.aaganbariapp.model.AanganWariModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.LoginModelDb;
+import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.jslps.aaganbariapp.model.UnitRateModelDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -67,51 +60,203 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.UUID;
 
-public class EntryFormFragment extends BaseFragment implements OnFragmentListItemSelectListener {
+public class EntryFormFragmentEditNew extends BaseFragment implements OnFragmentListItemSelectListener {
 
     private View rootView;
     private EditText editTextRemarks;
-    private ArrayList<String> arrayListMonth;
-    private ArrayList<String> arrayListYear;
-    private Button uploadImage;
+    Spinner monthSpiner, yearSppiner;
+    ArrayList<String> arrayListMonth;
+    ArrayList<String> arrayListYear;
+    Button uploadImage;
     public static RecyclerView attachmentRecycler;
     public static LinearLayout imageLayout;
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int REQUEST_PERMISSIONS_CAMERA = 101;
     RecyclerView recyclerViewBenifishery;
-    ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList;
-    public static TextView textViewtotalAll;
+    ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList;
+    ArrayList<ImageSaveModel> arrayListVillage1;
+    public static TextView textViewtotalAll, productList;
     Button saveData;
+    ArrayList<BenifisheryDataModelDbSendNew>arrayList;
+    static ReportDisplayFormModel BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
-    static AanganWariModelDb aanganWariModelDbrec;
-    Switch switchtrue;
-    LinearLayout totalLyout, tableLayout;
-    BenifisheryRowRecyclerviewAdapter benifisheryRowRecyclerviewAdapter;
-    Spinner yearSppiner;
-    Spinner monthSpiner;
-    int year = 0, month = 0;
-    Double value1, value2, value3, value4;
-    public static CheckBox checkBoxRice, checkBoxDal, checkBoxPenauts, checkBoxJaggery, checkBoxPotato,
-            checkBoxChickpea;
+    LinearLayout totalLyout, tableLayout, butonLayout;
+    public static TextView totalNoofbef, totalRice, totalArharDal, totalPenauts, totalChana,
+            totalJaggery, totalPotatao;
 
-    public EntryFormFragment() {
+    public EntryFormFragmentEditNew() {
         // Required empty public constructor
     }
 
-    public static EntryFormFragment newInstance(AanganWariModelDb aanganWariModelDb) {
-        aanganWariModelDbrec = aanganWariModelDb;
-        return new EntryFormFragment();
+    public static EntryFormFragmentEditNew newInstance(ReportDisplayFormModel aanganWariModelDb) {
+        BenifisheryDataModelDbSendRec = aanganWariModelDb;
+        return new EntryFormFragmentEditNew();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.entryform_edit)));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_ENTRY_EDIT);
+        if (MainActivity.newCall1) {
+            benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
+                    .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
+                            Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
+                            Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
+                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+
+            arrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
+                    .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
+                            Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
+                            Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
+                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+
+
+        }
+        editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
+
+        if (Constant.editFlag) {
+            editTextRemarks.setVisibility(View.VISIBLE);
+            editTextRemarks.setEnabled(true);
+            butonLayout.setVisibility(View.VISIBLE);
+        } else {
+            butonLayout.setVisibility(View.GONE);
+            if (benifisheryDataModelDbArrayList != null) {
+                if (TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(0).getRemarks()))
+                    editTextRemarks.setVisibility(View.GONE);
+                else {
+                    editTextRemarks.setVisibility(View.VISIBLE);
+                    editTextRemarks.setEnabled(false);
+                }
+            } else editTextRemarks.setVisibility(View.GONE);
+        }
+        System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
+        arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
+                .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
+                        Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
+                        Condition.prop("awccode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode()),
+                        Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                        Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+        System.out.println("dsbfhjhxjkf" + new Gson().toJson(arrayListVillage1));
+        final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
+
+                if (arrayList != null && arrayList.size() > 0) {
+
+            updateList(arrayList);
+            if (arrayList.size() == 1)
+                uploadImage.setVisibility(View.GONE);
+            else uploadImage.setVisibility(View.VISIBLE);
+        } else {
+            uploadImage.setVisibility(View.GONE);
+        }
+
+        if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+            Constant.maxAttachment = 1;
+
+            if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+
+                for (int k = 0; k < Constant.finalbytes.size(); k++) {
+                    String id = UUID.randomUUID().toString();
+                    ImageSaveModel imageSaveModel = new ImageSaveModel();
+                    imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
+                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPancayatcode());
+                    imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
+                    imageSaveModel.setImagename(Constant.finalnames.get(k));
+                    imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
+                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
+                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    imageSaveModel.setGuid(id);
+                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                    imageSaveModel.setCreatedby(loginModelDbs.get(0).getCreatedby());
+                    arrayListVillage1.add(1, imageSaveModel);
+
+                }
+                Constant.finalbytes.clear();
+                Constant.finalnames.clear();
+                Constant.finaltypes.clear();
+                Constant.finalsizes.clear();
+
+
+            }
+            imageLayout.setVisibility(View.VISIBLE);
+            AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
+                    , arrayListVillage1);
+            createAppointmentAttachmentAdapter.setListner(this);
+            attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
+
+
+        } else {
+            Constant.maxAttachment = 2;
+            if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                if (CartCache.getInstance().getImageSaveModels() != null && CartCache.getInstance().getImageSaveModels().size() > 0) {
+                    Constant.finalbytes.add(CartCache.getInstance().getImageSaveModels().get(0).getImagebyte());
+                    Constant.finaltypes.add(CartCache.getInstance().getImageSaveModels().get(0).getFinaltypes());
+                    Constant.finalsizes.add(CartCache.getInstance().getImageSaveModels().get(0).getFinalsizes());
+                    Constant.finalnames.add(CartCache.getInstance().getImageSaveModels().get(0).getImagename());
+                }
+                for (int k = 0; k < Constant.finalbytes.size(); k++) {
+                    String id = UUID.randomUUID().toString();
+                    ImageSaveModel imageSaveModel = new ImageSaveModel();
+                    imageSaveModel.setAwccode(BenifisheryDataModelDbSendRec.getAaganwaricode());
+                    imageSaveModel.setPanchyatcode(BenifisheryDataModelDbSendRec.getPancayatcode());
+                    imageSaveModel.setVocode(BenifisheryDataModelDbSendRec.getVocode());
+                    imageSaveModel.setImagename(Constant.finalnames.get(k));
+                    imageSaveModel.setImagebyte(Constant.finalbytes.get(k));
+                    imageSaveModel.setFinalsizes(Constant.finalsizes.get(k));
+                    imageSaveModel.setFinaltypes(Constant.finaltypes.get(k));
+                    imageSaveModel.setGuid(id);
+                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                    imageSaveModel.setCreatedby(loginModelDbs.get(0).getCreatedby());
+                    arrayListVillage1.add(imageSaveModel);
+                    CartCache.getInstance().setImageSaveModels(arrayListVillage1);
+                }
+                Constant.finalbytes.clear();
+                Constant.finalnames.clear();
+                Constant.finaltypes.clear();
+                Constant.finalsizes.clear();
+            }
+            imageLayout.setVisibility(View.VISIBLE);
+            AttachmentImgeAdapter createAppointmentAttachmentAdapter = new AttachmentImgeAdapter(getContext()
+                    , arrayListVillage1);
+
+            attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
+            createAppointmentAttachmentAdapter.notifyDataSetChanged();
+        }
+    }
+
+    Double totalAll = 0.0;
+
+    private void updateList(ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList) {
+        tableLayout.setVisibility(View.VISIBLE);
+        totalLyout.setVisibility(View.VISIBLE);
+        /*if (benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal() != null && benifisheryDataModelDbArrayList.get(0).getNoofmeal() != null) {*/
+            BenifisheryRowEditRecyclerviewAdapterNew benifisheryRowRecyclerviewAdapter = new BenifisheryRowEditRecyclerviewAdapterNew(getActivity(), benifisheryDataModelDbArrayList);
+            benifisheryRowRecyclerviewAdapter.setListner(this);
+            recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
+            /*totalAll = 0.0;
+            for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
+                        Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+            }*/
+
+//            textViewtotalAll.setText(totalAll.toString());
+
+//        }
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        rootView = inflater.inflate(R.layout.layout_input_form_new, container, false);
+        prefManager = PrefManager.getInstance();
+        setId();
 
         arrayListMonth = new ArrayList<String>();
         arrayListMonth.add("जनवरी");
@@ -129,10 +274,12 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         arrayListYear = new ArrayList<>();
         arrayListYear.add("2019");
         arrayListYear.add("2020");
+
         Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
+        final int year = c.get(Calendar.YEAR);
+        final int month = c.get(Calendar.MONTH);
         System.out.println("" + year + "fvhfdd" + month);
+        recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         ArrayAdapter<String> dataAdapterMonth = new ArrayAdapter<String>(getActivity(), R.layout.dialog_spinner_item, arrayListMonth);
 
@@ -148,127 +295,54 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
         // attaching data adapter to spinner
         yearSppiner.setAdapter(dataAdapterYear);
-        if (year == 2019) {
+        if (BenifisheryDataModelDbSendRec.getYear().equalsIgnoreCase("2019"))
             yearSppiner.setSelection(0);
-        } else yearSppiner.setSelection(1);
-
-        monthSpiner.setSelection(month);
-        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, aanganWariModelDbrec.getAnganwadiname()));
-        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.ENTRY_FORM_FRAGNMENT);
-        if (MainActivity.newCall) {
-            MainActivity.newCall=false;
-            benifisheryDataModelDbArrayList = new ArrayList<>();
-            ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                    .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                            Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                            Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode()),
-                            Condition.prop("month").eq(month + 1),
-                            Condition.prop("year").eq(year)).list();
-            System.out.println("hfgsdsvffdhvghfd" + new Gson().toJson(benifisheryDataModelDbSendss));
-            if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
-                for (int i = 0; i < benifisheryDataModelDbSendss.size(); i++) {
-                    BenifisheryDataModelDb benifisheryDataModelDb = new BenifisheryDataModelDb();
-                    benifisheryDataModelDb.setAmount(benifisheryDataModelDbSendss.get(i).getAmount());
-                    benifisheryDataModelDb.setNoofbenf(benifisheryDataModelDbSendss.get(i).getNoofbenf());
-                    benifisheryDataModelDb.setNoofmeal(benifisheryDataModelDbSendss.get(i).getNoofmeal());
-                    benifisheryDataModelDb.setBenfid(benifisheryDataModelDbSendss.get(i).getBenfid());
-                    benifisheryDataModelDb.setBenfname(benifisheryDataModelDbSendss.get(i).getBenfname());
-                    benifisheryDataModelDb.setCreatedby(benifisheryDataModelDbSendss.get(i).getCreatedby());
-                    benifisheryDataModelDb.setCreatedon(benifisheryDataModelDbSendss.get(i).getCreatedon());
-                    benifisheryDataModelDb.setUnitrateofmeal(benifisheryDataModelDbSendss.get(i).getUnitrateofmeal());
-                    benifisheryDataModelDbArrayList.add(benifisheryDataModelDb);
-                }
-
-            } else {
-                benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDb>) BenifisheryDataModelDb.listAll(BenifisheryDataModelDb.class);
-
-            }
-            final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
-
-            if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
-                        + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
-
-                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
-                        + unitRateModelDbArrayList.get(3).getB2() + unitRateModelDbArrayList.get(4).getB2() + unitRateModelDbArrayList.get(5).getB1()));
-
-                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB3() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
-                        + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(4).getB3() + unitRateModelDbArrayList.get(5).getB3()));
-
-                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
-                        + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
-
-
-            }
-        }
-
-        if (Constant.finalbytes.size() != 0) {
-            Constant.editFlag = true;
-            imageLayout.setVisibility(View.VISIBLE);
-            CreateAppointmentAttachmentAdapter createAppointmentAttachmentAdapter = new CreateAppointmentAttachmentAdapter(getContext(), Constant.finalbytes,
-                    Constant.finalnames, Constant.finalsizes, Constant.finaltypes);
-            attachmentRecycler.setAdapter(createAppointmentAttachmentAdapter);
-        } else {
-            imageLayout.setVisibility(View.GONE);
-        }
-
-
-
-        updateList(benifisheryDataModelDbArrayList);
-
-    }
-
-    Double totalAll = 0.0;
-
-    private void updateList(ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList) {
-
-        BenifisheryRowRecyclerviewAdapter benifisheryRowRecyclerviewAdapter = new BenifisheryRowRecyclerviewAdapter(getActivity(), benifisheryDataModelDbArrayList);
-
-        totalAll = 0.0;
-        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-            totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
-                    Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-        }
-        recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
-        textViewtotalAll.setText(new DecimalFormat("##.##").format(totalAll).toString());
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.layout_input_form, container, false);
-        prefManager = PrefManager.getInstance();
-
-        monthSpiner = rootView.findViewById(R.id.sppinermonth);
-        totalLyout = (LinearLayout) rootView.findViewById(R.id.totalLyout);
-        tableLayout = (LinearLayout) rootView.findViewById(R.id.tableLayout);
-        imageLayout = (LinearLayout) rootView.findViewById(R.id.image_layout);
-        editTextRemarks = (EditText) rootView.findViewById(R.id.editTextRemarks);
-        switchtrue = (Switch) rootView.findViewById(R.id.switchtrue);
-        saveData = (Button) rootView.findViewById(R.id.saveData);
-        checkBoxRice = (CheckBox) rootView.findViewById(R.id.rice);
+        else yearSppiner.setSelection(1);
+        /*if (year == 2019) {
+            yearSppiner.setSelection(0);
+        } else yearSppiner.setSelection(1);*/
+       /* checkBoxRice = (CheckBox) rootView.findViewById(R.id.rice);
         checkBoxDal = (CheckBox) rootView.findViewById(R.id.Dal);
         checkBoxPenauts = (CheckBox) rootView.findViewById(R.id.Peanuts);
         checkBoxPotato = (CheckBox) rootView.findViewById(R.id.Potato);
         checkBoxJaggery = (CheckBox) rootView.findViewById(R.id.Jaggery);
         checkBoxChickpea = (CheckBox) rootView.findViewById(R.id.Chickpea);
-        textViewtotalAll = (TextView) rootView.findViewById(R.id.totalAll);
-        attachmentRecycler = (RecyclerView) rootView.findViewById(R.id.attachmentRecycler);
-        recyclerViewBenifishery = (RecyclerView) rootView.findViewById(R.id.recyclerviewBenifishry);
-        attachmentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        yearSppiner = rootView.findViewById(R.id.sppinerYear);
-        uploadImage = rootView.findViewById(R.id.uploadImage);
-        recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
+        productList = (TextView) rootView.findViewById(R.id.productList);*/
+        monthSpiner.setSelection(Integer.parseInt(BenifisheryDataModelDbSendRec.getMonth()) - 1);
+
+        if (Constant.editFlag) {
+            yearSppiner.setEnabled(true);
+            monthSpiner.setEnabled(true);
+//            butonLayout.setVisibility(View.VISIBLE);
+            /*checkBoxRice.setVisibility(View.VISIBLE);
+            checkBoxDal.setVisibility(View.VISIBLE);
+            checkBoxPenauts.setVisibility(View.VISIBLE);
+            checkBoxPotato.setVisibility(View.VISIBLE);
+            checkBoxJaggery.setVisibility(View.VISIBLE);
+            checkBoxChickpea.setVisibility(View.VISIBLE);*/
+//            productList.setVisibility(View.VISIBLE);
+
+        } else {
+            yearSppiner.setEnabled(false);
+            monthSpiner.setEnabled(false);
+//            butonLayout.setVisibility(View.GONE);
+            /*checkBoxRice.setVisibility(View.GONE);
+            checkBoxDal.setVisibility(View.GONE);
+            checkBoxPenauts.setVisibility(View.GONE);
+            checkBoxPotato.setVisibility(View.GONE);
+            checkBoxJaggery.setVisibility(View.GONE);
+            checkBoxChickpea.setVisibility(View.GONE);
+            productList.setVisibility(View.GONE);*/
+        }
+        /*final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
         System.out.println("dsvnhdsgfhf" + new Gson().toJson(unitRateModelDbArrayList));
         checkBoxChickpea.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {*/
-                        /*benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
+                        *//* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {*//*
+                        *//*benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                 + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
@@ -277,7 +351,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(4).getB3() + unitRateModelDbArrayList.get(5).getB3()));
                         benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                 + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
-*/
+*//*
 //                        }
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(5).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(5).getB2()));
@@ -295,12 +369,12 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(5).getB3()));
                         benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(5).getB4()));
 
-                          /*  benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
+                          *//*  benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
                                     + unitRateModelDbArrayList.get(3).getB2() + unitRateModelDbArrayList.get(4).getB2()));
                             benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB3() + unitRateModelDbArrayList.get(2).getB3()
                                     + unitRateModelDbArrayList.get(3).getB3() + unitRateModelDbArrayList.get(4).getB3()));
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
-                                    + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4()));*/
+                                    + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4()));*//*
                         if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
                                 && !checkBoxPenauts.isChecked()) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
@@ -314,12 +388,14 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                 }
             }
         });
-        checkBoxRice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+
+
+                checkBoxRice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (compoundButton.isChecked()) {
+                            if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -332,16 +408,16 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
-                        }*/
-                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB1()));
-                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB2()));
-                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB3()));
-                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB4()));
-                        updateList(benifisheryDataModelDbArrayList);
-                    }
-                } else {
-                    if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                       /* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        }*//*
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB1()));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB2()));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB3()));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) + unitRateModelDbArrayList.get(0).getB4()));
+                                updateList(benifisheryDataModelDbArrayList);
+                            }
+                        } else {
+                            if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
+                       *//* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -363,30 +439,32 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                             }
-                        }*/
-                        benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB1()));
-                        benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB2()));
-                        benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB3()));
-                        benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB4()));
-                        if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
-                                && !checkBoxPenauts.isChecked()) {
-                            benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
-                            benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
-                            benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
-                            benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
+                        }*//*
+                                benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB1()));
+                                benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB2()));
+                                benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB3()));
+                                benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(3).getUnitrateofmeal()) - unitRateModelDbArrayList.get(0).getB4()));
+                                if (!checkBoxPotato.isChecked() && !checkBoxRice.isChecked() && !checkBoxDal.isChecked() && !checkBoxJaggery.isChecked() && !checkBoxChickpea.isChecked()
+                                        && !checkBoxPenauts.isChecked()) {
+                                    benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(0.0));
+                                    benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
+                                }
+                                updateList(benifisheryDataModelDbArrayList);
+                            }
                         }
-                        updateList(benifisheryDataModelDbArrayList);
                     }
-                }
-            }
-        });
+                });
+
+
         checkBoxDal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                       /* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                       *//* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -399,7 +477,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(1).getB3()));
@@ -408,7 +486,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -431,7 +509,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                             }
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(1).getB3()));
@@ -454,7 +532,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -468,7 +546,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
 
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(3).getB3()));
@@ -477,7 +555,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -500,7 +578,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                             }
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(3).getB3()));
@@ -523,7 +601,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -537,7 +615,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
 
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(2).getB3()));
@@ -546,7 +624,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1()
@@ -569,7 +647,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                                 benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(0.0));
 
                             }
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(2).getB3()));
@@ -592,7 +670,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                             benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                     + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
@@ -605,7 +683,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             benifisheryDataModelDbArrayList.get(3).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB4() + unitRateModelDbArrayList.get(1).getB4() + unitRateModelDbArrayList.get(2).getB4()
                                     + unitRateModelDbArrayList.get(3).getB4() + unitRateModelDbArrayList.get(4).getB4() + unitRateModelDbArrayList.get(5).getB4()));
 
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB1()));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB2()));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) + unitRateModelDbArrayList.get(4).getB3()));
@@ -614,7 +692,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     }
                 } else {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
-                        /*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                        *//*for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 //                            benifisheryDataModelDbArrayList.get(i).setUnitrateofmeal(String.valueOf(0.15 + 2.38 + 2.96 + 1.13 + 0.0));
 
                                 benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
@@ -638,7 +716,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
 
                                 }
-                        }*/
+                        }*//*
                         benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB1())))));
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(1).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB2())))));
                         benifisheryDataModelDbArrayList.get(2).setUnitrateofmeal(String.valueOf((new DecimalFormat("##.##").format(Math.abs(Double.parseDouble(benifisheryDataModelDbArrayList.get(2).getUnitrateofmeal()) - unitRateModelDbArrayList.get(4).getB3())))));
@@ -656,21 +734,17 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     }
                 }
             }
-        });
-
+        });*/
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.newCall = false;
-                if ((ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
-                        (ContextCompat.checkSelfPermission(getActivity(),
-                                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                MainActivity.newCall1 = false;
+                if ((ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
                     if ((ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                            Manifest.permission.CAMERA))) {
+                            Manifest.permission.READ_EXTERNAL_STORAGE))) {
 
                     } else {
                         ActivityCompat.requestPermissions(getActivity(),
@@ -679,8 +753,20 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     }
                 } else {
                     Log.e("Else", "Else");
-                    Constant.maxAttachment = 2;
-                    attchmemntPopup(getActivity());
+                    if (arrayListVillage1 != null) {
+                        if (arrayListVillage1.size() == 2) {
+                            Toast.makeText(getActivity(), "You have already 2 photo", Toast.LENGTH_SHORT).show();
+                        } else if (arrayListVillage1.size() == 1) {
+                            Constant.maxAttachment = 1;
+                            attchmemntPopup(getActivity());
+                        } else {
+                            Constant.maxAttachment = 2;
+                            attchmemntPopup(getActivity());
+                        }
+                    } else {
+                        Constant.maxAttachment = 2;
+                        attchmemntPopup(getActivity());
+                    }
                 }
 
             }
@@ -693,7 +779,6 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                 } else {
                     yearSelect = "2020";
                 }
-
             }
 
             @Override
@@ -713,299 +798,122 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
             }
         });
-        switchtrue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    tableLayout.setVisibility(View.GONE);
-                    totalLyout.setVisibility(View.GONE);
-                    uploadImage.setVisibility(View.GONE);
-                } else {
-                    tableLayout.setVisibility(View.VISIBLE);
-                    totalLyout.setVisibility(View.VISIBLE);
-                    uploadImage.setVisibility(View.VISIBLE);
-                }
-            }
-        });
         saveData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkBoxPotato.isChecked() || checkBoxRice.isChecked() || checkBoxDal.isChecked() || checkBoxJaggery.isChecked() || checkBoxChickpea.isChecked()
-                        || checkBoxPenauts.isChecked()) {
-                    if (Integer.parseInt(yearSelect) <= year) {
-                        if (monthSeleted - 1 <= month) {
-                            if (switchtrue.isChecked()) {
-                                ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                                        .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                                                Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                                Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode()),
-                                                Condition.prop("month").eq(monthSeleted),
-                                                Condition.prop("year").eq(yearSelect)).list();
-                                System.out.println("hfgsdsvffdhvghfd" + new Gson().toJson(benifisheryDataModelDbSendss));
-                                if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
-                                    Snackbar.with(getActivity(), null)
-                                            .type(Type.ERROR)
-                                            .message(getString(R.string.already_record))
-                                            .duration(Duration.SHORT)
-                                            .fillParent(true)
-                                            .textAlign(Align.CENTER)
-                                            .show();
-                                } else {
-                                    String id = UUID.randomUUID().toString();
-                                    BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
-                                    benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                    benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                    benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
-                                    benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
-                                    benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
-                                    benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
-                                    benifisheryDataModelDbSend.setMonth(monthSeleted + "");
-                                    benifisheryDataModelDbSend.setYear(yearSelect);
-                                    benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                                    benifisheryDataModelDbSend.setGuid(id);
-                                    benifisheryDataModelDbSend.setIsuploadtoserver("false");
+
+                if (Integer.parseInt(yearSelect) <= year) {
+                    if (monthSeleted - 1 <= month) {
+                        ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
+                                .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
+                                        Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
+                                        Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode())
+                                        , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                                        Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
+                        if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+
+                            for (int i = 0; i < arrayListVillage1.size(); i++) {
+                                String id1 = UUID.randomUUID().toString();
+                                ImageSaveModel imageSaveModel = new ImageSaveModel();
+                                imageSaveModel.setAwccode(arrayListVillage1.get(i).getAwccode());
+                                imageSaveModel.setPanchyatcode(arrayListVillage1.get(i).getPanchyatcode());
+                                imageSaveModel.setVocode(arrayListVillage1.get(i).getVocode());
+                                imageSaveModel.setIsuploadtoserver("false");
+                                imageSaveModel.setImagename(arrayListVillage1.get(i).getImagename());
+                                imageSaveModel.setImagebyte(arrayListVillage1.get(i).getImagebyte());
+                                imageSaveModel.setMonth(monthSeleted + "");
+                                imageSaveModel.setGuid(id1);
+                                ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                                imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
+                                imageSaveModel.setYear(yearSelect);
+                                arrayListVillage1.get(i).delete();
+                                imageSaveModel.save();
+                            }
+
+                            for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+                                String id = UUID.randomUUID().toString();
+                                if (benifisheryDataModelDbSends != null && benifisheryDataModelDbSends.size() > 0) {
+                                    /*if (checkBoxChickpea.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setChexkboxchickpea("checkBoxChickpea");
+                                    if (checkBoxRice.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxrice("checkBoxRice");
+                                    if (checkBoxPenauts.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxpenauts("checkBoxPenauts");
+                                    if (checkBoxDal.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxdal("checkBoxDal");
+                                    if (checkBoxJaggery.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxjaggery("checkBoxJaggery");
+                                    if (checkBoxPotato.isChecked())
+                                        benifisheryDataModelDbSends.get(i).setCheckboxpotato("checkBoxPotato");*/
+                                    benifisheryDataModelDbSends.get(i).setAaganwaricode(prefManager.getPrefAaganwariCode());
+                                    benifisheryDataModelDbSends.get(i).setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                    benifisheryDataModelDbSends.get(i).setVocode(prefManager.getPREF_VOCode());
+                                    benifisheryDataModelDbSends.get(i).setMonth(monthSeleted + "");
+                                    benifisheryDataModelDbSends.get(i).setYear(yearSelect);
+                                    benifisheryDataModelDbSends.get(i).setRemarks(editTextRemarks.getText().toString());
+                                    benifisheryDataModelDbSends.get(i).setGuid(id);
+                                    benifisheryDataModelDbSends.get(i).setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
+                                    benifisheryDataModelDbSends.get(i).setChana(benifisheryDataModelDbArrayList.get(i).getChana());
+                                    benifisheryDataModelDbSends.get(i).setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                                    benifisheryDataModelDbSends.get(i).setRice(benifisheryDataModelDbArrayList.get(i).getRice());
+                                    benifisheryDataModelDbSends.get(i).setJaggery(benifisheryDataModelDbArrayList.get(i).getJaggery());
+                                    benifisheryDataModelDbSends.get(i).setPeanuts(benifisheryDataModelDbArrayList.get(i).getPeanuts());
+                                    benifisheryDataModelDbSends.get(i).setArhardal(benifisheryDataModelDbArrayList.get(i).getArhardal());
+                                    benifisheryDataModelDbSends.get(i).setPotato(benifisheryDataModelDbArrayList.get(i).getPotato());
+                                    benifisheryDataModelDbSends.get(i).setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
                                     ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                                    benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
-                                    benifisheryDataModelDbSend.save();
-                           /* Snackbar.with(getActivity(), null)
-                                    .type(Type.SUCCESS)
-                                    .message(getString(R.string.save_message))
-                                     .duration(Duration.SHORT)
-                                    .fillParent(true)
-                                    .textAlign(Align.CENTER)
-                                    .show();*/
-                                    Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
+                                    benifisheryDataModelDbSends.get(i).setCreatedby(loginModelDbs.get(0).getUsername());
+                                    benifisheryDataModelDbSends.get(i).setCreatedon(benifisheryDataModelDbArrayList.get(i).getCreatedon());
+                                    benifisheryDataModelDbSends.get(i).setIsuploadtoserver("false");
+                                    benifisheryDataModelDbSends.get(i).save();
+
                                     Intent intent = new Intent(getActivity(), MainActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }
-                            } else {
-                                if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-
-                                    ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
-                                    for (int j = 0; j < Constant.finalbytes.size(); j++) {
-                                        String id = UUID.randomUUID().toString();
-                                        ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                        imageSaveModel.setAwccode(prefManager.getPrefAaganwariCode());
-                                        imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                        imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                        imageSaveModel.setIsuploadtoserver("false");
-                                        imageSaveModel.setImagename(Constant.finalnames.get(j));
-                                        imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
-                                        imageSaveModel.setMonth(monthSeleted + "");
-                                        imageSaveModel.setGuid(id);
-                                        ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                                        imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
-                                        imageSaveModel.setYear(yearSelect);
-                                        imageSaveModel.save();
-
-                                    }
-                                    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                                            .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                                                    Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                                    Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode()),
-                                                    Condition.prop("month").eq(monthSeleted),
-                                                    Condition.prop("year").eq(yearSelect)).list();
-                                    System.out.println("hfgsdsvffdhvghfd" + new Gson().toJson(benifisheryDataModelDbSendss));
-                                    if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
-                                        Snackbar.with(getActivity(), null)
-                                                .type(Type.ERROR)
-                                                .message(getString(R.string.already_record))
-                                                .duration(Duration.SHORT)
-                                                .fillParent(true)
-                                                .textAlign(Align.CENTER)
-                                                .show();
-                                    } else {
-                                        String id1 = UUID.randomUUID().toString();
-                                        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-
-                                            BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
-                                            if (checkBoxChickpea.isChecked())
-                                                benifisheryDataModelDbSend.setChexkboxchickpea("checkBoxChickpea");
-                                            if (checkBoxRice.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxrice("checkBoxRice");
-                                            if (checkBoxPenauts.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxpenauts("checkBoxPenauts");
-                                            if (checkBoxDal.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxdal("checkBoxDal");
-                                            if (checkBoxJaggery.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxjaggery("checkBoxJaggery");
-                                            if (checkBoxPotato.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxpotato("checkBoxPotato");
-                                            benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                            benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                            benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
-                                            benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
-                                            benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
-                                            benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
-                                            benifisheryDataModelDbSend.setMonth(monthSeleted + "");
-                                            benifisheryDataModelDbSend.setYear(yearSelect);
-                                            benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                                            benifisheryDataModelDbSend.setGuid(id1);
-                                            System.out.println("new Gson" + getDate(System.currentTimeMillis()));
-                                            benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
-                                            benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                                            benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                                            benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                                            benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                            ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                                            benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
-                                            benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
-                                            benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
-                                            benifisheryDataModelDbSend.setIsuploadtoserver("false");
-                                            benifisheryDataModelDbSend.save();
-                                            arrayList.add(benifisheryDataModelDbSend);
-
-                                        }
-                                        Constant.finalbytes.clear();
-                                        Constant.finalnames.clear();
-                                        Constant.finalsizes.clear();
-                                        Constant.finaltypes.clear();
-                                        Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
-                                    }
-
-
-                                } else {
-                                    Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
-                                }
                             }
+                            Toast.makeText(getActivity(), getString(R.string.update_data_toServer), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getActivity(), "Please Select current month", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
-                        Toast.makeText(getActivity(), "Please Select current Year", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getActivity(), "Please Select current month", Toast.LENGTH_SHORT).show();
                     }
-                /*if (switchtrue.isChecked()) {
-                    String id = UUID.randomUUID().toString();
-                    BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
-                    benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                    benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                    benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
-                    benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
-                    benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
-                    benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
-                    benifisheryDataModelDbSend.setMonth(monthSeleted + "");
-                    benifisheryDataModelDbSend.setYear(yearSelect);
-                    benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                    benifisheryDataModelDbSend.setGuid(id);
-                    benifisheryDataModelDbSend.setIsuploadtoserver("false");
-                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                    benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
-                    benifisheryDataModelDbSend.save();
-                    Snackbar.with(getActivity(), null)
-                            .type(Type.SUCCESS)
-                            .message(getString(R.string.save_message))
-                            .duration(Duration.SHORT)
-                            .fillParent(true)
-                            .textAlign(Align.CENTER)
-                            .show();
-                    //Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+
                 } else {
-                    if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                        String id = UUID.randomUUID().toString();
-                        ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
-                        for (int j = 0; j < Constant.finalbytes.size(); j++) {
-                            ImageSaveModel imageSaveModel = new ImageSaveModel();
-                            imageSaveModel.setAwccode(prefManager.getPrefAaganwariCode());
-                            imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                            imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                            imageSaveModel.setIsuploadtoserver("false");
-                            imageSaveModel.setImagename(Constant.finalnames.get(j));
-                            imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
-                            imageSaveModel.setMonth(monthSeleted + "");
-                            imageSaveModel.setGuid(id);
-                            ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                            imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
-                            imageSaveModel.setYear(yearSelect);
-                            imageSaveModel.save();
+                    Toast.makeText(getActivity(), "Please Select current Year", Toast.LENGTH_SHORT).show();
 
-                        }
-                        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
-                                .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                                        Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                        Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode()),
-                                        Condition.prop("month").eq(monthSeleted),
-                                        Condition.prop("year").eq(yearSelect)).list();
-                        System.out.println("hfgsdsvffdhvghfd" + new Gson().toJson(benifisheryDataModelDbSendss));
-                        if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
-                            Snackbar.with(getActivity(), null)
-                                    .type(Type.ERROR)
-                                    .message(getString(R.string.already_record))
-                                    .duration(Duration.SHORT)
-                                    .fillParent(true)
-                                    .textAlign(Align.CENTER)
-                                    .show();
-                        } else {
-                            String id1 = UUID.randomUUID().toString();
-                            for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-
-                                BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
-                                benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
-                                benifisheryDataModelDbSend.setAaganwariname(prefManager.getPrefAaganwariNAME());
-                                benifisheryDataModelDbSend.setPanchyatname(prefManager.getPrefPanchyatNAME());
-                                benifisheryDataModelDbSend.setVoname(prefManager.getPREF_VONAME());
-                                benifisheryDataModelDbSend.setMonth(monthSeleted + "");
-                                benifisheryDataModelDbSend.setYear(yearSelect);
-                                benifisheryDataModelDbSend.setRemarks(editTextRemarks.getText().toString());
-                                benifisheryDataModelDbSend.setGuid(id1);
-                                System.out.println("new Gson" + getDate(System.currentTimeMillis()));
-                                benifisheryDataModelDbSend.setBenfid(benifisheryDataModelDbArrayList.get(i).getBenfid());
-                                benifisheryDataModelDbSend.setAmount(benifisheryDataModelDbArrayList.get(i).getAmount());
-                                benifisheryDataModelDbSend.setNoofbenf(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-                                benifisheryDataModelDbSend.setUnitrateofmeal(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal());
-                                benifisheryDataModelDbSend.setBenfname(benifisheryDataModelDbArrayList.get(i).getBenfname());
-                                ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                                benifisheryDataModelDbSend.setCreatedby(loginModelDbs.get(0).getUsername());
-                                benifisheryDataModelDbSend.setCreatedon(getDate(System.currentTimeMillis()));
-                                benifisheryDataModelDbSend.setNoofmeal(benifisheryDataModelDbArrayList.get(i).getNoofmeal());
-
-                                benifisheryDataModelDbSend.setIsuploadtoserver("false");
-                                benifisheryDataModelDbSend.save();
-                                arrayList.add(benifisheryDataModelDbSend);
-
-                            }
-                            Constant.finalbytes.clear();
-                            Constant.finalnames.clear();
-                            Constant.finalsizes.clear();
-                            Constant.finaltypes.clear();
-                            Toast.makeText(getActivity(), getString(R.string.save_message), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
-                        }
-
-
-                    } else {
-                        Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
-                    }
-                }*/
-                }else {
-                    Snackbar.with(getActivity(), null)
-                            .type(Type.ERROR)
-                            .message("Please Select any product list")
-                            .duration(Duration.SHORT)
-                            .fillParent(true)
-                            .textAlign(Align.CENTER)
-                            .show();
                 }
             }
         });
         return rootView;
     }
 
-    int monthSeleted;
+    private int monthSeleted;
+    private String yearSelect = null;
+
+    private void setId() {
+        monthSpiner = rootView.findViewById(R.id.sppinermonth);
+        imageLayout = (LinearLayout) rootView.findViewById(R.id.image_layout);
+        editTextRemarks = (EditText) rootView.findViewById(R.id.editTextRemarks);
+        totalLyout = (LinearLayout) rootView.findViewById(R.id.totalLyout);
+        tableLayout = (LinearLayout) rootView.findViewById(R.id.tableLayout);
+        saveData = (Button) rootView.findViewById(R.id.saveData);
+        textViewtotalAll = (TextView) rootView.findViewById(R.id.totalAll);
+        attachmentRecycler = (RecyclerView) rootView.findViewById(R.id.attachmentRecycler);
+        recyclerViewBenifishery = (RecyclerView) rootView.findViewById(R.id.recyclerviewBenifishry);
+        attachmentRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        yearSppiner = rootView.findViewById(R.id.sppinerYear);
+        uploadImage = rootView.findViewById(R.id.uploadImage);
+        butonLayout = rootView.findViewById(R.id.butonLayout);
+        totalNoofbef = (TextView) rootView.findViewById(R.id.totalNoofbef);
+        totalRice = (TextView) rootView.findViewById(R.id.totalRice);
+        totalArharDal = (TextView) rootView.findViewById(R.id.totalArharDal);
+        totalPenauts = (TextView) rootView.findViewById(R.id.totalPenauts);
+        totalPotatao = (TextView) rootView.findViewById(R.id.totalPotatao);
+        totalChana = (TextView) rootView.findViewById(R.id.totalChana);
+        totalJaggery= (TextView) rootView.findViewById(R.id.totalJaggery);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -1027,8 +935,17 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                 for (int i = 0; i < grantResults.length; i++) {
                     if (grantResults.length > 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                         if (Constant.finalbytes.size() < Constant.maxAttachment) {
+                            //1st method
+                   /* Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File file = getFile();
+                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+
+                    startActivityForResult(camera_intent, 0);*/
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(intent, 1);
+                            //second Method
+                           /* Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                            startActivityForResult(intent, 0);*/
                         } else {
                             Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                         }
@@ -1040,8 +957,6 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
         }
     }
-
-    String yearSelect = null;
 
     private void attchmemntPopup(final Activity context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1064,7 +979,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             @Override
             public void onClick(View v) {
                 alertD.dismiss();
-                if ((ActivityCompat.checkSelfPermission(getActivity(),
+                if ((ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     if ((ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                             Manifest.permission.CAMERA))) {
@@ -1109,7 +1024,37 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
 
     @Override
     public void onListItemSelected(int itemId, Object data) {
-
+        benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSendNew>) data;
+        Double totalRice = 0.0;
+        Double totalPotato = 0.0;
+        Double totalNoofBenf = 0.0;
+        Double totalJaggery = 0.0;
+        Double totalChana = 0.0;
+        Double totalPeanauts = 0.0;
+        Double totalArharDal = 0.0;
+        for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getChana()))
+                totalChana += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getChana());
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofbenf()))
+                totalNoofBenf += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getPotato()))
+                totalPotato += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getPotato());
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getPeanuts()))
+                totalPeanauts += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getPeanuts());
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getArhardal()))
+                totalArharDal += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getArhardal());
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getRice()))
+                totalRice += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getRice());
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getJaggery()))
+                totalJaggery += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getJaggery());
+        }
+        totalPotatao.setText(totalPotato.toString());
+        totalNoofbef.setText(totalNoofBenf.toString());
+        this.totalArharDal.setText(totalArharDal.toString());
+        this.totalRice.setText(totalRice.toString());
+        totalPenauts.setText(totalPeanauts.toString());
+        this.totalChana.setText(totalChana.toString());
+        this.totalJaggery.setText(totalJaggery.toString());
     }
 
     @Override
@@ -1168,7 +1113,6 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
             Constant.finalnames.add(System.currentTimeMillis() + ".jpg");
             Constant.finaltypes.add("jpeg");
             Constant.finalsizes.add(fileSizeInBytes);
-            Constant.finalBitmap.add(bmp);
             System.out.println("dchHIU" + new Gson().toJson(Constant.finalbytes));
         } else if (requestCode == 1 && resultCode == -1) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -1225,9 +1169,13 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                             }
                         }
                     }*/
+                    Constant.finalbytes.clear();
+                    Constant.finalnames.clear();
+                    Constant.finalsizes.clear();
+                    Constant.finaltypes.clear();
                     Constant.finalbytes.add(encodedBase64);
                     Constant.finalnames.add(System.currentTimeMillis() + ".jpg");
-                    Constant.finaltypes.add("jpg");
+                    Constant.finaltypes.add("jpeg");
                     Constant.finalsizes.add((long) fileSizeInBytes);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -1350,14 +1298,8 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
         Constant.finalsizes.clear();
         Constant.finaltypes.clear();
         Constant.editFlag = false;
-        MainActivity.newCall = false;
-    }
-
-    private String getDate(long time) {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(time);
-        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
-        return date;
+        MainActivity.newCall1 = false;
+        CartCache.getInstance().setImageSaveModels(null);
     }
 
 }

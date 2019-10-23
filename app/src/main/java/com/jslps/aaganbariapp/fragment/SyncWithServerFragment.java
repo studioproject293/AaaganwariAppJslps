@@ -23,7 +23,7 @@ import com.jslps.aaganbariapp.DialogUtil;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.adapter.SyncWithServerRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.DataSaveModel1;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
@@ -51,7 +51,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 
     private View rootView;
     RecyclerView recyclerViewBenifishery;
-    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends;
+    ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSends;
     Button uploaddata;
     TableLayout tableLayout;
 
@@ -59,7 +59,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         // Required empty public constructor
     }
 
-    ArrayList<BenifisheryDataModelDbSend> newArrr = new ArrayList<>();
+    ArrayList<BenifisheryDataModelDbSendNew> newArrr = new ArrayList<>();
 
     public static SyncWithServerFragment newInstance() {
         return new SyncWithServerFragment();
@@ -70,14 +70,14 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.sync_with_server)));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_SYNC_WITH_SERVER);
-        benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class).list();
-        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+        benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class).list();
+        ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                 .where(Condition.prop("isuploadtoserver").eq("false")).list();
         ArrayList<DataSaveModel1> dataSaveModel1ArrayList = new ArrayList<DataSaveModel1>();
         ArrayList<DataSaveModel1> adaptersendList = new ArrayList<DataSaveModel1>();
         ArrayList<String> ympStringString = new ArrayList<>();
         for (int i = 0; i < benifisheryDataModelDbSendss.size(); i++) {
-            BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSendss.get(i);
+            BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = benifisheryDataModelDbSendss.get(i);
             String ymp = benifisheryDataModelDbSend.getPanchyatcode() + benifisheryDataModelDbSend.getYear() + benifisheryDataModelDbSend.getMonth();
 
             if (!ympStringString.contains(ymp)) {
@@ -99,7 +99,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                 String year = dataSaveModel1.getYear();
                 String month = dataSaveModel1.getMonth();
                 String pName = dataSaveModel1.getPanchayatname();
-                ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendArrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                         .where(Condition.prop("panchyatcode").eq(pCode))
                         .where(Condition.prop("year").eq(year))
                         .where(Condition.prop("month").eq(month))
@@ -152,8 +152,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 
     }
 
-    ArrayList<BenifisheryDataModelDbSend> dataModelDbSendArrayListData = new ArrayList<>();
-    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendArrayListSendToServer;
+    ArrayList<BenifisheryDataModelDbSendNew> dataModelDbSendArrayListData = new ArrayList<>();
+    ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendArrayListSendToServer;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -172,23 +172,23 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
                         for (int i = 0; i < saveModel1ArrayList.size(); i++) {
 
-                            benifisheryDataModelDbSendArrayListSendToServer = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                            benifisheryDataModelDbSendArrayListSendToServer = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                                     .where(Condition.prop("panchyatcode").eq(saveModel1ArrayList.get(i).getPancayatcode()))
                                     .where(Condition.prop("year").eq(saveModel1ArrayList.get(i).getYear()))
                                     .where(Condition.prop("month").eq(saveModel1ArrayList.get(i).getMonth()))
                                     .where(Condition.prop("isuploadtoserver").eq("false"))
                                     .list();
                             for (int l = 0; l < benifisheryDataModelDbSendArrayListSendToServer.size(); l++) {
-                                BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
+                                BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = new BenifisheryDataModelDbSendNew();
                                 benifisheryDataModelDbSend.setPanchyatname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getPanchyatname());
                                 benifisheryDataModelDbSend.setAaganwariname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getAaganwariname());
                                 benifisheryDataModelDbSend.setVoname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getVoname());
-                                benifisheryDataModelDbSend.setCheckboxdal(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxdal());
+                                /*benifisheryDataModelDbSend.setCheckboxdal(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxdal());
                                 benifisheryDataModelDbSend.setCheckboxjaggery(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxjaggery());
                                 benifisheryDataModelDbSend.setCheckboxpenauts(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpenauts());
                                 benifisheryDataModelDbSend.setCheckboxpotato(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpotato());
                                 benifisheryDataModelDbSend.setCheckboxrice(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxrice());
-                                benifisheryDataModelDbSend.setChexkboxchickpea(benifisheryDataModelDbSendArrayListSendToServer.get(l).getChexkboxchickpea());
+                                benifisheryDataModelDbSend.setChexkboxchickpea(benifisheryDataModelDbSendArrayListSendToServer.get(l).getChexkboxchickpea());*/
                                 newArrr.add(benifisheryDataModelDbSend);
                             }
                             for (int j = 0; j < benifisheryDataModelDbSendArrayListSendToServer.size(); j++) {
@@ -198,12 +198,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setId(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setCreatedon(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setIsuploadtoserver(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxdal(null);
+                                /*benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxdal(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxjaggery(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpenauts(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpotato(null);
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxrice(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);*/
                             }
                             dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
 
@@ -366,12 +366,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
                                 dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
-                                dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
+                                /*dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
                                 dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
                                 dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
                                 dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
                                 dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
-                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());
+                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());*/
                                 dataModelDbSendArrayListData.get(j).save();
                             }
                             Snackbar.with(getActivity(), null)
@@ -395,12 +395,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
                                 dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
-                                dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
+                                /*dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
                                 dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
                                 dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
                                 dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
                                 dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
-                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());
+                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());*/
                                 dataModelDbSendArrayListData.get(j).save();
                             }
                             Snackbar.with(getActivity(), null)
@@ -423,12 +423,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
                                 dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
                                 dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
-                                dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
+                                /*dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
                                 dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
                                 dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
                                 dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
                                 dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
-                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());
+                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());*/
                                 dataModelDbSendArrayListData.get(j).save();
                             }
                             Snackbar.with(getActivity(), null)

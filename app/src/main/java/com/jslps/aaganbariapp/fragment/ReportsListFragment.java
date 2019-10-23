@@ -20,6 +20,7 @@ import com.jslps.aaganbariapp.activity.MainActivity;
 import com.jslps.aaganbariapp.adapter.ReprtsListRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
@@ -32,7 +33,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
 
     private View rootView;
     RecyclerView recyclerViewPanchyat;
-    ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends;
+    ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSends;
 
     public ReportsListFragment() {
         // Required empty public constructor
@@ -47,12 +48,12 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.edit)));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.FRAGMENT_REPORTS);
-        benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
-        ArrayList<BenifisheryDataModelDbSend> arrayList = new ArrayList<>();
+        benifisheryDataModelDbSends = (ArrayList<BenifisheryDataModelDbSendNew>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSendNew.class);
+        ArrayList<BenifisheryDataModelDbSendNew> arrayList = new ArrayList<>();
         ArrayList<ReportDisplayFormModel> arrayListReportDisplayFormModel = new ArrayList<>();
         ArrayList<String> arrayListString = new ArrayList<>();
         for (int i = 0; i < benifisheryDataModelDbSends.size(); i++) {
-            BenifisheryDataModelDbSend benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(i);
+            BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = benifisheryDataModelDbSends.get(i);
             String ymp = benifisheryDataModelDbSend.getAaganwaricode() + benifisheryDataModelDbSend.getYear() + benifisheryDataModelDbSend.getMonth();
             if (!arrayListString.contains(ymp)) {
                 arrayListString.add(ymp);
@@ -138,13 +139,13 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                 Constant.editFlag = true;
                 MainActivity.newCall1 = true;
                 ReportDisplayFormModel benifisheryDataModelDbSend2 = (ReportDisplayFormModel) data;
-                mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend2);
+                mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT_NEW, benifisheryDataModelDbSend2);
                 break;
             default:
                 Constant.editFlag = false;
                 MainActivity.newCall1 = true;
                 ReportDisplayFormModel benifisheryDataModelDbSend1 = (ReportDisplayFormModel) data;
-                mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT, benifisheryDataModelDbSend1);
+                mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRY_EDIT_NEW, benifisheryDataModelDbSend1);
                 break;
         }
 

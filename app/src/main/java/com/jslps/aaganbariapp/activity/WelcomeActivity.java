@@ -47,6 +47,7 @@ import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.adapter.MyCustomPagerAdapter;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
+import com.jslps.aaganbariapp.model.BenifisheryDataModelDbNew;
 import com.jslps.aaganbariapp.model.LoginDataModel;
 import com.jslps.aaganbariapp.model.LoginModelDb;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
@@ -309,6 +310,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                                         "", mStudentObject1.getTable2().get(i).getNo_of_Benf());
                                                 panchyatDataModelDb.save();
                                             }
+                                            BenifisheryDataModelDbNew.deleteAll(BenifisheryDataModelDbNew.class);
+                                            for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                                BenifisheryDataModelDbNew panchyatDataModelDb = new BenifisheryDataModelDbNew(mStudentObject1.getTable2().get(i).getBenfID(),
+                                                        mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                                        mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                panchyatDataModelDb.save();
+                                            }
                                             AanganWariModelDb.deleteAll(AanganWariModelDb.class);
                                             for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
                                                 AanganWariModelDb panchyatDataModelDb = new AanganWariModelDb(mStudentObject1.getTable1().get(i).getAnganwadiCode(),
@@ -452,6 +460,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                                             "", mStudentObject1.getTable2().get(i).getNo_of_Benf());
                                                     panchyatDataModelDb.save();
                                                 }
+                                                BenifisheryDataModelDbNew.deleteAll(BenifisheryDataModelDbNew.class);
+                                                for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                                    BenifisheryDataModelDbNew panchyatDataModelDb = new BenifisheryDataModelDbNew(mStudentObject1.getTable2().get(i).getBenfID(),
+                                                            mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                                            mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
+                                                    panchyatDataModelDb.save();
+                                                }
                                                 AanganWariModelDb.deleteAll(AanganWariModelDb.class);
 
                                                 for (int i = 0; i < mStudentObject1.getTable1().size(); i++) {
@@ -562,6 +577,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                                         mStudentObject1.getTable6().get(i).getClusterCode(), mStudentObject1.getTable6().get(i).getClusterName(),
                                                         mStudentObject1.getTable6().get(i).getClusterName_H(), mStudentObject1.getTable6().get(i).getCreatedBy(), mStudentObject1.getTable6().get(i).getCreatedOn(),
                                                         mStudentObject1.getTable6().get(i).getDistrictCode(), mStudentObject1.getTable6().get(i).getStateCode());
+                                                panchyatDataModelDb.save();
+                                            }
+                                            BenifisheryDataModelDbNew.deleteAll(BenifisheryDataModelDbNew.class);
+                                            for (int i = 0; i < mStudentObject1.getTable2().size(); i++) {
+                                                BenifisheryDataModelDbNew panchyatDataModelDb = new BenifisheryDataModelDbNew(mStudentObject1.getTable2().get(i).getBenfID(),
+                                                        mStudentObject1.getTable2().get(i).getBenfName(), mStudentObject1.getTable2().get(i).getCreatedBy(),
+                                                        mStudentObject1.getTable2().get(i).getCreatedOn(), mStudentObject1.getTable2().get(i).getNo_of_Benf());
                                                 panchyatDataModelDb.save();
                                             }
                                             VOListDataModelDb.deleteAll(VOListDataModelDb.class);

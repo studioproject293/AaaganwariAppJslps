@@ -12,7 +12,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:alpha="0.5"
+
             android:background="@drawable/shape_border"
             android:gravity="center"
             android:text="6-36 month"
@@ -32,13 +32,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
+            android:layout_weight="1"
             android:backgroundTint="@null"
             android:gravity="center"
             android:inputType="number"
             android:background="@drawable/shape_border"
             android:maxLength="2"
-            android:text="40"
+
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -55,13 +55,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
+            android:layout_weight="1"
             android:backgroundTint="@null"
             android:background="@drawable/shape_border"
             android:gravity="center"
             android:maxLength="2"
             android:inputType="number"
-            android:text="25"
+
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -73,19 +73,18 @@
             <View style="@style/Divider" />
         </LinearLayout>-->
 
-        <TextView
+        <EditText
             android:id="@+id/dalArhar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
-            android:alpha="0.5"
+            android:layout_weight="1"
             android:background="@drawable/shape_border"
             android:backgroundTint="@null"
             android:digits="0123456789."
             android:gravity="center"
             android:inputType="number"
-            android:text="8.00"
+
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -97,16 +96,16 @@
             <View style="@style/Divider" />
         </LinearLayout>-->
 
-        <TextView
+        <EditText
             android:id="@+id/penauts"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
-            android:alpha="0.5"
+            android:layout_weight="1"
+
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:text="8000 /-"
+
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -116,16 +115,16 @@
 
             <View style="@style/Divider" />
         </LinearLayout>-->
-        <TextView
+        <EditText
             android:id="@+id/chana"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
-            android:alpha="0.5"
+            android:layout_weight="1"
+
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:text="8000 /-"
+
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -135,16 +134,16 @@
 
             <View style="@style/Divider" />
         </LinearLayout>-->
-        <TextView
+        <EditText
             android:id="@+id/jaggery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
-            android:alpha="0.5"
+            android:layout_weight="1"
+
             android:gravity="center"
             android:background="@drawable/shape_border"
-            android:text="8000 /-"
+
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -154,16 +153,14 @@
 
             <View style="@style/Divider" />
         </LinearLayout>-->
-        <TextView
+        <EditText
             android:id="@+id/potatao"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.7"
-            android:alpha="0.5"
+            android:layout_weight="1"
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:text="8000 /-"
             android:textColor="#000"
             android:textStyle="bold" />
 

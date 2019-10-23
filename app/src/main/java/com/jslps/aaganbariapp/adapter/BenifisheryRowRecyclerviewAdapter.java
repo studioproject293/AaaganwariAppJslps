@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,8 +33,8 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
 
     @NonNull
     @Override
-    public BenifisheryRowRecyclerviewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(context).inflate(R.layout.benifishery_row_new, parent, false);
+    public BenifisheryRowRecyclerviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View row = LayoutInflater.from(context).inflate(R.layout.benifishery_row, parent, false);
         return new ViewHolder(row);
     }
 
@@ -95,8 +96,10 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
                 if (!TextUtils.isEmpty(s.toString())) {
                     //do your work here
                     Double total = 0.0;
+
                     total = Double.parseDouble(benifisheryDataModelDb.getUnitrateofmeal()) * Double.parseDouble(s.toString()) *
                             Double.parseDouble(benifisheryDataModelDb.getNoofbenf());
+
                     holder.textViewTotal.setText(total.toString());
                     benifisheryDataModelDb.setNoofbenf(holder.noOfBenifishery.getText().toString());
                     benifisheryDataModelDb.setNoofmeal(holder.noofmealinmonth.getText().toString());
@@ -135,15 +138,15 @@ public class BenifisheryRowRecyclerviewAdapter extends RecyclerView.Adapter<Beni
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView benifisheryName, unitRate, textViewTotal;
-        TextView noOfBenifishery, noofmealinmonth;
+        EditText noOfBenifishery, noofmealinmonth;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             benifisheryName = itemView.findViewById(R.id.benifisheryName);
-            unitRate = itemView.findViewById(R.id.dalArhar);
-            textViewTotal = itemView.findViewById(R.id.potatao);
+            unitRate = itemView.findViewById(R.id.unitRate);
+            textViewTotal = itemView.findViewById(R.id.total);
             noOfBenifishery = itemView.findViewById(R.id.noofbenifishery);
-            noofmealinmonth = itemView.findViewById(R.id.chana);
+            noofmealinmonth = itemView.findViewById(R.id.noofmealinmonth);
         }
     }
     public void updateList(ArrayList<BenifisheryDataModelDb> benifisheryDataModelDbArrayList) {
