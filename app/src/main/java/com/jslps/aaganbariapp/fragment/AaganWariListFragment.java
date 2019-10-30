@@ -31,7 +31,6 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
 
     private View rootView;
     RecyclerView recyclerViewPanchyat;
-    ArrayList<AanganWariModelDb> panchyatDataModelDbs;
     static VOListDataModelDb voListDataModelDbRec;
 
     public AaganWariListFragment() {
@@ -48,7 +47,7 @@ public class AaganWariListFragment extends BaseFragment implements OnFragmentLis
         super.onResume();
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, getString(R.string.choose_aaganwari)));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.AAGANWARI_LIST_FRAGNMENT);
-        panchyatDataModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class)
+        ArrayList<AanganWariModelDb> panchyatDataModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class)
                 .where(Condition.prop("vocode").eq(voListDataModelDbRec.getVocode())).list();
         updateList(panchyatDataModelDbs);
     }

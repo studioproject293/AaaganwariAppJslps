@@ -66,7 +66,7 @@ public class AttachmentImgeAdapter extends RecyclerView.Adapter<AttachmentImgeAd
                 imageSaveModels.remove(position);
                 notifyItemRangeChanged(position, imageSaveModels.size());
                 //onFragmentListItemSelectListener.onListItemSelected(position, imageSaveModels.get(position));
-                if (Constant.editFlag) {
+                    if (Constant.editFlag) {
                     if (imageSaveModels.size() == 1)
                         holder.removeImage.setVisibility(View.GONE);
                     else

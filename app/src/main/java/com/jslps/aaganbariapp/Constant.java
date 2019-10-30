@@ -19,7 +19,7 @@ public class Constant {
     public static final int UPDATE_FRAGMENT = 999;
     public static final int FRAGMENT_DATA_DOWNLOAD = 110;
     public static final int FRAGMENT_ENTRYFORM_NEW = 111;
-    public static final int FRAGMENT_ENTRY_EDIT_NEW =112;
+    public static final int FRAGMENT_ENTRY_EDIT_NEW = 112;
     public static int maxAttachment = 0;
     public static boolean editFlag = false;
     public static List<String> finalbytes = new ArrayList<String>();

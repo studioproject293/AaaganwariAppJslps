@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
@@ -36,7 +35,6 @@ import com.jslps.aaganbariapp.fragment.SyncWithServerFragment;
 import com.jslps.aaganbariapp.fragment.VoListFragment;
 import com.jslps.aaganbariapp.listener.OnFragmentInteractionListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
-import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
@@ -48,7 +46,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import static java.io.File.createTempFile;
@@ -81,18 +78,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         savenewMember = findViewById(R.id.savenewMember);
         button_bank_connection = findViewById(R.id.english);
         button_brand_connection = findViewById(R.id.hindi);
-        ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSends =
-                (ArrayList<BenifisheryDataModelDbSend>) BenifisheryDataModelDbSend.listAll(BenifisheryDataModelDbSend.class);
-       /* benifisheryDataModelDbSends.get(0).setImgebytes(null);
-        benifisheryDataModelDbSends.get(1).setImgebytes(null);*/
-        String data = "{ AganwadiImagesData:" + new Gson().toJson(benifisheryDataModelDbSends) + " }";
-        System.out.println("Jsva Data" + data);
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
-        try {
+       /* try {
             copyDatabase();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         savenewMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,9 +144,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         else radioGroup.setVisibility(View.GONE);
 
     }
-
-
-    @Override
+        @Override
     public void onFragmentInteraction(int fragmentId, Object data) {
         mFragmentManager = getSupportFragmentManager();
         mCurrentFragment = fragmentId;
@@ -263,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         alertDialog.show();
     }
 
-    public static Boolean copyFile(File sourceFile, File destFile)
+    public  Boolean copyFile(File sourceFile, File destFile)
             throws IOException {
         //        if (!destFile.exists()) {
         destFile.createNewFile();
@@ -293,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }
     }
 
-    private void copyDatabase() throws IOException {
+        private void copyDatabase() throws IOException {
 
         File actualFile = new File(new SugarDb(MainActivity.this).getDB().getPath());
         File cuurentfile = new File(actualFile.toString());

@@ -28,9 +28,7 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
     public BenifisheryRowEditRecyclerviewAdapterNew(Activity activity, ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList) {
         this.context = activity;
         this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;
-
     }
-
     @NonNull
     @Override
     public BenifisheryRowEditRecyclerviewAdapterNew.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

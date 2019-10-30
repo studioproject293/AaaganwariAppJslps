@@ -23,7 +23,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
     private Activity context;
     OnFragmentListItemSelectListener onFragmentListItemSelectListener;
     ArrayList<BenifisheryDataModelDbNew> benifisheryDataModelDbArrayList;
-    Double totalAll = 0.0;
+
     public BenifisheryRowRecyclerviewAdapterNew(Activity activity, ArrayList<BenifisheryDataModelDbNew> benifisheryDataModelDbArrayList) {
         this.context = activity;
         this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;

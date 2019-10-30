@@ -164,11 +164,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+
             android:id="@+id/tableLayout">
 
             <LinearLayout
 
                 android:layout_width="wrap_content"
+                android:background="#E0FFFF"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -316,7 +318,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Potatao (kg)"
+                    android:text=" Potato (kg) "
                     android:background="@drawable/shape_border"
                     android:textColor="#000"
                     android:textSize="14sp"
@@ -330,6 +332,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginBottom="10dp"
+                android:background="#E0FFFF"
                 android:layout_height="wrap_content">
 
                 <TextView

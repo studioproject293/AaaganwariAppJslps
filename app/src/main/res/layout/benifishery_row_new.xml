@@ -4,6 +4,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:background="#E0FFFF"
         android:layout_height="wrap_content">
 
         <TextView
@@ -12,7 +13,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
-
             android:background="@drawable/shape_border"
             android:gravity="center"
             android:text="6-36 month"
@@ -38,7 +38,6 @@
             android:inputType="number"
             android:background="@drawable/shape_border"
             android:maxLength="2"
-
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -60,8 +59,7 @@
             android:background="@drawable/shape_border"
             android:gravity="center"
             android:maxLength="2"
-            android:inputType="number"
-
+            android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -83,8 +81,7 @@
             android:backgroundTint="@null"
             android:digits="0123456789."
             android:gravity="center"
-            android:inputType="number"
-
+            android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -102,10 +99,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-
             android:background="@drawable/shape_border"
             android:gravity="center"
-
+            android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -121,10 +117,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-
+            android:inputType="numberDecimal"
             android:background="@drawable/shape_border"
             android:gravity="center"
-
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -140,7 +135,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-
+            android:inputType="numberDecimal"
             android:gravity="center"
             android:background="@drawable/shape_border"
 
@@ -161,6 +156,7 @@
             android:layout_weight="1"
             android:background="@drawable/shape_border"
             android:gravity="center"
+            android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
 
