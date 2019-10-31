@@ -79,11 +79,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         button_bank_connection = findViewById(R.id.english);
         button_brand_connection = findViewById(R.id.hindi);
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
-       /* try {
+        try {
             copyDatabase();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         savenewMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

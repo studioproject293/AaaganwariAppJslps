@@ -51,7 +51,6 @@ import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.LoginModelDb;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
-import com.jslps.aaganbariapp.model.UnitRateModelDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -64,7 +63,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
-public class EntryFormFragmentEditNew extends BaseFragment implements OnFragmentListItemSelectListener {
+public class EntryFormFragmentEditNew extends BaseFragment implements
+        OnFragmentListItemSelectListener {
 
     private View rootView;
     private EditText editTextRemarks;
@@ -81,7 +81,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
     ArrayList<ImageSaveModel> arrayListVillage1;
     public static TextView textViewtotalAll, productList;
     Button saveData;
-    ArrayList<BenifisheryDataModelDbSendNew>arrayList;
+    ArrayList<BenifisheryDataModelDbSendNew> arrayList;
     static ReportDisplayFormModel BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
     LinearLayout totalLyout, tableLayout, butonLayout;
@@ -107,14 +107,14 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
                     .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                             Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
                             Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
-                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            ,Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
                             Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
 
             arrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                     .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                             Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
-                            Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
-                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode()),
+                            Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
                             Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
 
 
@@ -136,6 +136,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
                 }
             } else editTextRemarks.setVisibility(View.GONE);
         }
+        ArrayList<ImageSaveModel> imageSaveModels = (ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class);
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
@@ -144,10 +145,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
                         Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
                         Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
         System.out.println("dsbfhjhxjkf" + new Gson().toJson(arrayListVillage1));
-        final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
-
-                if (arrayList != null && arrayList.size() > 0) {
-
+        if (arrayList != null && arrayList.size() > 0) {
             updateList(arrayList);
             if (arrayList.size() == 1)
                 uploadImage.setVisibility(View.GONE);
@@ -234,11 +232,10 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
 
     private void updateList(ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList) {
         tableLayout.setVisibility(View.VISIBLE);
-        totalLyout.setVisibility(View.VISIBLE);
         /*if (benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal() != null && benifisheryDataModelDbArrayList.get(0).getNoofmeal() != null) {*/
-            BenifisheryRowEditRecyclerviewAdapterNew benifisheryRowRecyclerviewAdapter = new BenifisheryRowEditRecyclerviewAdapterNew(getActivity(), benifisheryDataModelDbArrayList);
-            benifisheryRowRecyclerviewAdapter.setListner(this);
-            recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
+        BenifisheryRowEditRecyclerviewAdapterNew benifisheryRowRecyclerviewAdapter = new BenifisheryRowEditRecyclerviewAdapterNew(getActivity(), benifisheryDataModelDbArrayList);
+        benifisheryRowRecyclerviewAdapter.setListner(this);
+        recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
             /*totalAll = 0.0;
             for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
                 totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
@@ -342,7 +339,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
                 if (compoundButton.isChecked()) {
                     if (benifisheryDataModelDbArrayList != null && benifisheryDataModelDbArrayList.size() > 0) {
                         *//* for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {*//*
-                        *//*benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
+         *//*benifisheryDataModelDbArrayList.get(0).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB1() + unitRateModelDbArrayList.get(1).getB1() + unitRateModelDbArrayList.get(2).getB1()
                                 + unitRateModelDbArrayList.get(3).getB1() + unitRateModelDbArrayList.get(4).getB1() + unitRateModelDbArrayList.get(5).getB1()));
 
                         benifisheryDataModelDbArrayList.get(1).setUnitrateofmeal(String.valueOf(unitRateModelDbArrayList.get(0).getB2() + unitRateModelDbArrayList.get(1).getB2() + unitRateModelDbArrayList.get(2).getB2()
@@ -912,7 +909,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements OnFragment
         totalPenauts = (TextView) rootView.findViewById(R.id.totalPenauts);
         totalPotatao = (TextView) rootView.findViewById(R.id.totalPotatao);
         totalChana = (TextView) rootView.findViewById(R.id.totalChana);
-        totalJaggery= (TextView) rootView.findViewById(R.id.totalJaggery);
+        totalJaggery = (TextView) rootView.findViewById(R.id.totalJaggery);
     }
 
     @Override

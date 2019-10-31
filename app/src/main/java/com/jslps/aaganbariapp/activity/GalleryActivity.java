@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,10 +29,10 @@ import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,17 +169,18 @@ public class GalleryActivity extends AppCompatActivity {
                         if (arg1.getBackground() == (null)) {
                             FileInputStream fileInputStreamReader = null;
                             try {
-                                fileInputStreamReader = new FileInputStream(imgFile);
+                                Bitmap bmp = decodeFile(imgFile, 500);
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                bmp.compress(Bitmap.CompressFormat.JPEG, 15, stream);
+                                byte[] b = stream.toByteArray();
+                                String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+                                encodedBase64 = encImage;
+                                /*fileInputStreamReader = new FileInputStream(imgFile);
+
                                 fileSizeInBytes = fileInputStreamReader.available();
                                 byte[] bytes = new byte[(int) imgFile.length()];
                                 fileInputStreamReader.read(bytes);
-                                encodedBase64 = Base64.encodeToString(bytes, Base64.DEFAULT);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                                //Log.d(Constant.TAG, TAG + "Gallery On item Click-->" + "File Not Found Exception-->" + e.toString());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                //Log.d(Constant.TAG, TAG + "Gallery On item Click-->" + "IO Exception-->" + e.toString());
+                                encodedBase64 = Base64.encodeToString(bytes, Base64.DEFAULT);*/
                             } catch (Error e) {
                                 Toast.makeText(GalleryActivity.this, "RAM is running out of memory, Please clear your RAM first.", Toast.LENGTH_SHORT).show();
                                 //Log.d(Constant.TAG, TAG + "Gallery On item Click-->" + "IO Exception-->" + e.toString());
@@ -187,7 +190,7 @@ public class GalleryActivity extends AppCompatActivity {
                             if (fileSizeInBytes < 5000000) {
                                 if (finalbytes.size() < Constant.maxAttachment) {
                                     finalbytes.add(encodedBase64);
-                                    finalnames.add(fileName+ ".jpg");
+                                    finalnames.add(fileName + ".jpg");
                                     finalsizes.add(fileSizeInBytes);
                                     finaltypes.add(fileExtension);
                                     positions.add(position);
@@ -217,7 +220,7 @@ public class GalleryActivity extends AppCompatActivity {
                                 //Log.d(Constant.TAG,TAG+"Exception While removing");
                             }
 
-                            }
+                        }
                     } else {
                         Toast.makeText(GalleryActivity.this, "Image not exist", Toast.LENGTH_SHORT).show();
                     }
@@ -227,6 +230,33 @@ public class GalleryActivity extends AppCompatActivity {
         });
     }
 
+    private Bitmap decodeFile(File f, int size) {
+        try {
+            //decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+            //Find the correct scale value. It should be the power of 2.
+            final int REQUIRED_SIZE = size;
+            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int scale = 1;
+            while (true) {
+                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+                    break;
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
+            }
+
+            //decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {
+        }
+        return null;
+    }
 
     /**
      * The Class ImageAdapter.

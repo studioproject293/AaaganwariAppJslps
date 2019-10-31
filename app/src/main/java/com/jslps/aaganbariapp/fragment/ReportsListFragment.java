@@ -112,7 +112,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
         switch (itemId) {
             case R.id.delete:
                 ReportDisplayFormModel benifisheryDataModelDbSend = (ReportDisplayFormModel) data;
-                ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class)
+                ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                         .where(Condition.prop("panchyatcode").eq(benifisheryDataModelDbSend.getPancayatcode()),
                                 Condition.prop("vocode").eq(benifisheryDataModelDbSend.getVocode()),
                                 Condition.prop("aaganwaricode").eq(benifisheryDataModelDbSend.getAaganwaricode())).list();

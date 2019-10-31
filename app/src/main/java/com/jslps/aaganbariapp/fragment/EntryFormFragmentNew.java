@@ -59,7 +59,6 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDbNew;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.LoginModelDb;
-import com.jslps.aaganbariapp.model.UnitRateModelDb;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
@@ -245,8 +244,8 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
         yearSppiner = rootView.findViewById(R.id.sppinerYear);
         uploadImage = rootView.findViewById(R.id.uploadImage);
         recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
-        System.out.println("dsvnhdsgfhf" + new Gson().toJson(unitRateModelDbArrayList));
+       /* final ArrayList<UnitRateModelDb> unitRateModelDbArrayList = (ArrayList<UnitRateModelDb>) Select.from(UnitRateModelDb.class).list();
+        System.out.println("dsvnhdsgfhf" + new Gson().toJson(unitRateModelDbArrayList));*/
 
 
         uploadImage.setOnClickListener(new View.OnClickListener() {
@@ -371,58 +370,48 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                                 startActivity(intent);
                             }
                         } else {
-                            if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
 
-                                ArrayList<BenifisheryDataModelDbSendNew> arrayList = new ArrayList<>();
-                                for (int j = 0; j < Constant.finalbytes.size(); j++) {
-                                    String id = UUID.randomUUID().toString();
-                                    ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                    imageSaveModel.setAwccode(prefManager.getPrefAaganwariCode());
-                                    imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                    imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                    imageSaveModel.setIsuploadtoserver("false");
-                                    imageSaveModel.setImagename(Constant.finalnames.get(j));
-                                    imageSaveModel.setImagebyte(Constant.finalbytes.get(j));
-                                    imageSaveModel.setMonth(monthSeleted + "");
-                                    imageSaveModel.setGuid(id);
-                                    ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
-                                    imageSaveModel.setCreatedby(loginModelDbs.get(0).getUsername());
-                                    imageSaveModel.setYear(yearSelect);
-                                    imageSaveModel.save();
 
-                                }
-                                ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
-                                        .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
-                                                Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
-                                                Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode()),
-                                                Condition.prop("month").eq(monthSeleted),
-                                                Condition.prop("year").eq(yearSelect)).list();
-                                System.out.println("hfgsdsvffdhvghfd" + new Gson().toJson(benifisheryDataModelDbSendss));
-                                if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
-                                    Snackbar.with(getActivity(), null)
-                                            .type(Type.ERROR)
-                                            .message(getString(R.string.already_record))
-                                            .duration(Duration.SHORT)
-                                            .fillParent(true)
-                                            .textAlign(Align.CENTER)
-                                            .show();
-                                } else {
+                            ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
+                                    .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
+                                            Condition.prop("vocode").eq(prefManager.getPREF_VOCode()),
+                                            Condition.prop("aaganwaricode").eq(prefManager.getPrefAaganwariCode()),
+                                            Condition.prop("month").eq(monthSeleted),
+                                            Condition.prop("year").eq(yearSelect)).list();
+                            System.out.println("hfgsdsvffdhvghfd" + new Gson().toJson(benifisheryDataModelDbSendss));
+                            if (benifisheryDataModelDbSendss != null && benifisheryDataModelDbSendss.size() > 0) {
+                                Snackbar.with(getActivity(), null)
+                                        .type(Type.ERROR)
+                                        .message(getString(R.string.already_record))
+                                        .duration(Duration.SHORT)
+                                        .fillParent(true)
+                                        .textAlign(Align.CENTER)
+                                        .show();
+                            } else {
+                                if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                                    ArrayList<BenifisheryDataModelDbSendNew> arrayList = new ArrayList<>();
+                                    for (int j = 0; j < Constant.finalbytes.size(); j++) {
+                                        String id = UUID.randomUUID().toString();
+                                        ImageSaveModel imageSaveModel1 = new ImageSaveModel();
+                                        imageSaveModel1.setAwccode(prefManager.getPrefAaganwariCode());
+                                        imageSaveModel1.setPanchyatcode(prefManager.getPrefPanchyatCode());
+                                        imageSaveModel1.setVocode(prefManager.getPREF_VOCode());
+                                        imageSaveModel1.setIsuploadtoserver("false");
+                                        imageSaveModel1.setImagename(Constant.finalnames.get(j));
+                                        imageSaveModel1.setImagebyte(Constant.finalbytes.get(j));
+                                        imageSaveModel1.setMonth(monthSeleted + "");
+                                        imageSaveModel1.setGuid(id);
+                                        ArrayList<LoginModelDb> loginModelDbs = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class).list();
+                                        imageSaveModel1.setCreatedby(loginModelDbs.get(0).getUsername());
+                                        imageSaveModel1.setYear(yearSelect);
+                                        imageSaveModel1.save();
+
+                                    }
+
                                     String id1 = UUID.randomUUID().toString();
                                     for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
 
                                         BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = new BenifisheryDataModelDbSendNew();
-                                            /*if (checkBoxChickpea.isChecked())
-                                                benifisheryDataModelDbSend.setChexkboxchickpea("checkBoxChickpea");
-                                            if (checkBoxRice.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxrice("checkBoxRice");
-                                            if (checkBoxPenauts.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxpenauts("checkBoxPenauts");
-                                            if (checkBoxDal.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxdal("checkBoxDal");
-                                            if (checkBoxJaggery.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxjaggery("checkBoxJaggery");
-                                            if (checkBoxPotato.isChecked())
-                                                benifisheryDataModelDbSend.setCheckboxpotato("checkBoxPotato");*/
                                         benifisheryDataModelDbSend.setAaganwaricode(prefManager.getPrefAaganwariCode());
                                         benifisheryDataModelDbSend.setPanchyatcode(prefManager.getPrefPanchyatCode());
                                         benifisheryDataModelDbSend.setVocode(prefManager.getPREF_VOCode());
@@ -461,13 +450,14 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
+                                }else {
+                                    Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                                 }
 
 
-                            } else {
-                                Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                             }
                         }
+
                     } else {
                         Toast.makeText(getActivity(), "Please Select current month", Toast.LENGTH_SHORT).show();
                     }
@@ -774,7 +764,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
 
             Bitmap bmp = decodeFile(getFile(), 500);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 15, stream);
             byte[] byteArray = stream.toByteArray();
             encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
             FileInputStream fileInputStreamReader = null;
