@@ -57,6 +57,7 @@ import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbNew;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
+import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.LoginModelDb;
 import com.orm.query.Condition;
@@ -95,7 +96,6 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
     Spinner yearSppiner;
     Spinner monthSpiner;
     int year = 0, month = 0;
-
     public static TextView totalNoofbef, totalRice, totalArharDal, totalPenauts, totalChana,
             totalJaggery, totalPotatao;
 
@@ -152,8 +152,8 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
         } else yearSppiner.setSelection(1);
 
         monthSpiner.setSelection(month);
-//        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, aanganWariModelDbrec.getAnganwadiname()));
-       mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.ENTRY_FORM_FRAGNMENT);
+        mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Anganwadi  Name : " + aanganWariModelDbrec.getAnganwadiname()));
+        mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.ENTRY_FORM_FRAGNMENT);
         if (MainActivity.newCall) {
             MainActivity.newCall = false;
             benifisheryDataModelDbArrayList = new ArrayList<>();
@@ -190,7 +190,6 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
 //        benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbNew>) BenifisheryDataModelDbNew.listAll(BenifisheryDataModelDbNew.class);
 
 
-
         if (Constant.finalbytes.size() != 0) {
             Constant.editFlag = true;
             imageLayout.setVisibility(View.VISIBLE);
@@ -200,8 +199,6 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
         } else {
             imageLayout.setVisibility(View.GONE);
         }
-
-
 
 
     }
@@ -236,7 +233,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
         totalPenauts = (TextView) rootView.findViewById(R.id.totalPenauts);
         totalPotatao = (TextView) rootView.findViewById(R.id.totalPotatao);
         totalChana = (TextView) rootView.findViewById(R.id.totalChana);
-        totalJaggery= (TextView) rootView.findViewById(R.id.totalJaggery);
+        totalJaggery = (TextView) rootView.findViewById(R.id.totalJaggery);
 //        textViewtotalAll = (TextView) rootView.findViewById(R.id.totalAll);
         attachmentRecycler = (RecyclerView) rootView.findViewById(R.id.attachmentRecycler);
         recyclerViewBenifishery = (RecyclerView) rootView.findViewById(R.id.recyclerviewBenifishry);
@@ -450,7 +447,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     System.out.println("djfdsjdjvcndk" + new Gson().toJson(arrayList));
-                                }else {
+                                } else {
                                     Toast.makeText(getActivity(), getString(R.string.select_image_validation), Toast.LENGTH_SHORT).show();
                                 }
 

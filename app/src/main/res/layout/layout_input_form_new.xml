@@ -282,7 +282,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:background="@drawable/shape_border"
-                    android:text="Chickpeas"
+                    android:text="Chickpeas (kg)"
                     android:textColor="#000"
 
                     android:textSize="14sp"
@@ -300,7 +300,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Jaggery"
+                    android:text="Jaggery (kg)"
                     android:textColor="#000"
                     android:background="@drawable/shape_border"
                     android:textSize="14sp"

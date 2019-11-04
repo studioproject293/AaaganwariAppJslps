@@ -48,7 +48,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class HomeFragment extends BaseFragment  {
 
     private View rootView;
-    LinearLayout layoutStart, logout,feedbackFragment,reports,sysncwithserverLayout,dataDownLoadFragment;
+    LinearLayout layoutStart, logout,feedbackFragment,reports,sysncwithserverLayout,dataDownLoadFragment,report;
     FloatingActionButton refereshbutton;
     public HomeFragment() { }
 
@@ -68,7 +68,13 @@ public class HomeFragment extends BaseFragment  {
         layoutStart = rootView.findViewById(R.id.layoutStart);
         feedbackFragment = rootView.findViewById(R.id.feedbackFragment);
         refereshbutton = rootView.findViewById(R.id.refrreshicon);
+        report = rootView.findViewById(R.id.report);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
         refereshbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
