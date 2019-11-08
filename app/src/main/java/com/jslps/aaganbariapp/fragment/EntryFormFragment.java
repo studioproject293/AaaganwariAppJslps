@@ -1079,6 +1079,7 @@ public class EntryFormFragment extends BaseFragment implements OnFragmentListIte
                     if (Constant.finalbytes.size() < Constant.maxAttachment) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, 1);
+
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
                     }

@@ -355,15 +355,11 @@ public class GalleryActivity extends AppCompatActivity {
             String absolutePathOfImage = null;
             uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-            String[] projection = {MediaStore.MediaColumns.DATA,
-                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
-
+            String[] projection = {MediaStore.MediaColumns.DATA};
+            final String orderBy = MediaStore.Images.Media.DATE_ADDED + " DESC";
             cursor = activity.getContentResolver().query(uri, projection, null,
-                    null, null);
-
+                    null, orderBy);
             column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-            column_index_folder_name = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
             while (cursor.moveToNext()) {
                 absolutePathOfImage = cursor.getString(column_index_data);
 

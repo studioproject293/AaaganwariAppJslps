@@ -74,7 +74,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class WelcomeActivity extends AppCompatActivity {
-    int images[] = {R.mipmap.image3, R.mipmap.image2, R.mipmap.image1};
+    int images[] = {/*R.mipmap.image3, R.mipmap.image2, R.mipmap.image1*/};
 
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;

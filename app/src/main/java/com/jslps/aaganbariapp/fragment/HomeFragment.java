@@ -72,7 +72,7 @@ public class HomeFragment extends BaseFragment  {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+             mListener.onFragmentInteraction(Constant.FRAGMENT_REPORTS_DISPLAY,null);
             }
         });
         refereshbutton.setOnClickListener(new View.OnClickListener() {

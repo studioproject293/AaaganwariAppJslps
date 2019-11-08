@@ -29,18 +29,5 @@
             android:textColor="#FFF"
             android:textSize="15sp"
             android:textStyle="bold" />
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:layout_marginRight="3dp"
-            android:lineSpacingExtra="2sp"
-            android:text=""
-            android:visibility="gone"
-            android:textColor="#FFF"
-            android:textSize="15sp"
-            android:textStyle="bold" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

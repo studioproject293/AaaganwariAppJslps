@@ -30,6 +30,7 @@ import com.jslps.aaganbariapp.fragment.EntryFormFragmentNew;
 import com.jslps.aaganbariapp.fragment.FeedbackFragment;
 import com.jslps.aaganbariapp.fragment.HomeFragment;
 import com.jslps.aaganbariapp.fragment.PanchyatFragment;
+import com.jslps.aaganbariapp.fragment.ReportsDisplayFragment;
 import com.jslps.aaganbariapp.fragment.ReportsListFragment;
 import com.jslps.aaganbariapp.fragment.SyncWithServerFragment;
 import com.jslps.aaganbariapp.fragment.VoListFragment;
@@ -198,6 +199,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 radioGroup.setVisibility(View.GONE);
                 mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new EntryFormFragmentEditNew().newInstance((ReportDisplayFormModel) data), mFragmentTag).commitAllowingStateLoss();
                 break;
+            case Constant.FRAGMENT_REPORTS_DISPLAY:
+                radioGroup.setVisibility(View.GONE);
+                mFragmentManager.beginTransaction().addToBackStack(mFragmentTag).replace(R.id.fragment_main, new ReportsDisplayFragment().newInstance(), mFragmentTag).commitAllowingStateLoss();
+                break;
+
         }
     }
 
