@@ -188,7 +188,7 @@ public class HomeFragment extends BaseFragment  {
         feedbackFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onFragmentInteraction(Constant.FRAGMENT_ENTRYFORM_NEW, null);
+                mListener.onFragmentInteraction(Constant.FRAGMENT_FEEDBACK, null);
             }
         });
         reports.setOnClickListener(new View.OnClickListener() {
