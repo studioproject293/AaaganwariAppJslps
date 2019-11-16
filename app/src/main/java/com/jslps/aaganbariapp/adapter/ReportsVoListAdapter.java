@@ -51,7 +51,6 @@ public class ReportsVoListAdapter extends RecyclerView.Adapter<ReportsVoListAdap
     public int getItemCount() {
         return reportFilterModelArrayList.size();
     }
-
     public void setListner(OnFragmentListItemSelectListener onFragmentListItemSelectListener) {
         this.onFragmentListItemSelectListener = onFragmentListItemSelectListener;
     }
