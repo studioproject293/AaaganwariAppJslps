@@ -119,7 +119,7 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                 reportFilterModel.setAaganwaricount(aanganWariModelDbArrayList.size() + "");
 
                 ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendNews = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
-                        .where(Condition.prop("aaganwaricode").eq(aanganWariModelDbArrayList.get(j).getAwid()),
+                        .where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode()),
                                 Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                 Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                 for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
@@ -148,7 +148,7 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                             reportFilterModel.setAaganwaricount(aanganWariModelDbArrayList.size() + "");
 
                             ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendNews = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
-                                    .where(Condition.prop("aaganwaricode").eq(aanganWariModelDbArrayList.get(j).getAwid()),
+                                    .where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode()),
                                             Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                             Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                             for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
@@ -173,7 +173,7 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                             reportFilterModel.setAaganwaricount(aanganWariModelDbArrayList.size() + "");
 
                             ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendNews = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
-                                    .where(Condition.prop("aaganwaricode").eq(aanganWariModelDbArrayList.get(j).getAwid()),
+                                    .where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode()),
                                             Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                             Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                             for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
@@ -210,7 +210,7 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                         reportFilterModel.setAaganwaricount(aanganWariModelDbArrayList.size() + "");
 
                         ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendNews = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
-                                .where(Condition.prop("aaganwaricode").eq(aanganWariModelDbArrayList.get(j).getAwid()),
+                                .where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode()),
                                         Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                         Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                         for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {

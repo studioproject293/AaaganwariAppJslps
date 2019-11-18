@@ -33,10 +33,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/shape_border"
             android:backgroundTint="@null"
             android:gravity="center"
             android:inputType="number"
-            android:background="@drawable/shape_border"
             android:maxLength="2"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -58,8 +58,9 @@
             android:backgroundTint="@null"
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:maxLength="2"
+            android:maxLength="4"
             android:inputType="numberDecimal"
+            android:digits="0123456789."
             android:textColor="#000"
             android:textStyle="bold" />
 
@@ -81,6 +82,7 @@
             android:backgroundTint="@null"
             android:digits="0123456789."
             android:gravity="center"
+            android:maxLength="4"
             android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -101,6 +103,8 @@
             android:layout_weight="1"
             android:background="@drawable/shape_border"
             android:gravity="center"
+            android:digits="0123456789."
+            android:maxLength="4"
             android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -117,9 +121,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:inputType="numberDecimal"
+            android:digits="0123456789."
             android:background="@drawable/shape_border"
             android:gravity="center"
+            android:maxLength="4"
+            android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -135,10 +141,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:inputType="numberDecimal"
+            android:digits="0123456789."
             android:gravity="center"
             android:background="@drawable/shape_border"
-
+            android:maxLength="4"
+            android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
        <!-- <LinearLayout
@@ -156,7 +163,9 @@
             android:layout_weight="1"
             android:background="@drawable/shape_border"
             android:gravity="center"
+            android:maxLength="4"
             android:inputType="numberDecimal"
+            android:digits="0123456789."
             android:textColor="#000"
             android:textStyle="bold" />
 
