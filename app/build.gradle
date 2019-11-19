@@ -35,5 +35,6 @@ dependencies {
     implementation 'com.github.satyan:sugar:1.5'
     implementation 'com.chootdev:csnackbar:1.4.2'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'org.jsoup:jsoup:1.7.3'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

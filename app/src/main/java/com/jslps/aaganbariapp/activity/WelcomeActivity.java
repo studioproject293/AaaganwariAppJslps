@@ -1,12 +1,16 @@
 package com.jslps.aaganbariapp.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +64,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -92,6 +100,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        forceUpdate();
     }
 
     @Override
@@ -100,6 +109,7 @@ public class WelcomeActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         PrefManager.getInstance().init(this);
+        forceUpdate();
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -123,7 +133,7 @@ public class WelcomeActivity extends AppCompatActivity {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
-            versionNo.setText("Version No: "+version);
+            versionNo.setText("Version No: " + version);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -216,7 +226,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     editTextPassword.requestFocus();
                     showError(editTextPassword);
                 } else {
-                    DialogUtil.hideKeyboard(sigiin,WelcomeActivity.this);
+                    DialogUtil.hideKeyboard(sigiin, WelcomeActivity.this);
                     dialog.cancel();
                     ArrayList<LoginModelDb> arrayListVillage1 = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class)
                             .where(Condition.prop("username").eq(editTextUserName.getText().toString()),
@@ -745,4 +755,72 @@ public class WelcomeActivity extends AppCompatActivity {
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         editText.startAnimation(shake);
     }
-}
+
+    private String latestVersion;
+
+    public class UpdateAsync extends AsyncTask<String, String, JSONObject> {
+
+        private String currentVersion;
+        private Context context;
+
+        public UpdateAsync(String currentVersion, Context context) {
+            this.currentVersion = currentVersion;
+            this.context = context;
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+            try {
+                latestVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" + getPackageName()+ "&hl=en")
+                        .timeout(10000)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .referrer("http://www.google.com")
+                        .get()
+                        .select("div.hAyfc:nth-child(4) > span:nth-child(2) > div:nth-child(1) > span:nth-child(1)")
+                        .first()
+                        .ownText();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new JSONObject();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            if (latestVersion != null) {
+                if (!currentVersion.equalsIgnoreCase(latestVersion)) {
+                    updateDialog();
+                }
+            }
+            super.onPostExecute(jsonObject);
+        }
+    }
+    public void updateDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WelcomeActivity.this );
+//            String s1 = "<b>" + "Update Available" + "</b>";
+//            Spanned strMessage = Html.fromHtml(s1);
+        alertDialogBuilder.setTitle("New version available (" + latestVersion + ")");
+        alertDialogBuilder.setMessage(getString(R.string.youAreNotUpdatedMessage) + " ");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+            }
+        });
+        alertDialogBuilder.show();
+    }
+        public void forceUpdate() {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            String currentVersion = packageInfo.versionName;
+            new UpdateAsync(currentVersion, WelcomeActivity.this).execute();
+        }
+    }
+
