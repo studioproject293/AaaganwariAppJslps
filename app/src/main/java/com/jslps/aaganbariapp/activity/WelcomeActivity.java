@@ -100,7 +100,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        forceUpdate();
+//        forceUpdate();
     }
 
     @Override
