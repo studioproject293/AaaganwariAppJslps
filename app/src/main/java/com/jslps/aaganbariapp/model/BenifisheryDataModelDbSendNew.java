@@ -26,8 +26,7 @@ public class BenifisheryDataModelDbSendNew extends SugarRecord {
     private String potato;
     private String chana;
 
-    public BenifisheryDataModelDbSendNew() {
-    }
+    public BenifisheryDataModelDbSendNew() { }
 
     public BenifisheryDataModelDbSendNew(String benfid, String benfname, String createdby, String createdon, String rice, String arhardal, String noofbenf, String peanuts, String month, String year, String remarks, String guid, String panchyatcode, String vocode, String aaganwaricode, String panchyatname, String voname, String aaganwariname, String isuploadtoserver, String jaggery, String potato
             , String chana) {
