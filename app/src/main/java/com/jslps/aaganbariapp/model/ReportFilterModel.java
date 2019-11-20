@@ -8,6 +8,33 @@ public class ReportFilterModel extends SugarRecord {
     private String voname;
     private String aaganwaricount;
     private String aaganwaricountApplied;
+    private String aaganwariname;
+    private String month;
+    private String year;
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getAaganwariname() {
+        return aaganwariname;
+    }
+
+    public void setAaganwariname(String aaganwariname) {
+        this.aaganwariname = aaganwariname;
+    }
 
     public String getAaganwaricountApplied() {
         return aaganwaricountApplied;

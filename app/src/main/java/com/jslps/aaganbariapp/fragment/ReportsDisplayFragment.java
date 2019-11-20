@@ -35,6 +35,7 @@ public class ReportsDisplayFragment extends BaseFragment implements OnFragmentLi
     private View rootView;
     RecyclerView recyclerviewMonth;
     Button reports2;
+
     public ReportsDisplayFragment() {
         // Required empty public constructor
     }
@@ -51,8 +52,8 @@ public class ReportsDisplayFragment extends BaseFragment implements OnFragmentLi
 
     }
 
-    String yearSelect,yearSelect1 = null;
-    int monthSeleted,monthSeleted1;
+    String yearSelect, yearSelect1 = null;
+    int monthSeleted, monthSeleted1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -60,11 +61,11 @@ public class ReportsDisplayFragment extends BaseFragment implements OnFragmentLi
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_reports, container, false);
         recyclerviewMonth = rootView.findViewById(R.id.recyclerviewMonth);
-        reports2=rootView.findViewById(R.id.reports2);
+        reports2 = rootView.findViewById(R.id.reports2);
         reports2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onFragmentInteraction(Constant.FRAGMENT_REPORTS_DISPLAY1,null);
+                mListener.onFragmentInteraction(Constant.FRAGMENT_REPORTS_DISPLAY1, null);
             }
         });
         /*recyclerviewNoOfAagnwadiTotal = rootView.findViewById(R.id.totalAwRecyclerview);*/
@@ -115,14 +116,20 @@ public class ReportsDisplayFragment extends BaseFragment implements OnFragmentLi
                     for (int j = 0; j < arrayListMonth.size(); j++) {
                         ArrayList<BenifisheryDataModelDbSendNew> panchyatDataModelDbs = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                                 .where(Condition.prop("month").eq(j + 1), Condition.prop("year").eq(2019)).list();
-                        stringArrayList.add(String.valueOf(panchyatDataModelDbs.size()));
+                        if (panchyatDataModelDbs.size() > 3)
+                            stringArrayList.add(String.valueOf(panchyatDataModelDbs.size() / 4));
+                        else
+                            stringArrayList.add(String.valueOf(panchyatDataModelDbs.size()));
                     }
                 } else {
                     stringArrayList.clear();
                     for (int j = 0; j < arrayListMonth.size(); j++) {
                         ArrayList<BenifisheryDataModelDbSendNew> panchyatDataModelDbs = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                                 .where(Condition.prop("month").eq(j + 1), Condition.prop("year").eq(2020)).list();
-                        stringArrayList.add(String.valueOf(panchyatDataModelDbs.size()));
+                        if (panchyatDataModelDbs.size() > 3)
+                            stringArrayList.add(String.valueOf(panchyatDataModelDbs.size() / 4));
+                        else
+                            stringArrayList.add(String.valueOf(panchyatDataModelDbs.size()));
                     }
                 }
 

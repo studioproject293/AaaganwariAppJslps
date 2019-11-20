@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
-import com.jslps.aaganbariapp.adapter.ReportsMonthRecyclerviewAdapter;
 import com.jslps.aaganbariapp.adapter.ReportsVoListAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
@@ -107,12 +106,16 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
         final ArrayList<AanganWariModelDb> aanganWariModelDbs = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).list();
         final ArrayList<String> stringArrayList = new ArrayList<>();
         System.out.println("vefrag" + monthSppiner.getSelectedItemId());
-
+        ArrayList<String>aaganwariName=new ArrayList<>();
         ArrayList<ReportFilterModel> reportFilterModelArrayList = new ArrayList<>();
+
         ArrayList<VOListDataModelDb> voListDataModelDbArrayList1 = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class).list();
         for (int i = 0; i < voListDataModelDbArrayList1.size(); i++) {
             ReportFilterModel reportFilterModel = new ReportFilterModel();
+            reportFilterModel.setMonth(String.valueOf(monthSppiner.getSelectedItemId()+1));
+            reportFilterModel.setYear(String.valueOf(yearSppiner1.getSelectedItem()));
             reportFilterModel.setVoname(voListDataModelDbArrayList1.get(i).getVoshg());
+            reportFilterModel.setVocode(voListDataModelDbArrayList1.get(i).getVocode());
             ArrayList<AanganWariModelDb> aanganWariModelDbArrayList = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).
                     where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode())).list();
             for (int j = 0; j < aanganWariModelDbArrayList.size(); j++) {
@@ -123,25 +126,38 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                                 Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                 Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                 for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
-                    reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+                    if (benifisheryDataModelDbSendNews.size()> 3){
+                        reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size()/4 + "");
+
+                    }else {
+                        reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+
+                    }
+
+                }
+                for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
+                    aaganwariName.add(benifisheryDataModelDbSendNews.get(k).getAaganwariname());
                 }
             }
             reportFilterModelArrayList.add(reportFilterModel);
         }
         System.out.println("adhcjvdiu"+new Gson().toJson(reportFilterModelArrayList));
-        ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList);
-        recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
+        ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList,aaganwariName);        recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
         yearSppiner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int m, long l) {
 
                 if (m == 0) {
                     yearSelect1 = "2019";
+                    ArrayList<String>aaganwariName=new ArrayList<>();
                     ArrayList<ReportFilterModel> reportFilterModelArrayList = new ArrayList<>();
                     ArrayList<VOListDataModelDb> voListDataModelDbArrayList1 = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class).list();
                     for (int i = 0; i < voListDataModelDbArrayList1.size(); i++) {
                         ReportFilterModel reportFilterModel = new ReportFilterModel();
+                        reportFilterModel.setMonth(String.valueOf(monthSppiner.getSelectedItemId()+1));
+                        reportFilterModel.setYear(String.valueOf(yearSppiner1.getSelectedItem()));
                         reportFilterModel.setVoname(voListDataModelDbArrayList1.get(i).getVoshg());
+                        reportFilterModel.setVocode(voListDataModelDbArrayList1.get(i).getVocode());
                         ArrayList<AanganWariModelDb> aanganWariModelDbArrayList = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).
                                 where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode())).list();
                         for (int j = 0; j < aanganWariModelDbArrayList.size(); j++) {
@@ -152,21 +168,30 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                                             Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                             Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                             for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
-                                reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+                                if (benifisheryDataModelDbSendNews.size()> 3){
+                                    reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size()/4 + "");
+
+                                }else {
+                                    reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+
+                                }
                             }
                         }
                         reportFilterModelArrayList.add(reportFilterModel);
                     }
                     System.out.println("adhcjvdiu"+new Gson().toJson(reportFilterModelArrayList));
-                    ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList);
-                    recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
+                    ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList,aaganwariName);                    recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
                 } else {
                     yearSelect1 = "2020";
+                    ArrayList<String>aaganwariName=new ArrayList<>();
                     ArrayList<ReportFilterModel> reportFilterModelArrayList = new ArrayList<>();
                     ArrayList<VOListDataModelDb> voListDataModelDbArrayList1 = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class).list();
                     for (int i = 0; i < voListDataModelDbArrayList1.size(); i++) {
                         ReportFilterModel reportFilterModel = new ReportFilterModel();
+                        reportFilterModel.setMonth(String.valueOf(monthSppiner.getSelectedItemId()+1));
+                        reportFilterModel.setYear(String.valueOf(yearSppiner1.getSelectedItem()));
                         reportFilterModel.setVoname(voListDataModelDbArrayList1.get(i).getVoshg());
+                        reportFilterModel.setVocode(voListDataModelDbArrayList1.get(i).getVocode());
                         ArrayList<AanganWariModelDb> aanganWariModelDbArrayList = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).
                                 where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode())).list();
                         for (int j = 0; j < aanganWariModelDbArrayList.size(); j++) {
@@ -177,14 +202,19 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                                             Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                             Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                             for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
-                                reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+                                if (benifisheryDataModelDbSendNews.size()> 3){
+                                    reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size()/4 + "");
+
+                                }else {
+                                    reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+
+                                }
                             }
                         }
                         reportFilterModelArrayList.add(reportFilterModel);
                     }
                     System.out.println("adhcjvdiu"+new Gson().toJson(reportFilterModelArrayList));
-                    ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList);
-                    recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
+                    ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList,aaganwariName);                    recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
 
                 }
 
@@ -199,11 +229,15 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int m, long l) {
                 monthSeleted1 = (m + 1);
+                ArrayList<String>aaganwariName=new ArrayList<>();
                 ArrayList<ReportFilterModel> reportFilterModelArrayList = new ArrayList<>();
                 ArrayList<VOListDataModelDb> voListDataModelDbArrayList1 = (ArrayList<VOListDataModelDb>) Select.from(VOListDataModelDb.class).list();
                 for (int i = 0; i < voListDataModelDbArrayList1.size(); i++) {
                     ReportFilterModel reportFilterModel = new ReportFilterModel();
+                    reportFilterModel.setMonth(String.valueOf(monthSppiner.getSelectedItemId()+1));
+                    reportFilterModel.setYear(String.valueOf(yearSppiner1.getSelectedItem()));
                     reportFilterModel.setVoname(voListDataModelDbArrayList1.get(i).getVoshg());
+                    reportFilterModel.setVocode(voListDataModelDbArrayList1.get(i).getVocode());
                     ArrayList<AanganWariModelDb> aanganWariModelDbArrayList = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).
                             where(Condition.prop("vocode").eq(voListDataModelDbArrayList1.get(i).getVocode())).list();
                     for (int j = 0; j < aanganWariModelDbArrayList.size(); j++) {
@@ -214,13 +248,19 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                                         Condition.prop("month").eq(monthSppiner.getSelectedItemId()+1),
                                         Condition.prop("year").eq(yearSppiner1.getSelectedItem())).list();
                         for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
-                            reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+                            if (benifisheryDataModelDbSendNews.size()> 3){
+                                reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size()/4 + "");
+
+                            }else {
+                                reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
+
+                            }
                         }
                     }
                     reportFilterModelArrayList.add(reportFilterModel);
                 }
                 System.out.println("adhcjvdiu"+new Gson().toJson(reportFilterModelArrayList));
-                ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList);
+                ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList,aaganwariName);
                 recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
             }
 
@@ -231,9 +271,6 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
         });
         return rootView;
     }
-
-    ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendNews;
-    ArrayList<AanganWariModelDb> panchyatDataModelDbs;
 
     @Override
     public void onListItemSelected(int itemId, Object data) {
