@@ -95,8 +95,7 @@ public class DialogUtil {
             return true;
         }
     }
-    public static boolean checkPermissionPhone(final Context context)
-    {
+    public static boolean checkPermissionPhone(final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if(currentAPIVersion>= Build.VERSION_CODES.M)
         {

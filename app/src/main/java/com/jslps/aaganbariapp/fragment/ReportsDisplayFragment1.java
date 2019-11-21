@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentListItemSelectListener {
-    Spinner yearSppiner1, monthSppiner;
+    private Spinner yearSppiner1, monthSppiner;
     private View rootView;
-    RecyclerView recyclerviewVo;
+    private RecyclerView recyclerviewVo;
 
     public ReportsDisplayFragment1() {
         // Required empty public constructor
@@ -49,8 +49,8 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
 
     }
 
-    String yearSelect1;
-    int monthSeleted1;
+    private String yearSelect1;
+    private int monthSeleted1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -214,12 +214,10 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                         reportFilterModelArrayList.add(reportFilterModel);
                     }
                     System.out.println("adhcjvdiu"+new Gson().toJson(reportFilterModelArrayList));
-                    ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList,aaganwariName);                    recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
-
+                    ReportsVoListAdapter reportsMonthRecyclerviewAdapter = new ReportsVoListAdapter(getActivity(), reportFilterModelArrayList,aaganwariName);
+                    recyclerviewVo.setAdapter(reportsMonthRecyclerviewAdapter);
                 }
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -250,7 +248,6 @@ public class ReportsDisplayFragment1 extends BaseFragment implements OnFragmentL
                         for (int k = 0; k < benifisheryDataModelDbSendNews.size(); k++) {
                             if (benifisheryDataModelDbSendNews.size()> 3){
                                 reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size()/4 + "");
-
                             }else {
                                 reportFilterModel.setAaganwaricountApplied(benifisheryDataModelDbSendNews.size() + "");
 
