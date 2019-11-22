@@ -4,7 +4,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="#E0FFFF"
         android:layout_height="wrap_content">
 
         <TextView
@@ -13,8 +12,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:background="@drawable/shape_border"
+            android:background="@drawable/shape_border_color"
             android:gravity="center"
+            android:padding="5dp"
             android:text="6-36 month"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -36,6 +36,7 @@
             android:background="@drawable/shape_border"
             android:backgroundTint="@null"
             android:gravity="center"
+            android:padding="5dp"
             android:inputType="number"
             android:maxLength="2"
             android:textColor="#000"
@@ -58,7 +59,8 @@
             android:backgroundTint="@null"
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:maxLength="4"
+            android:maxLength="7"
+            android:padding="5dp"
             android:inputType="numberDecimal"
             android:digits="0123456789."
             android:textColor="#000"
@@ -82,7 +84,8 @@
             android:backgroundTint="@null"
             android:digits="0123456789."
             android:gravity="center"
-            android:maxLength="4"
+            android:maxLength="7"
+            android:padding="5dp"
             android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -104,7 +107,8 @@
             android:background="@drawable/shape_border"
             android:gravity="center"
             android:digits="0123456789."
-            android:maxLength="4"
+            android:maxLength="7"
+            android:padding="5dp"
             android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -124,7 +128,8 @@
             android:digits="0123456789."
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:maxLength="4"
+            android:maxLength="7"
+            android:padding="5dp"
             android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -144,7 +149,8 @@
             android:digits="0123456789."
             android:gravity="center"
             android:background="@drawable/shape_border"
-            android:maxLength="4"
+            android:maxLength="7"
+            android:padding="5dp"
             android:inputType="numberDecimal"
             android:textColor="#000"
             android:textStyle="bold" />
@@ -163,7 +169,8 @@
             android:layout_weight="1"
             android:background="@drawable/shape_border"
             android:gravity="center"
-            android:maxLength="4"
+            android:maxLength="7"
+            android:padding="5dp"
             android:inputType="numberDecimal"
             android:digits="0123456789."
             android:textColor="#000"

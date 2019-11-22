@@ -69,13 +69,15 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:padding="10dp"
+            android:id="@+id/switchLayout"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="0dp"
-                android:textColor="#000"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:text="@string/no_supply_in_month"
-                android:layout_height="wrap_content" />
+                android:textColor="#000" />
             <Switch
                 android:layout_width="0dp"
                 android:id="@+id/switchtrue"
@@ -342,6 +344,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:background="@drawable/shape_border"
                     android:paddingRight="2dp"
                     android:text="Total "
@@ -365,6 +368,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingLeft="5dp"
+                    android:padding="5dp"
                     android:background="@drawable/shape_border"
                    android:id="@+id/totalNoofbef"
                     android:text="59"
@@ -389,6 +393,7 @@
                     android:background="@drawable/shape_border"
                     android:paddingLeft="5dp"
                     android:id="@+id/totalRice"
+                    android:padding="5dp"
                     android:text="95000"
                     android:textColor="#000"
 
@@ -413,6 +418,7 @@
                     android:paddingLeft="5dp"
                     android:id="@+id/totalArharDal"
                     android:text="445250"
+                    android:padding="5dp"
                     android:textColor="#000"
 
                     android:textStyle="bold" />
@@ -432,6 +438,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:background="@drawable/shape_border"
                     android:id="@+id/totalPenauts"
                     android:text="48500"
@@ -452,6 +459,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingLeft="5dp"
+                    android:padding="5dp"
                     android:id="@+id/totalChana"
                     android:text="10000"
                     android:background="@drawable/shape_border"
@@ -472,6 +480,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingLeft="5dp"
+                    android:padding="5dp"
                     android:background="@drawable/shape_border"
                     android:id="@+id/totalJaggery"
                     android:text="42.14"
@@ -495,6 +504,7 @@
                     android:paddingLeft="5dp"
                     android:text="145.34"
                     android:textColor="#000"
+                    android:padding="5dp"
                     android:textSize="15sp"
                     android:background="@drawable/shape_border"
                     android:textStyle="bold" />

@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,15 +80,15 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
     RecyclerView recyclerViewBenifishery;
     ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList;
     ArrayList<ImageSaveModel> arrayListVillage1;
-    public static TextView textViewtotalAll, productList;
+    public static TextView textViewtotalAll;
     Button saveData;
     ArrayList<BenifisheryDataModelDbSendNew> arrayList;
     static ReportDisplayFormModel BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
-    LinearLayout totalLyout, tableLayout, butonLayout;
+    LinearLayout totalLyout, tableLayout, butonLayout,switchLayout;
     public static TextView totalNoofbef, totalRice, totalArharDal, totalPenauts, totalChana,
             totalJaggery, totalPotatao;
-
+    Switch switchtrue;
     public EntryFormFragmentEditNew() {
         // Required empty public constructor
     }
@@ -125,8 +126,12 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
             editTextRemarks.setVisibility(View.VISIBLE);
             editTextRemarks.setEnabled(true);
             butonLayout.setVisibility(View.VISIBLE);
+            switchtrue.setVisibility(View.GONE);
+            switchLayout.setVisibility(View.INVISIBLE);
         } else {
             butonLayout.setVisibility(View.GONE);
+            switchtrue.setVisibility(View.GONE);
+            switchLayout.setVisibility(View.INVISIBLE);
             if (benifisheryDataModelDbArrayList != null) {
                 if (TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(0).getRemarks()))
                     editTextRemarks.setVisibility(View.GONE);
@@ -254,7 +259,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
         rootView = inflater.inflate(R.layout.layout_input_form_new, container, false);
         prefManager = PrefManager.getInstance();
         setId();
-
+        switchtrue = (Switch) rootView.findViewById(R.id.switchtrue);
         arrayListMonth = new ArrayList<String>();
         arrayListMonth.add("जनवरी");
         arrayListMonth.add("फ़रवरी");
@@ -910,6 +915,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
         totalPotatao = (TextView) rootView.findViewById(R.id.totalPotatao);
         totalChana = (TextView) rootView.findViewById(R.id.totalChana);
         totalJaggery = (TextView) rootView.findViewById(R.id.totalJaggery);
+        switchLayout = (LinearLayout) rootView.findViewById(R.id.switchLayout);
     }
 
     @Override

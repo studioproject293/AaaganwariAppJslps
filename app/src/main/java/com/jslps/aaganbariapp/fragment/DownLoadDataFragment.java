@@ -28,6 +28,7 @@ import com.jslps.aaganbariapp.adapter.ReprtsListRecyclerviewAdapter;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.DownloadModelSend;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
@@ -237,7 +238,7 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                         ArrayList<String> arrayList = new ArrayList<>();
                         ArrayList<String> arrayList1 = new ArrayList<>();
                         for (int i = 0; i < mStudentObject1.getMaster().size(); i++) {
-                            ArrayList<BenifisheryDataModelDbSend> benifisheryDataModelDbSendArrayList = (ArrayList<BenifisheryDataModelDbSend>) Select.from(BenifisheryDataModelDbSend.class).
+                            ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendArrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class).
                                     where(Condition.prop("panchyatcode").eq(mStudentObject1.getMaster().get(i).getPanchyatcode()),
                                             Condition.prop("aaganwaricode").eq(mStudentObject1.getMaster().get(i).getAaganwaricode()),
                                             Condition.prop("month").eq(mStudentObject1.getMaster().get(i).getMonth()),
@@ -276,14 +277,18 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                                 ArrayList<AanganWariModelDb> aanganWariModelDbArrayList = (ArrayList<AanganWariModelDb>) Select.from(AanganWariModelDb.class).
                                         where(Condition.prop("awid").eq(mStudentObject1.getMaster().get(i).getAaganwaricode())).list();
                                 System.out.println("fbvhjsfdvbhsd" + mStudentObject1.getMaster().get(i).getAaganwaricode());
-                                BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend(mStudentObject1.getMaster().get(i).getBenfid(),
-                                        mStudentObject1.getMaster().get(i).getBenfname(), mStudentObject1.getMaster().get(i).getCreatedby(), mStudentObject1.getMaster().get(i).getCreatedon(),
-                                        mStudentObject1.getMaster().get(i).getNoofmeal(), mStudentObject1.getMaster().get(i).getUnitrateofmeal(), mStudentObject1.getMaster().get(i).getNoofbenf(),
-                                        mStudentObject1.getMaster().get(i).getAmount(), mStudentObject1.getMaster().get(i).getMonth(), mStudentObject1.getMaster().get(i).getYear(),
-                                        mStudentObject1.getMaster().get(i).getRemarks(), mStudentObject1.getMaster().get(i).getGuid(), mStudentObject1.getMaster().get(i).getPanchyatcode(),
-                                        mStudentObject1.getMaster().get(i).getVocode(), mStudentObject1.getMaster().get(i).getAaganwaricode(), panchyatDataModelDbs.get(0).getClustername(),
-                                        voListDataModelDbArrayList1.get(0).getVoshg(),
-                                        aanganWariModelDbArrayList.get(0).getAnganwadiname(), "true");
+
+                                BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = new BenifisheryDataModelDbSendNew(mStudentObject1.getMaster().get(i).getBenfid(),
+                                        mStudentObject1.getMaster().get(i).getBenfname(),mStudentObject1.getMaster().get(i).getCreatedby(),mStudentObject1.getMaster().get(i).getCreatedon()
+                                ,mStudentObject1.getMaster().get(i).getRice(),mStudentObject1.getMaster().get(i).getArhardal(),
+                                        mStudentObject1.getMaster().get(i).getNoofbenf(),mStudentObject1.getMaster().get(i).getPeanuts(),
+                                        mStudentObject1.getMaster().get(i).getMonth(),mStudentObject1.getMaster().get(i).getYear(),
+                                        mStudentObject1.getMaster().get(i).getRemarks(),mStudentObject1.getMaster().get(i).getGuid(),
+                                        mStudentObject1.getMaster().get(i).getPanchyatcode(),mStudentObject1.getMaster().get(i).getVocode(),
+                                        mStudentObject1.getMaster().get(i).getAaganwaricode(), panchyatDataModelDbs.get(0).getClustername(),
+                                        voListDataModelDbArrayList1.get(0).getVoshg(),aanganWariModelDbArrayList.get(0).getAnganwadiname(),
+                                        "true",mStudentObject1.getMaster().get(i).getJaggery(),mStudentObject1.getMaster().get(i).getPotato(),
+                                        mStudentObject1.getMaster().get(i).getChana());
                                 benifisheryDataModelDbSend.save();
                             } else {
                                 countError++;

@@ -218,6 +218,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.layout_input_form_new, container, false);
+        rootView = inflater.inflate(R.layout.layout_input_form_new, container, false);
         prefManager = PrefManager.getInstance();
 
         monthSpiner = rootView.findViewById(R.id.sppinermonth);

@@ -4,14 +4,14 @@ import java.util.List;
 
 public class DownloadModelSend {
 
-    private List<BenifisheryDataModelDbSend> Master = null;
+    private List<BenifisheryDataModelDbSendNew> Master = null;
     private List<ImageSaveModel> Table1 = null;
 
-    public List<BenifisheryDataModelDbSend> getMaster() {
+    public List<BenifisheryDataModelDbSendNew> getMaster() {
         return Master;
     }
 
-    public void setMaster(List<BenifisheryDataModelDbSend> master) {
+    public void setMaster(List<BenifisheryDataModelDbSendNew> master) {
         Master = master;
     }
 
