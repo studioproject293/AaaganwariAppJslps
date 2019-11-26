@@ -3,6 +3,7 @@ package com.jslps.aaganbariapp.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -67,6 +69,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,6 +99,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
     Spinner yearSppiner;
     Spinner monthSpiner;
     int year = 0, month = 0;
+    Uri fileuri;
     public static TextView totalNoofbef, totalRice, totalArharDal, totalPenauts, totalChana,
             totalJaggery, totalPotatao;
 
@@ -660,7 +664,15 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                     }
                 } else {
                     if (Constant.finalbytes.size() < Constant.maxAttachment) {
+                        /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 1);*/
+                        String fileName = System.currentTimeMillis() + ".jpg";
+                        ContentValues values = new ContentValues();
+                        values.put(MediaStore.Images.Media.TITLE, fileName);
+                        fileuri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileuri);
                         startActivityForResult(intent, 1);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
@@ -703,8 +715,10 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
         for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
             if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getChana()))
                 totalChana += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getChana());
-            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofbenf()))
+            if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getNoofbenf())) {
                 totalNoofBenf += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
+                totalNoofbef.setText(totalNoofBenf.toString());
+            }
             if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getPotato()))
                 totalPotato += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getPotato());
             if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(i).getPenauts()))
@@ -717,7 +731,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                 totalJaggery += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getJaggery());
         }
         totalPotatao.setText(totalPotato.toString());
-        totalNoofbef.setText(totalNoofBenf.toString());
+
         this.totalArharDal.setText(totalArharDal.toString());
         this.totalRice.setText(totalRice.toString());
         totalPenauts.setText(totalPeanauts.toString());
@@ -736,7 +750,27 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
 
     @Override
     public void onListItemLongClickedSnd(int itemId, Object data, int position) {
-
+        switch (itemId) {
+            case 1:
+                uploadImage.setEnabled(false);
+                uploadImage.setAlpha(0.5f);
+                saveData.setEnabled(false);
+                saveData.setAlpha(0.5f);
+                Snackbar.with(getActivity(), null)
+                        .type(Type.ERROR)
+                        .message("No of beni. should be less than 199")
+                        .duration(Duration.SHORT)
+                        .fillParent(true)
+                        .textAlign(Align.CENTER)
+                        .show();
+                break;
+            default:
+                uploadImage.setEnabled(true);
+                uploadImage.setAlpha(1f);
+                saveData.setEnabled(true);
+                saveData.setAlpha(1f);
+                break;
+        }
     }
 
     private File getFile() {
@@ -760,9 +794,9 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
             String encodedBase64 = "";
             long fileSizeInBytes = 0;
 
-            Bitmap bmp = decodeFile(getFile(), 500);
+            Bitmap bmp = decodeFile(getFile(), 1000);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 15, stream);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, stream);
             byte[] byteArray = stream.toByteArray();
             encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
             FileInputStream fileInputStreamReader = null;
@@ -788,7 +822,26 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
             Constant.finalBitmap.add(bmp);
             System.out.println("dchHIU" + new Gson().toJson(Constant.finalbytes));
         } else if (requestCode == 1 && resultCode == -1) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+
+            Bitmap thumbnail = null;
+            try {
+                thumbnail = decodeUri(fileuri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String imgName = System.currentTimeMillis() + ".jpg";
+
+            byte[] byteArray = bytes.toByteArray();
+            encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            System.out.print("");
+            Constant.finalbytes.add(encodedBase64);
+            Constant.finalnames.add(imgName);
+            Constant.finaltypes.add("jpg");
+
+           /* Bitmap photo = (Bitmap) data.getExtras().get("data");
             //userImage.setImageBitmap(photo);
 
             Uri tempUri = getImageUri(getActivity(), photo);
@@ -806,42 +859,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                     byte[] bytes = new byte[(int) finalFile.length()];
                     fileInputStreamReader.read(bytes);
                     String encodedBase64 = Base64.encodeToString(bytes, Base64.DEFAULT);
-                   /* if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-                        for (int j = 0; j < Constant.finalbytes.size(); j++) {
-                            if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
-                                if (arrayListVillage1.size()==1){
-                                    arrayListVillage1.get(1).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                    arrayListVillage1.get(1).setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                    arrayListVillage1.get(1).setVocode(prefManager.getPREF_VOCode());
-                                    arrayListVillage1.get(1).setFinaltypes("jpeg");
-                                    arrayListVillage1.get(1).setFinalnames(System.currentTimeMillis() + "");
-                                    arrayListVillage1.get(1).setFinalsizes((long) fileSizeInBytes);
-                                    arrayListVillage1.get(1).setImgebytes(encodedBase64);
-                                    arrayListVillage1.get(1).save();
-                                }else {
-                                    arrayListVillage1.get(j).setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                    arrayListVillage1.get(j).setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                    arrayListVillage1.get(j).setVocode(prefManager.getPREF_VOCode());
-                                    arrayListVillage1.get(j).setFinaltypes("jpeg");
-                                    arrayListVillage1.get(j).setFinalnames(System.currentTimeMillis() + "");
-                                    arrayListVillage1.get(j).setFinalsizes((long) fileSizeInBytes);
-                                    arrayListVillage1.get(j).setImgebytes(encodedBase64);
-                                    arrayListVillage1.get(j).save();
-                                }
-                            } else {
-                                ImageSaveModel imageSaveModel = new ImageSaveModel();
-                                imageSaveModel.setAaganwaricode(prefManager.getPrefAaganwariCode());
-                                imageSaveModel.setPanchyatcode(prefManager.getPrefPanchyatCode());
-                                imageSaveModel.setVocode(prefManager.getPREF_VOCode());
-                                imageSaveModel.setFinaltypes("jpeg");
-                                imageSaveModel.setFinalnames(System.currentTimeMillis() + "");
-                                imageSaveModel.setFinalsizes((long) fileSizeInBytes);
-                                imageSaveModel.setImgebytes(encodedBase64);
-                                imageSaveModel.save();
 
-                            }
-                        }
-                    }*/
                     Constant.finalbytes.add(encodedBase64);
                     Constant.finalnames.add(System.currentTimeMillis() + ".jpg");
                     Constant.finaltypes.add("jpg");
@@ -854,11 +872,48 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                 } catch (Error e) {
                     //Toaster.toastLong("RAM is running out of memory, Please clear your RAM first.");
                 }
-            }
+            }*/
+
+
         } /*else if (requestCode == SELECT_FILE) {
             onSelectFromGalleryResult(data);
         }*/
 
+    }
+
+    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+
+        o.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeStream(getActivity().getContentResolver()
+                .openInputStream(selectedImage), null, o);
+
+        final int REQUIRED_SIZE = 400;
+
+        int width_tmp = o.outWidth, height_tmp = o.outHeight;
+
+        int scale = 1;
+
+        while (true) {
+            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE) {
+                break;
+            }
+            width_tmp /= 2;
+
+            height_tmp /= 2;
+
+            scale *= 2;
+        }
+
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+
+        o2.inSampleSize = scale;
+
+        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver()
+                .openInputStream(selectedImage), null, o2);
+
+        return bitmap;
     }
 
     String encodedBase64;

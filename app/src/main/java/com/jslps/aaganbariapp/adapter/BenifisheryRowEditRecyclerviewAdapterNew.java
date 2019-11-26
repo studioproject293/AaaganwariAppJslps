@@ -83,9 +83,21 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    if (Integer.parseInt(s.toString()) < 200) {
+                        benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(0, benifisheryDataModelDbArrayList,0);
+                    }else {
+                        benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(1, benifisheryDataModelDbArrayList,0);
+                    }
+                } else {
+                    benifisheryDataModelDbArrayList.get(position).setNoofbenf("0.0");
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
+
+
             }
 
 

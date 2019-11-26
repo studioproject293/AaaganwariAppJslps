@@ -47,14 +47,24 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
         benifisheryDataModelDbArrayList.get(position).setPotato(holder.potato.getText().toString());
         benifisheryDataModelDbArrayList.get(position).setArhardal(holder.arharDal.getText().toString());
         benifisheryDataModelDbArrayList.get(position).setChana(holder.chana.getText().toString());
-        onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
         holder.noOfBenifishery.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    if (Integer.parseInt(s.toString()) < 200) {
+                        benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(0, benifisheryDataModelDbArrayList,0);
+                    }else {
+                        benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(1, benifisheryDataModelDbArrayList,0);
+                    }
+                } else {
+                    benifisheryDataModelDbArrayList.get(position).setNoofbenf("0.0");
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -73,8 +83,8 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                   benifisheryDataModelDbArrayList.get(position).setRice(s.toString());
-                   onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    benifisheryDataModelDbArrayList.get(position).setRice(s.toString());
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -94,7 +104,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
                     benifisheryDataModelDbArrayList.get(position).setJaggery(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -114,7 +124,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
                     benifisheryDataModelDbArrayList.get(position).setPotato(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -134,7 +144,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
                     benifisheryDataModelDbArrayList.get(position).setArhardal(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -154,7 +164,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
                     benifisheryDataModelDbArrayList.get(position).setChana(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -174,7 +184,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
                     benifisheryDataModelDbArrayList.get(position).setPenauts(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
                 }
             }
 
@@ -202,7 +212,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView benifisheryName;
-        EditText noOfBenifishery, rice,arharDal,penauts,chana,jaggery,potato;
+        EditText noOfBenifishery, rice, arharDal, penauts, chana, jaggery, potato;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -216,6 +226,7 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             chana = itemView.findViewById(R.id.chana);
         }
     }
+
     public void updateList(ArrayList<BenifisheryDataModelDbNew> benifisheryDataModelDbArrayList) {
         this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;
         notifyDataSetChanged();

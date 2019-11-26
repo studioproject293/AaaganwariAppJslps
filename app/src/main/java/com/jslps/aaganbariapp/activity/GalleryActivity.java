@@ -171,7 +171,7 @@ public class GalleryActivity extends AppCompatActivity {
                             try {
                                 Bitmap bmp = decodeFile(imgFile, 500);
                                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                bmp.compress(Bitmap.CompressFormat.JPEG, 15, stream);
+                                bmp.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                                 byte[] b = stream.toByteArray();
                                 String encImage = Base64.encodeToString(b, Base64.DEFAULT);
                                 encodedBase64 = encImage;

@@ -3,6 +3,7 @@ package com.jslps.aaganbariapp.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,6 +38,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chootdev.csnackbar.Align;
+import com.chootdev.csnackbar.Duration;
+import com.chootdev.csnackbar.Snackbar;
+import com.chootdev.csnackbar.Type;
 import com.google.gson.Gson;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.PrefManager;
@@ -141,7 +146,6 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                 }
             } else editTextRemarks.setVisibility(View.GONE);
         }
-        ArrayList<ImageSaveModel> imageSaveModels = (ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class);
         System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
@@ -163,7 +167,6 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
             Constant.maxAttachment = 1;
 
             if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
-
                 for (int k = 0; k < Constant.finalbytes.size(); k++) {
                     String id = UUID.randomUUID().toString();
                     ImageSaveModel imageSaveModel = new ImageSaveModel();
@@ -237,19 +240,10 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
 
     private void updateList(ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbArrayList) {
         tableLayout.setVisibility(View.VISIBLE);
-        /*if (benifisheryDataModelDbArrayList.get(0).getUnitrateofmeal() != null && benifisheryDataModelDbArrayList.get(0).getNoofmeal() != null) {*/
         BenifisheryRowEditRecyclerviewAdapterNew benifisheryRowRecyclerviewAdapter = new BenifisheryRowEditRecyclerviewAdapterNew(getActivity(), benifisheryDataModelDbArrayList);
         benifisheryRowRecyclerviewAdapter.setListner(this);
         recyclerViewBenifishery.setAdapter(benifisheryRowRecyclerviewAdapter);
-            /*totalAll = 0.0;
-            for (int i = 0; i < benifisheryDataModelDbArrayList.size(); i++) {
-                totalAll += Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getUnitrateofmeal()) * Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofmeal()) *
-                        Double.parseDouble(benifisheryDataModelDbArrayList.get(i).getNoofbenf());
-            }*/
 
-//            textViewtotalAll.setText(totalAll.toString());
-
-//        }
     }
 
     @Override
@@ -995,7 +989,15 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                     }
                 } else {
                     if (Constant.finalbytes.size() < Constant.maxAttachment) {
+                        /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 1);*/
+                        String fileName = System.currentTimeMillis()+".jpg";
+                        ContentValues values = new ContentValues();
+                        values.put(MediaStore.Images.Media.TITLE, fileName);
+                        fileuri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileuri);
                         startActivityForResult(intent, 1);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.image_validation), Toast.LENGTH_SHORT).show();
@@ -1067,7 +1069,27 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
 
     @Override
     public void onListItemLongClickedSnd(int itemId, Object data, int position) {
-
+        switch (itemId) {
+            case 1:
+                uploadImage.setEnabled(false);
+                uploadImage.setAlpha(0.5f);
+                saveData.setEnabled(false);
+                saveData.setAlpha(0.5f);
+                Snackbar.with(getActivity(), null)
+                        .type(Type.ERROR)
+                        .message("No of beni. should be less than 199")
+                        .duration(Duration.SHORT)
+                        .fillParent(true)
+                        .textAlign(Align.CENTER)
+                        .show();
+                break;
+            default:
+                uploadImage.setEnabled(true);
+                uploadImage.setAlpha(1f);
+                saveData.setEnabled(true);
+                saveData.setAlpha(1f);
+                break;
+        }
     }
 
     private File getFile() {
@@ -1118,7 +1140,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
             Constant.finalsizes.add(fileSizeInBytes);
             System.out.println("dchHIU" + new Gson().toJson(Constant.finalbytes));
         } else if (requestCode == 1 && resultCode == -1) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+           /* Bitmap photo = (Bitmap) data.getExtras().get("data");
             //userImage.setImageBitmap(photo);
 
             Uri tempUri = getImageUri(getActivity(), photo);
@@ -1136,7 +1158,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                     byte[] bytes = new byte[(int) finalFile.length()];
                     fileInputStreamReader.read(bytes);
                     String encodedBase64 = Base64.encodeToString(bytes, Base64.DEFAULT);
-                   /* if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
+                   *//* if (Constant.finalbytes != null && Constant.finalbytes.size() > 0) {
                         for (int j = 0; j < Constant.finalbytes.size(); j++) {
                             if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
                                 if (arrayListVillage1.size()==1){
@@ -1171,7 +1193,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
 
                             }
                         }
-                    }*/
+                    }*//*
                     Constant.finalbytes.clear();
                     Constant.finalnames.clear();
                     Constant.finalsizes.clear();
@@ -1188,14 +1210,67 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                 } catch (Error e) {
                     //Toaster.toastLong("RAM is running out of memory, Please clear your RAM first.");
                 }
+            }*/
+
+            Bitmap thumbnail = null;
+            try {
+                thumbnail = decodeUri(fileuri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String imgName = System.currentTimeMillis() + ".jpg";
+
+            byte[] byteArray = bytes.toByteArray();
+            encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            System.out.print("");
+            Constant.finalbytes.add(encodedBase64);
+            Constant.finalnames.add(imgName);
+            Constant.finaltypes.add("jpg");
         } /*else if (requestCode == SELECT_FILE) {
             onSelectFromGalleryResult(data);
         }*/
 
     }
+    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
+        BitmapFactory.Options o = new BitmapFactory.Options();
 
+        o.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeStream(getActivity().getContentResolver()
+                .openInputStream(selectedImage), null, o);
+
+        final int REQUIRED_SIZE = 400;
+
+        int width_tmp = o.outWidth,  height_tmp = o.outHeight;
+
+        int scale = 1;
+
+        while (true)
+        {
+            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+            {
+                break;
+            }
+            width_tmp /= 2;
+
+            height_tmp /= 2;
+
+            scale *= 2;
+        }
+
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+
+        o2.inSampleSize = scale;
+
+        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver()
+                .openInputStream(selectedImage), null, o2);
+
+        return bitmap;
+    }
     String encodedBase64;
+    Uri fileuri;
 
     /*private void onSelectFromGalleryResult(Intent data) {
         Uri selectedImageUri = data.getData();

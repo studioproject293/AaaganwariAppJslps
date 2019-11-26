@@ -206,81 +206,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);*/
                             }
                             dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
-
+                            uploadImageService();
                         }
-                        DialogUtil.displayProgress(getActivity());
-                        System.out.println("data send" + new Gson().toJson(dataModelDbSendArrayListData));
-                        Gson gson = new GsonBuilder().setLenient().create();
-                        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                        //comment in live build and uncomment in uat
-                        builder.interceptors().add(interceptor);
-                        builder.connectTimeout(120, TimeUnit.SECONDS);
-                        builder.readTimeout(120, TimeUnit.SECONDS);
-                        OkHttpClient client = builder.build();
-                        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
-                        BenifisheryDataUpload apiServices = retrofit.create(BenifisheryDataUpload.class);
-                        String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + " }";
-                        System.out.println("jdfjhjds" + data);
-                        Call<String> benifisherydataUpload = apiServices.benificeryDataUpload(data);
-                        benifisherydataUpload.enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                DialogUtil.stopProgressDisplay();
-                                System.out.println("Response  data" + response.body());
-                                String fullResponse = response.body();
-                                String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
-                                String result = XmlString.replaceAll("</string>", "");
-                                JSONObject jsonObj = null;
-                                try {
-                                    jsonObj = new JSONObject(result.toString());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    JSONArray categoryObject = jsonObj.getJSONArray("Table");
-                                    JSONObject jsonObject = categoryObject.getJSONObject(0);
-                                    String Result = jsonObject.getString("RetValue");
-                                    if (Result.equalsIgnoreCase("1")) {
-                                        uploadImageService();
-                                    }else if (Result.equalsIgnoreCase("0")){
-                                        Snackbar.with(getActivity(), null)
-                                                .type(Type.ERROR)
-                                                .message("Data already exist")
-                                                .duration(Duration.SHORT)
-                                                .fillParent(true)
-                                                .textAlign(Align.CENTER)
-                                                .show();
-                                    } else {
-                                        Snackbar.with(getActivity(), null)
-                                                .type(Type.ERROR)
-                                                .message("Please try again")
-                                                .duration(Duration.SHORT)
-                                                .fillParent(true)
-                                                .textAlign(Align.CENTER)
-                                                .show();
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
-                                DialogUtil.stopProgressDisplay();
-                                Snackbar.with(getActivity(), null)
-                                        .type(Type.ERROR)
-                                        .message(t.toString())
-                                        .duration(Duration.SHORT)
-                                        .fillParent(true)
-                                        .textAlign(Align.CENTER)
-                                        .show();
-                            }
-                        });
                     }
                 } else {
                     Snackbar.with(getActivity(), null)
@@ -299,6 +226,9 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         return rootView;
     }
 
+    ArrayList<ImageSaveModel> dataModelDbSendArrayListImageSendServer;
+    ArrayList<ImageSaveModel> benifisheryDataModelDbSendArrayListImage;
+
     private void uploadImageService() {
         if (DialogUtil.isConnectionAvailable(getActivity())) {
             DialogUtil.displayProgress(getActivity());
@@ -314,12 +244,10 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             OkHttpClient client = builder.build();
             Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
             ImageUploadToServer apiServices = retrofit.create(ImageUploadToServer.class);
-            ArrayList<ImageSaveModel> imageSaveModelArrayList = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class).list();
-            System.out.println("bsdfhkjsdhfvUREFH" + new Gson().toJson(imageSaveModelArrayList));
-            final ArrayList<ImageSaveModel> dataModelDbSendArrayList = new ArrayList<>();
+            dataModelDbSendArrayListImageSendServer = new ArrayList<>();
             if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
                 for (int i = 0; i < saveModel1ArrayList.size(); i++) {
-                    ArrayList<ImageSaveModel> benifisheryDataModelDbSendArrayListImage = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
+                    benifisheryDataModelDbSendArrayListImage = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                             .where(Condition.prop("panchyatcode").eq(saveModel1ArrayList.get(i).getPancayatcode()))
                             .where(Condition.prop("year").eq(saveModel1ArrayList.get(i).getYear()))
                             .where(Condition.prop("month").eq(saveModel1ArrayList.get(i).getMonth()))
@@ -329,13 +257,13 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                         benifisheryDataModelDbSendArrayListImage.get(j).setId(null);
                         benifisheryDataModelDbSendArrayListImage.get(j).setIsuploadtoserver(null);
                     }
-                    dataModelDbSendArrayList.addAll(benifisheryDataModelDbSendArrayListImage);
+                    dataModelDbSendArrayListImageSendServer.addAll(benifisheryDataModelDbSendArrayListImage);
 
                 }
             }
-            System.out.println("data sendimge" + new Gson().toJson(dataModelDbSendArrayList));
+            System.out.println("data sendimge" + new Gson().toJson(dataModelDbSendArrayListImageSendServer));
 
-            String data = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayList) + " }";
+            String data = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
 
             Call<String> imageDatUpload = apiServices.imageUpload(data);
             imageDatUpload.enqueue(new Callback<String>() {
@@ -357,52 +285,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                         JSONObject jsonObject = categoryObject.getJSONObject(0);
                         String Result = jsonObject.getString("RetValue");
                         if (Result.equalsIgnoreCase("1")) {
-                            for (int i = 0; i < dataModelDbSendArrayList.size(); i++) {
-                                dataModelDbSendArrayList.get(i).setIsuploadtoserver("true");
-                                dataModelDbSendArrayList.get(i).save();
-                            }
-                            for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
-                                dataModelDbSendArrayListData.get(j).setIsuploadtoserver("true");
-                                dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
-                                dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
-                                dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
-                                /*dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
-                                dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
-                                dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
-                                dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
-                                dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
-                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());*/
-                                dataModelDbSendArrayListData.get(j).save();
-                            }
-                            Snackbar.with(getActivity(), null)
-                                    .type(Type.SUCCESS)
-                                    .message(getString(R.string.save_message))
-                                    .duration(Duration.SHORT)
-                                    .fillParent(true)
-                                    .textAlign(Align.CENTER)
-                                    .show();
-                            onResume();
-                        }else if (Result.equalsIgnoreCase("0")){
-                            for (int i = 0; i < dataModelDbSendArrayList.size(); i++) {
-                                dataModelDbSendArrayList.get(i).setIsuploadtoserver("false");
-                                dataModelDbSendArrayList.get(i).save();
-                                System.out.println("benifishery data fail" + new Gson().toJson(benifisheryDataModelDbSends));
-
-
-                            }
-                            for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
-                                dataModelDbSendArrayListData.get(j).setIsuploadtoserver("false");
-                                dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
-                                dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
-                                dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
-                                /*dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
-                                dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
-                                dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
-                                dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
-                                dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
-                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());*/
-                                dataModelDbSendArrayListData.get(j).save();
-                            }
+                            uploadDataService();
+                        } else if (Result.equalsIgnoreCase("0")) {
                             Snackbar.with(getActivity(), null)
                                     .type(Type.ERROR)
                                     .message("Data already exist")
@@ -411,41 +295,18 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     .textAlign(Align.CENTER)
                                     .show();
                         } else {
-                            for (int i = 0; i < dataModelDbSendArrayList.size(); i++) {
-                                dataModelDbSendArrayList.get(i).setIsuploadtoserver("false");
-                                dataModelDbSendArrayList.get(i).save();
-                                System.out.println("benifishery data fail" + new Gson().toJson(benifisheryDataModelDbSends));
-
-
-                            }
-                            for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
-                                dataModelDbSendArrayListData.get(j).setIsuploadtoserver("false");
-                                dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
-                                dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
-                                dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
-                                /*dataModelDbSendArrayListData.get(j).setCheckboxdal(newArrr.get(j).getCheckboxdal());
-                                dataModelDbSendArrayListData.get(j).setCheckboxjaggery(newArrr.get(j).getCheckboxjaggery());
-                                dataModelDbSendArrayListData.get(j).setCheckboxpenauts(newArrr.get(j).getCheckboxpenauts());
-                                dataModelDbSendArrayListData.get(j).setCheckboxpotato(newArrr.get(j).getCheckboxpotato());
-                                dataModelDbSendArrayListData.get(j).setCheckboxrice(newArrr.get(j).getCheckboxrice());
-                                dataModelDbSendArrayListData.get(j).setChexkboxchickpea(newArrr.get(j).getChexkboxchickpea());*/
-                                dataModelDbSendArrayListData.get(j).save();
-                            }
                             Snackbar.with(getActivity(), null)
                                     .type(Type.ERROR)
                                     .message("Please try again")
                                     .duration(Duration.SHORT)
                                     .fillParent(true)
-                                    .textAlign (Align.CENTER)
+                                    .textAlign(Align.CENTER)
                                     .show();
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
-
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
@@ -459,7 +320,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                             .show();
                 }
             });
-        }else {
+        } else {
             Snackbar.with(getActivity(), null)
                     .type(Type.ERROR)
                     .message(getString(R.string.no_internet_connection))
@@ -468,6 +329,100 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     .textAlign(Align.CENTER)
                     .show();
         }
+    }
+
+    private void uploadDataService() {
+        DialogUtil.displayProgress(getActivity());
+        System.out.println("data send" + new Gson().toJson(dataModelDbSendArrayListData));
+        Gson gson = new GsonBuilder().setLenient().create();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //comment in live build and uncomment in uat
+        builder.interceptors().add(interceptor);
+        builder.connectTimeout(120, TimeUnit.SECONDS);
+        builder.readTimeout(120, TimeUnit.SECONDS);
+        OkHttpClient client = builder.build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
+        BenifisheryDataUpload apiServices = retrofit.create(BenifisheryDataUpload.class);
+        String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + " }";
+        System.out.println("jdfjhjds" + data);
+        Call<String> benifisherydataUpload = apiServices.benificeryDataUpload(data);
+        benifisherydataUpload.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                DialogUtil.stopProgressDisplay();
+                System.out.println("Response  data" + response.body());
+                String fullResponse = response.body();
+                String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
+                String result = XmlString.replaceAll("</string>", "");
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = new JSONObject(result.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    JSONArray categoryObject = jsonObj.getJSONArray("Table");
+                    JSONObject jsonObject = categoryObject.getJSONObject(0);
+                    String Result = jsonObject.getString("RetValue");
+                    if (Result.equalsIgnoreCase("1")) {
+//                        uploadImageService();
+                        for (int i = 0; i < dataModelDbSendArrayListImageSendServer.size(); i++) {
+                            dataModelDbSendArrayListImageSendServer.get(i).setIsuploadtoserver("true");
+                            dataModelDbSendArrayListImageSendServer.get(i).save();
+                        }
+                        for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
+                            dataModelDbSendArrayListData.get(j).setIsuploadtoserver("true");
+                            dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
+                            dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
+                            dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                            dataModelDbSendArrayListData.get(j).save();
+                        }
+                        Snackbar.with(getActivity(), null)
+                                .type(Type.SUCCESS)
+                                .message(getString(R.string.save_message))
+                                .duration(Duration.SHORT)
+                                .fillParent(true)
+                                .textAlign(Align.CENTER)
+                                .show();
+                        onResume();
+                    } else if (Result.equalsIgnoreCase("0")) {
+                        Snackbar.with(getActivity(), null)
+                                .type(Type.ERROR)
+                                .message("Data already exist")
+                                .duration(Duration.SHORT)
+                                .fillParent(true)
+                                .textAlign(Align.CENTER)
+                                .show();
+                    } else {
+                        Snackbar.with(getActivity(), null)
+                                .type(Type.ERROR)
+                                .message("Please try again")
+                                .duration(Duration.SHORT)
+                                .fillParent(true)
+                                .textAlign(Align.CENTER)
+                                .show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                DialogUtil.stopProgressDisplay();
+                Snackbar.with(getActivity(), null)
+                        .type(Type.ERROR)
+                        .message(t.toString())
+                        .duration(Duration.SHORT)
+                        .fillParent(true)
+                        .textAlign(Align.CENTER)
+                        .show();
+            }
+        });
+
     }
 
     ArrayList<DataSaveModel1> saveModel1ArrayList = new ArrayList<>();
