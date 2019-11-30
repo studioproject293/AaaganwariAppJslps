@@ -29,6 +29,7 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
         this.context = activity;
         this.benifisheryDataModelDbArrayList = benifisheryDataModelDbArrayList;
     }
+
     @NonNull
     @Override
     public BenifisheryRowEditRecyclerviewAdapterNew.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -77,7 +78,7 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
         benifisheryDataModelDbArrayList.get(position).setPotato(holder.potato.getText().toString());
         benifisheryDataModelDbArrayList.get(position).setArhardal(holder.arharDal.getText().toString());
         benifisheryDataModelDbArrayList.get(position).setChana(holder.chana.getText().toString());
-        onFragmentListItemSelectListener.onListItemSelected(position,benifisheryDataModelDbArrayList);
+        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
         holder.noOfBenifishery.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before,
@@ -86,11 +87,11 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
                     if (Integer.parseInt(s.toString()) < 200) {
                         benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
                         onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
-                        onFragmentListItemSelectListener.onListItemLongClickedSnd(0, benifisheryDataModelDbArrayList,0);
-                    }else {
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(0, benifisheryDataModelDbArrayList, 0);
+                    } else {
                         benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
                         onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
-                        onFragmentListItemSelectListener.onListItemLongClickedSnd(1, benifisheryDataModelDbArrayList,0);
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(1, benifisheryDataModelDbArrayList, 0);
                     }
                 } else {
                     benifisheryDataModelDbArrayList.get(position).setNoofbenf("0.0");
@@ -110,7 +111,7 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
 
             }
         });
-        holder.rice.addTextChangedListener(new TextWatcher() {
+       /* holder.rice.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
@@ -229,6 +230,155 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
             public void afterTextChanged(Editable s) {
 
             }
+        });*/
+        holder.rice.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setRice("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setRice(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        holder.jaggery.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setJaggery("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setJaggery(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        holder.potato.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setPotato("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setPotato(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        holder.arharDal.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setArhardal("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setArhardal(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        holder.chana.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setChana("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setChana(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        holder.penauts.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setPeanuts("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setPeanuts(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
         });
     }
 
@@ -243,7 +393,7 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView benifisheryName;
-        EditText noOfBenifishery, rice,arharDal,penauts,chana,jaggery,potato;
+        EditText noOfBenifishery, rice, arharDal, penauts, chana, jaggery, potato;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

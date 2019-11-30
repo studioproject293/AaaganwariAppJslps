@@ -56,11 +56,11 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
                     if (Integer.parseInt(s.toString()) < 200) {
                         benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
                         onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
-                        onFragmentListItemSelectListener.onListItemLongClickedSnd(0, benifisheryDataModelDbArrayList,0);
-                    }else {
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(0, benifisheryDataModelDbArrayList, 0);
+                    } else {
                         benifisheryDataModelDbArrayList.get(position).setNoofbenf(s.toString());
                         onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
-                        onFragmentListItemSelectListener.onListItemLongClickedSnd(1, benifisheryDataModelDbArrayList,0);
+                        onFragmentListItemSelectListener.onListItemLongClickedSnd(1, benifisheryDataModelDbArrayList, 0);
                     }
                 } else {
                     benifisheryDataModelDbArrayList.get(position).setNoofbenf("0.0");
@@ -83,8 +83,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setRice(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setRice("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setRice(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
                 }
             }
 
@@ -103,8 +108,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setJaggery(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setJaggery("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setJaggery(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
                 }
             }
 
@@ -123,8 +133,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setPotato(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setPotato("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setPotato(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
                 }
             }
 
@@ -143,8 +158,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setArhardal(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setArhardal("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setArhardal(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
                 }
             }
 
@@ -163,8 +183,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setChana(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setChana("0" + s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    } else {
+                        benifisheryDataModelDbArrayList.get(position).setChana(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
                 }
             }
 
@@ -183,8 +208,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 if (!TextUtils.isEmpty(s.toString())) {
-                    benifisheryDataModelDbArrayList.get(position).setPenauts(s.toString());
-                    onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    if (s.toString().startsWith(".")) {
+                        benifisheryDataModelDbArrayList.get(position).setPenauts("0"+s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }else {
+                        benifisheryDataModelDbArrayList.get(position).setPenauts(s.toString());
+                        onFragmentListItemSelectListener.onListItemSelected(position, benifisheryDataModelDbArrayList);
+                    }
                 }
             }
 

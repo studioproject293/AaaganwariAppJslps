@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @Override
