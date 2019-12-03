@@ -262,8 +262,9 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                 }
             }
             System.out.println("data sendimge" + new Gson().toJson(dataModelDbSendArrayListImageSendServer));
-
-            String data = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
+            String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + ","+ "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
+            System.out.println("jdfjhjds" + data);
+//            String data1 = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
 
             Call<String> imageDatUpload = apiServices.imageUpload(data);
             imageDatUpload.enqueue(new Callback<String>() {
@@ -285,7 +286,26 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                         JSONObject jsonObject = categoryObject.getJSONObject(0);
                         String Result = jsonObject.getString("RetValue");
                         if (Result.equalsIgnoreCase("1")) {
-                            uploadDataService();
+//                            uploadDataService();
+                            for (int i = 0; i < dataModelDbSendArrayListImageSendServer.size(); i++) {
+                                dataModelDbSendArrayListImageSendServer.get(i).setIsuploadtoserver("true");
+                                dataModelDbSendArrayListImageSendServer.get(i).save();
+                            }
+                            for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
+                                dataModelDbSendArrayListData.get(j).setIsuploadtoserver("true");
+                                dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
+                                dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
+                                dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                                dataModelDbSendArrayListData.get(j).save();
+                            }
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.SUCCESS)
+                                    .message(getString(R.string.save_message))
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
+                            onResume();
                         } else if (Result.equalsIgnoreCase("0")) {
                             Snackbar.with(getActivity(), null)
                                     .type(Type.ERROR)

@@ -151,14 +151,16 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
 
         // attaching data adapter to spinner
         yearSppiner.setAdapter(dataAdapterYear);
-        if (year == 2019) {
-            yearSppiner.setSelection(0);
-        } else yearSppiner.setSelection(1);
 
-        monthSpiner.setSelection(month);
+
+
         mListener.onFragmentUpdate(Constant.setTitle, new HeaderData(false, "Anganwadi  Name : " + aanganWariModelDbrec.getAnganwadiname()));
         mListener.onFragmentUpdate(Constant.UPDATE_FRAGMENT, Constant.ENTRY_FORM_FRAGNMENT);
         if (MainActivity.newCall) {
+            monthSpiner.setSelection(month);
+            if (year == 2019) {
+                yearSppiner.setSelection(0);
+            } else yearSppiner.setSelection(1);
             MainActivity.newCall = false;
             benifisheryDataModelDbArrayList = new ArrayList<>();
             ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
@@ -190,6 +192,15 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
 
             }
             updateList(benifisheryDataModelDbArrayList);
+        }else {
+            if (TextUtils.isEmpty(prefManager.getPREF_MonthName()))
+               monthSpiner.setSelection(month);
+            else  monthSpiner.setSelection(Integer.parseInt(prefManager.getPREF_MonthName()));
+            if (TextUtils.isEmpty(prefManager.getPREF_YearName())) {
+                if (year == 2019) {
+                    yearSppiner.setSelection(0);
+                } else yearSppiner.setSelection(1);
+            }else  yearSppiner.setSelection(Integer.parseInt(prefManager.getPREF_YearName()));
         }
 //        benifisheryDataModelDbArrayList = (ArrayList<BenifisheryDataModelDbNew>) BenifisheryDataModelDbNew.listAll(BenifisheryDataModelDbNew.class);
 
@@ -280,11 +291,13 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
         yearSppiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                prefManager.setPREF_YearName(i+"");
                 if (i == 0) {
                     yearSelect = "2019";
                 } else {
                     yearSelect = "2020";
                 }
+
 
             }
 
@@ -298,6 +311,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 monthSeleted = (i + 1);
+                prefManager.setPREF_MonthName(i+"");
             }
 
             @Override

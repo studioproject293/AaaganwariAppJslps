@@ -13,6 +13,8 @@ public class PrefManager {
     private SharedPreferences.Editor editor;
     private static PrefManager manager;
     private static final String PREF_NAME = "AAGANWARI";
+    private static final String PREF_NAME_MONTH = "MONTHNAME";
+    private static final String PREF_NAME_YEAR = "YEARNAME";
     private static final String PREF_PANCHYAT_CODE = "panchyatCode";
     private static final String PREF_AAGANWARI_CODE = "aaganwariCode";
     private static final String PREF_VOCode = "VOCode";
@@ -38,6 +40,22 @@ public class PrefManager {
 
     public void setPREF_VONAME(String voCode) {
         editor.putString(PREF_VONAME, voCode);
+        editor.commit();
+    }
+    public String getPREF_MonthName() {
+        return pref.getString(PREF_NAME_MONTH, null);
+    }
+
+    public void setPREF_MonthName(String voCode) {
+        editor.putString(PREF_NAME_MONTH, voCode);
+        editor.commit();
+    }
+    public String getPREF_YearName() {
+        return pref.getString(PREF_NAME_YEAR, null);
+    }
+
+    public void setPREF_YearName(String voCode) {
+        editor.putString(PREF_NAME_YEAR, voCode);
         editor.commit();
     }
     public String getPrefPanchyatNAME() {
