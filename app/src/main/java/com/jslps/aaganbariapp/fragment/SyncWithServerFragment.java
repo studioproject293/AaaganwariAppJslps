@@ -2,6 +2,7 @@ package com.jslps.aaganbariapp.fragment;
 
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.DialogUtil;
 import com.jslps.aaganbariapp.R;
@@ -27,6 +29,7 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.DataSaveModel1;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
+import com.jslps.aaganbariapp.model.SyncWithServerRespone;
 import com.jslps.aaganbariapp.services.BenifisheryDataUpload;
 import com.jslps.aaganbariapp.services.ImageUploadToServer;
 import com.orm.query.Condition;
@@ -37,7 +40,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.xml.transform.Result;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -170,44 +176,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     System.out.println("nw Gson" + new Gson().toJson(saveModel1ArrayList));
 
                     if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
-                        for (int i = 0; i < saveModel1ArrayList.size(); i++) {
 
-                            benifisheryDataModelDbSendArrayListSendToServer = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
-                                    .where(Condition.prop("panchyatcode").eq(saveModel1ArrayList.get(i).getPancayatcode()))
-                                    .where(Condition.prop("year").eq(saveModel1ArrayList.get(i).getYear()))
-                                    .where(Condition.prop("month").eq(saveModel1ArrayList.get(i).getMonth()))
-                                    .where(Condition.prop("isuploadtoserver").eq("false"))
-                                    .list();
-                            for (int l = 0; l < benifisheryDataModelDbSendArrayListSendToServer.size(); l++) {
-                                BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = new BenifisheryDataModelDbSendNew();
-                                benifisheryDataModelDbSend.setPanchyatname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getPanchyatname());
-                                benifisheryDataModelDbSend.setAaganwariname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getAaganwariname());
-                                benifisheryDataModelDbSend.setVoname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getVoname());
-                                /*benifisheryDataModelDbSend.setCheckboxdal(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxdal());
-                                benifisheryDataModelDbSend.setCheckboxjaggery(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxjaggery());
-                                benifisheryDataModelDbSend.setCheckboxpenauts(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpenauts());
-                                benifisheryDataModelDbSend.setCheckboxpotato(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpotato());
-                                benifisheryDataModelDbSend.setCheckboxrice(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxrice());
-                                benifisheryDataModelDbSend.setChexkboxchickpea(benifisheryDataModelDbSendArrayListSendToServer.get(l).getChexkboxchickpea());*/
-                                newArrr.add(benifisheryDataModelDbSend);
-                            }
-                            for (int j = 0; j < benifisheryDataModelDbSendArrayListSendToServer.size(); j++) {
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setVoname(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setAaganwariname(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setPanchyatname(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setId(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCreatedon(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setIsuploadtoserver(null);
-                                /*benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxdal(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxjaggery(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpenauts(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpotato(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxrice(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);*/
-                            }
-                            dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
-                            uploadImageService();
-                        }
+                        uploadImageService();
                     }
                 } else {
                     Snackbar.with(getActivity(), null)
@@ -239,12 +209,52 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             //comment in live build and uncomment in uat
             builder.interceptors().add(interceptor);
 
-            builder.connectTimeout(120, TimeUnit.SECONDS);
-            builder.readTimeout(120, TimeUnit.SECONDS);
+            builder.connectTimeout(180, TimeUnit.SECONDS);
+            builder.readTimeout(180, TimeUnit.SECONDS);
             OkHttpClient client = builder.build();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
+            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://thr.swalekha.in/webservice/dropdownwebservice.asmx/").addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
             ImageUploadToServer apiServices = retrofit.create(ImageUploadToServer.class);
+            benifisheryDataModelDbSendArrayListSendToServer=new ArrayList<>();
+            for (int i = 0; i < saveModel1ArrayList.size(); i++) {
+
+                benifisheryDataModelDbSendArrayListSendToServer = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
+                        .where(Condition.prop("panchyatcode").eq(saveModel1ArrayList.get(i).getPancayatcode()))
+                        .where(Condition.prop("year").eq(saveModel1ArrayList.get(i).getYear()))
+                        .where(Condition.prop("month").eq(saveModel1ArrayList.get(i).getMonth()))
+                        .where(Condition.prop("isuploadtoserver").eq("false"))
+                        .list();
+                for (int l = 0; l < benifisheryDataModelDbSendArrayListSendToServer.size(); l++) {
+                    BenifisheryDataModelDbSendNew benifisheryDataModelDbSend = new BenifisheryDataModelDbSendNew();
+                    benifisheryDataModelDbSend.setPanchyatname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getPanchyatname());
+                    benifisheryDataModelDbSend.setAaganwariname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getAaganwariname());
+                    benifisheryDataModelDbSend.setVoname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getVoname());
+                                /*benifisheryDataModelDbSend.setCheckboxdal(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxdal());
+                                benifisheryDataModelDbSend.setCheckboxjaggery(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxjaggery());
+                                benifisheryDataModelDbSend.setCheckboxpenauts(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpenauts());
+                                benifisheryDataModelDbSend.setCheckboxpotato(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpotato());
+                                benifisheryDataModelDbSend.setCheckboxrice(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxrice());
+                                benifisheryDataModelDbSend.setChexkboxchickpea(benifisheryDataModelDbSendArrayListSendToServer.get(l).getChexkboxchickpea());*/
+                    newArrr.add(benifisheryDataModelDbSend);
+                }
+                for (int j = 0; j < benifisheryDataModelDbSendArrayListSendToServer.size(); j++) {
+                    benifisheryDataModelDbSendArrayListSendToServer.get(j).setVoname(null);
+                    benifisheryDataModelDbSendArrayListSendToServer.get(j).setAaganwariname(null);
+                    benifisheryDataModelDbSendArrayListSendToServer.get(j).setPanchyatname(null);
+                    benifisheryDataModelDbSendArrayListSendToServer.get(j).setId(null);
+                    benifisheryDataModelDbSendArrayListSendToServer.get(j).setCreatedon(null);
+                    benifisheryDataModelDbSendArrayListSendToServer.get(j).setIsuploadtoserver(null);
+                                /*benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxdal(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxjaggery(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpenauts(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpotato(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxrice(null);
+                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);*/
+                }
+                dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
+
+            }
             dataModelDbSendArrayListImageSendServer = new ArrayList<>();
+
             if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
                 for (int i = 0; i < saveModel1ArrayList.size(); i++) {
                     benifisheryDataModelDbSendArrayListImage = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
@@ -275,17 +285,71 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     String fullResponse = response.body();
                     String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                     String result = XmlString.replaceAll("</string>", "");
-                    JSONObject jsonObj = null;
                     try {
-                        jsonObj = new JSONObject(result.toString());
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jresponse = jsonArray.getJSONObject(0);
+                        String status = jresponse.getString("Status");
+                        String duplicate = jresponse.getString("Duplicate");
+//                       String notVo = jresponse.getString("NotVO");
+//                        String imageError = jresponse.getString("ImageError");
+//                        String sucess = jresponse.getString("Sucesses");
+
+
+                        if (!TextUtils.isEmpty(status)){
+                            if (status.equals("1")) {
+                                for (int i = 0; i < dataModelDbSendArrayListImageSendServer.size(); i++) {
+                                    dataModelDbSendArrayListImageSendServer.get(i).setIsuploadtoserver("true");
+                                    dataModelDbSendArrayListImageSendServer.get(i).save();
+                                }
+                                for (int j = 0; j < dataModelDbSendArrayListData.size(); j++) {
+                                    dataModelDbSendArrayListData.get(j).setIsuploadtoserver("true");
+                                    dataModelDbSendArrayListData.get(j).setAaganwariname(newArrr.get(j).getAaganwariname());
+                                    dataModelDbSendArrayListData.get(j).setPanchyatname(newArrr.get(j).getPanchyatname());
+                                    dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
+                                    dataModelDbSendArrayListData.get(j).save();
+                                }
+                            }
+                            Snackbar.with(getActivity(), null)
+                                    .type(Type.SUCCESS)
+                                    .message(getString(R.string.save_message))
+                                    .duration(Duration.SHORT)
+                                    .fillParent(true)
+                                    .textAlign(Align.CENTER)
+                                    .show();
+
+                            onResume();
+                        }else{
+
+                            if (!TextUtils.isEmpty(duplicate)){
+                                Snackbar.with(getActivity(), null)
+                                        .type(Type.ERROR)
+                                        .message("Please try with differnt aaganwadi data "+duplicate+" data is already exist")
+                                        .duration(Duration.SHORT)
+                                        .fillParent(true)
+                                        .textAlign(Align.CENTER)
+                                        .show();
+                            }else  {
+                                if (jsonArray.toString().contains("NotVO")){
+                                    String notVo = jresponse.getString("NotVO");
+                                    Snackbar.with(getActivity(), null)
+                                            .type(Type.ERROR)
+                                            .message("Please try with differnt aaganwadi data,this vo is not mapped with cc")
+                                            .duration(Duration.SHORT)
+                                            .fillParent(true)
+                                            .textAlign(Align.CENTER)
+                                            .show();
+                                }
+
+
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        JSONArray categoryObject = jsonObj.getJSONArray("Table");
-                        JSONObject jsonObject = categoryObject.getJSONObject(0);
-                        String Result = jsonObject.getString("RetValue");
-                        if (Result.equalsIgnoreCase("1")) {
+
+
+
+                      /*  if (Result.equalsIgnoreCase("1")) {
 //                            uploadDataService();
                             for (int i = 0; i < dataModelDbSendArrayListImageSendServer.size(); i++) {
                                 dataModelDbSendArrayListImageSendServer.get(i).setIsuploadtoserver("true");
@@ -322,10 +386,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     .fillParent(true)
                                     .textAlign(Align.CENTER)
                                     .show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        }*/
+
                 }
 
                 @Override

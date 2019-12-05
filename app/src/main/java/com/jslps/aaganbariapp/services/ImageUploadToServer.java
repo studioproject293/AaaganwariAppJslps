@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ImageUploadToServer {
-    @POST("AganwadiImages")
+    @POST("AwcDataImage")
     @FormUrlEncoded
-    Call<String> imageUpload(@Field("sData") String sData);
+    Call<String> imageUpload(@Field("json") String sData);
 }
