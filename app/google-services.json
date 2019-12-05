@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "542143809147",
+    "firebase_url": "https://aaganwadi-app-jslps.firebaseio.com",
+    "project_id": "aaganwadi-app-jslps",
+    "storage_bucket": "aaganwadi-app-jslps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542143809147:android:788d4e5e0b3e4519e044de",
+        "android_client_info": {
+          "package_name": "com.jslps.aaganbariapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542143809147-kj7f75n3719lujnhhv7svr2ohs0g8m4u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jslps.aaganbariapp",
+            "certificate_hash": "f6b0d855af04cf954f5e38b2beb4a53967e568c5"
+          }
+        },
+        {
+          "client_id": "542143809147-o1u5jefbs540e7gh5dq1fm83aldtt6f9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfkzisIOvlhTdu4lbrKctzTxr1DMpFICs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542143809147-o1u5jefbs540e7gh5dq1fm83aldtt6f9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

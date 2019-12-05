@@ -146,7 +146,6 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                 }
             } else editTextRemarks.setVisibility(View.GONE);
         }
-        System.out.println("djaHUWEQYE8WHQDUSYADAUWIGSDFAUI" + new Gson().toJson((ArrayList<ImageSaveModel>) ImageSaveModel.listAll(ImageSaveModel.class)));
         arrayListVillage1 = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
                 .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                         Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
@@ -162,7 +161,6 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
         } else {
             uploadImage.setVisibility(View.GONE);
         }
-
         if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
             Constant.maxAttachment = 1;
 

@@ -1,6 +1,7 @@
 package com.jslps.aaganbariapp.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chootdev.csnackbar.Align;
+import com.chootdev.csnackbar.Duration;
+import com.chootdev.csnackbar.Snackbar;
+import com.chootdev.csnackbar.Type;
+import com.jeevandeshmukh.fancybottomsheetdialoglib.FancyBottomSheetDialog;
 import com.jslps.aaganbariapp.PrefManager;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.listener.OnFragmentListItemSelectListener;
 import com.jslps.aaganbariapp.model.AanganWariModelDb;
 import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSend;
+import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
+import com.jslps.aaganbariapp.model.ImageSaveModel;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 
 import java.util.ArrayList;
 
@@ -66,18 +76,41 @@ public class ReprtsListRecyclerviewAdapter extends RecyclerView.Adapter<ReprtsLi
         holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                benifisheryDataModelDbSends.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, benifisheryDataModelDbSends.size());
-                onFragmentListItemSelectListener.onListItemSelected(R.id.delete, benifisheryDataModelDbSend);
+                new FancyBottomSheetDialog.Builder(context)
+                        .setTitle("Delete Data")
+                        .setMessage("Are you sure you want to delete ?")
+                        .setBackgroundColor(Color.parseColor("#F00000")) //don't use R.color.somecolor
+                        .setIcon(R.drawable.ic_info_outline_black_24dp,true)
+                        .isCancellable(false)
+                        .OnNegativeClicked(new FancyBottomSheetDialog.FancyBottomSheetDialogListener() {
+                            @Override
+                            public void OnClick() {
+
+                            }
+                        })
+                        .OnPositiveClicked(new FancyBottomSheetDialog.FancyBottomSheetDialogListener() {
+                            @Override
+                            public void OnClick() {
+                                benifisheryDataModelDbSends.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, benifisheryDataModelDbSends.size());
+                                onFragmentListItemSelectListener.onListItemSelected(R.id.delete, benifisheryDataModelDbSend);
+                            }
+                        })
+                        .setNegativeBtnText("Cancel")
+                        .setPositiveBtnText("Delete")
+                        .setPositiveBtnBackground(Color.parseColor("#F00000"))//don't use R.color.somecolor
+                        .setNegativeBtnBackground(Color.WHITE)//don't use R.color.somecolor
+                        .build();
+
             }
         });
        if (benifisheryDataModelDbSend.getIsuploadToServer().equalsIgnoreCase("true")){
            holder.imageViewEdit.setVisibility(View.GONE);
-           holder.imageViewDelete.setVisibility(View.GONE);
+
        }else {
            holder.imageViewEdit.setVisibility(View.VISIBLE);
-           holder.imageViewDelete.setVisibility(View.VISIBLE);
+
        }
 
       holder.monthYear.setText(getProperFormat(Integer.parseInt(benifisheryDataModelDbSend.getMonth()))+" - "+benifisheryDataModelDbSend.getYear());

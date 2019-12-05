@@ -1,6 +1,7 @@
 package com.jslps.aaganbariapp.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.chootdev.csnackbar.Align;
 import com.chootdev.csnackbar.Duration;
 import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
+import com.jeevandeshmukh.fancybottomsheetdialoglib.FancyBottomSheetDialog;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
 import com.jslps.aaganbariapp.activity.MainActivity;
@@ -108,7 +110,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     }
 
     @Override
-    public void onListItemSelected(int itemId, Object data) {
+    public void onListItemSelected(int itemId, final Object data) {
         switch (itemId) {
             case R.id.delete:
                 ReportDisplayFormModel benifisheryDataModelDbSend = (ReportDisplayFormModel) data;
@@ -134,6 +136,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
                         .textAlign(Align.CENTER)
                         .show();
                 //Toast.makeText(getActivity(), getString(R.string.delete_sucessfully), Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.edit:
                 Constant.editFlag = true;
