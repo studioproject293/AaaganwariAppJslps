@@ -271,9 +271,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 
                 }
             }
-            System.out.println("data sendimge" + new Gson().toJson(dataModelDbSendArrayListImageSendServer));
+
             String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + ","+ "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
-            System.out.println("jdfjhjds" + data);
 //            String data1 = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
 
             Call<String> imageDatUpload = apiServices.imageUpload(data);
@@ -284,7 +283,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     System.out.println("Response  data" + response.body());
                     String fullResponse = response.body();
                     String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
-                    String result = XmlString.replaceAll("</string>", "");
+                    String result = XmlString.replaceAll("<string/>", "");
+                    System.out.println("Response  datafeFEQ" + result);
                     try {
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jresponse = jsonArray.getJSONObject(0);
@@ -323,7 +323,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                             if (!TextUtils.isEmpty(duplicate)){
                                 Snackbar.with(getActivity(), null)
                                         .type(Type.ERROR)
-                                        .message("Please try with differnt aaganwadi data "+duplicate+" data is already exist")
+                                        .message("Please try with different aaganwadi data "+duplicate+" data is already exist")
                                         .duration(Duration.SHORT)
                                         .fillParent(true)
                                         .textAlign(Align.CENTER)

@@ -215,8 +215,8 @@ public class DownLoadDataFragment extends BaseFragment implements OnFragmentList
                 //comment in live build and uncomment in uat
                 builder.interceptors().add(interceptor);
 
-                builder.connectTimeout(120, TimeUnit.SECONDS);
-                builder.readTimeout(120, TimeUnit.SECONDS);
+                builder.connectTimeout(180, TimeUnit.SECONDS);
+                builder.readTimeout(180, TimeUnit.SECONDS);
                 OkHttpClient client = builder.build();
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
                 ApiServices apiServices = retrofit.create(ApiServices.class);
