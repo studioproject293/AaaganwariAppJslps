@@ -265,7 +265,6 @@ public class WelcomeActivity extends AppCompatActivity {
                                     public void onResponse(Call<String> call, Response<String> response) {
                                         Gson gson = new Gson();
                                         Log.v("Response prof :", "hgfgfrhgs" + response.body());
-
                                         String fullResponse = response.body();
                                         String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                                         String result = XmlString.replaceAll("</string>", "");
@@ -557,7 +556,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                         Log.v("Response prof :", "hgfgfrhgs" + response.body());
 
                                         String fullResponse = response.body();
-                                         String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
+                                        String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                                         String result = XmlString.replaceAll("</string>", "");
 
                                         System.out.print("fhrjfghf" + result);

@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -41,16 +39,8 @@ import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
-import com.orm.SugarDb;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.Locale;
-
-import static java.io.File.createTempFile;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private FragmentManager mFragmentManager;
@@ -67,12 +57,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*String dbname = "Aaaganbari.db";
+        File dbpath = this.getDatabasePath(dbname);
+        System.out.print("");
+        backup(dbpath);
+        backupToSugar(dbpath);*/
         setContentView(R.layout.activity_main);
         prefManager = PrefManager.getInstance();
         toolbar_home = findViewById(R.id.toolbar_home);
@@ -82,17 +76,19 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         button_bank_connection = findViewById(R.id.english);
         button_brand_connection = findViewById(R.id.hindi);
         onFragmentInteraction(Constant.HOME_FRAGMENT, null);
-        try {
+        /*try {
             copyDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        savenewMember.setOnClickListener(new View.OnClickListener() {
+    } catch (IOException e) {
+        e.printStackTrace();
+    }*/
+
+       /* savenewMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
-        });
+        });*/
+
         if (radioGroup.getCheckedRadioButtonId() == -1) {
             button_bank_connection.setBackgroundResource(R.drawable.radio_button_style);
             button_brand_connection.setBackgroundResource(R.drawable.radio_background);
@@ -264,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         alertDialog.show();
     }
 
-    public  Boolean copyFile(File sourceFile, File destFile)
+   /* public  Boolean copyFile(File sourceFile, File destFile)
             throws IOException {
         //        if (!destFile.exists()) {
         destFile.createNewFile();
@@ -284,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         return true;
         //        }
         //        return false;
-    }
+    }*/
 
     public void gotoHomePage() {
         try {
@@ -294,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }
     }
 
-        private void copyDatabase() throws IOException {
+      /*  private void copyDatabase() throws IOException {
 
         File actualFile = new File(new SugarDb(MainActivity.this).getDB().getPath());
         File cuurentfile = new File(actualFile.toString());
@@ -311,6 +307,57 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             Log.e("result", "" + true);
         }
 
-    }
+    }*/
+     /* public void backup(File dbpath) {
+          try {
+              File sdcard = Environment.getExternalStorageDirectory();
+              File outputFile = new File(sdcard, "THR");
 
+              if (!outputFile.exists())
+                  outputFile.createNewFile();
+
+              File data = Environment.getDataDirectory();
+              File inputFile = dbpath;
+              InputStream input = new FileInputStream(inputFile);
+              OutputStream output = new FileOutputStream(outputFile);
+              byte[] buffer = new byte[1024];
+
+              int length;
+              while ((length = input.read(buffer)) > 0) {
+                  output.write(buffer, 0, length);
+              }
+              output.flush();
+              output.close();
+              input.close();
+          } catch (IOException e) {
+              e.printStackTrace();
+              throw new Error("Copying Failed");
+          }
+      }
+    public void backupToSugar(File dbpath) {
+        try {
+            File sdcard = Environment.getExternalStorageDirectory();
+            File outputFile = new File(sdcard, "THR");
+
+            if (!outputFile.exists())
+                outputFile.createNewFile();
+
+            File data = Environment.getDataDirectory();
+            File inputFile = outputFile;
+            InputStream input = new FileInputStream(outputFile);
+            OutputStream output = new FileOutputStream(dbpath);
+            byte[] buffer = new byte[1024];
+
+            int length;
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+            output.flush();
+            output.close();
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error("Copying Failed");
+        }
+    }*/
 }

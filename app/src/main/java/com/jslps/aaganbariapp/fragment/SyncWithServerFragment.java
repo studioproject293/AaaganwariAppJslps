@@ -19,7 +19,6 @@ import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.DialogUtil;
 import com.jslps.aaganbariapp.R;
@@ -29,7 +28,6 @@ import com.jslps.aaganbariapp.model.BenifisheryDataModelDbSendNew;
 import com.jslps.aaganbariapp.model.DataSaveModel1;
 import com.jslps.aaganbariapp.model.HeaderData;
 import com.jslps.aaganbariapp.model.ImageSaveModel;
-import com.jslps.aaganbariapp.model.SyncWithServerRespone;
 import com.jslps.aaganbariapp.services.BenifisheryDataUpload;
 import com.jslps.aaganbariapp.services.ImageUploadToServer;
 import com.orm.query.Condition;
@@ -40,10 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.xml.transform.Result;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -130,7 +125,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 
             }
         }
-        System.out.println("dfhdsghfdsghfs" + new Gson().toJson(adaptersendList));
         updateList(adaptersendList);
     }
 
@@ -173,10 +167,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             @Override
             public void onClick(View view) {
                 if (DialogUtil.isConnectionAvailable(getActivity())) {
-                    System.out.println("nw Gson" + new Gson().toJson(saveModel1ArrayList));
-
                     if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
-
                         uploadImageService();
                     }
                 } else {
@@ -188,11 +179,9 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                             .textAlign(Align.CENTER)
                             .show();
                 }
-
             }
         });
         recyclerViewBenifishery.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-
         return rootView;
     }
 
@@ -208,13 +197,12 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             //comment in live build and uncomment in uat
             builder.interceptors().add(interceptor);
-
             builder.connectTimeout(180, TimeUnit.SECONDS);
             builder.readTimeout(180, TimeUnit.SECONDS);
             OkHttpClient client = builder.build();
             Retrofit retrofit = new Retrofit.Builder().baseUrl("http://thr.swalekha.in/webservice/dropdownwebservice.asmx/").addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
             ImageUploadToServer apiServices = retrofit.create(ImageUploadToServer.class);
-            benifisheryDataModelDbSendArrayListSendToServer=new ArrayList<>();
+            benifisheryDataModelDbSendArrayListSendToServer = new ArrayList<>();
             for (int i = 0; i < saveModel1ArrayList.size(); i++) {
 
                 benifisheryDataModelDbSendArrayListSendToServer = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
@@ -251,10 +239,8 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                 benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);*/
                 }
                 dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
-
             }
             dataModelDbSendArrayListImageSendServer = new ArrayList<>();
-
             if (saveModel1ArrayList != null && saveModel1ArrayList.size() > 0) {
                 for (int i = 0; i < saveModel1ArrayList.size(); i++) {
                     benifisheryDataModelDbSendArrayListImage = (ArrayList<ImageSaveModel>) Select.from(ImageSaveModel.class)
@@ -271,8 +257,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 
                 }
             }
-
-            String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + ","+ "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
+            String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + "," + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
 //            String data1 = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
 
             Call<String> imageDatUpload = apiServices.imageUpload(data);
@@ -280,11 +265,9 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     DialogUtil.stopProgressDisplay();
-                    System.out.println("Response  data" + response.body());
                     String fullResponse = response.body();
                     String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                     String result = XmlString.replaceAll("<string/>", "");
-                    System.out.println("Response  datafeFEQ" + result);
                     try {
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jresponse = jsonArray.getJSONObject(0);
@@ -293,9 +276,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 //                       String notVo = jresponse.getString("NotVO");
 //                        String imageError = jresponse.getString("ImageError");
 //                        String sucess = jresponse.getString("Sucesses");
-
-
-                        if (!TextUtils.isEmpty(status)){
+                        if (!TextUtils.isEmpty(status)) {
                             if (status.equals("1")) {
                                 for (int i = 0; i < dataModelDbSendArrayListImageSendServer.size(); i++) {
                                     dataModelDbSendArrayListImageSendServer.get(i).setIsuploadtoserver("true");
@@ -318,29 +299,26 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     .show();
 
                             onResume();
-                        }else{
-
-                            if (!TextUtils.isEmpty(duplicate)){
+                        } else {
+                            if (!TextUtils.isEmpty(duplicate)) {
                                 Snackbar.with(getActivity(), null)
                                         .type(Type.ERROR)
-                                        .message("Please try with different aaganwadi data "+duplicate+" data is already exist")
+                                        .message("Please try with different aaganwadi data " + duplicate + " data is already exist")
                                         .duration(Duration.SHORT)
                                         .fillParent(true)
                                         .textAlign(Align.CENTER)
                                         .show();
-                            }else  {
-                                if (jsonArray.toString().contains("NotVO")){
+                            } else {
+                                if (jsonArray.toString().contains("NotVO")) {
                                     String notVo = jresponse.getString("NotVO");
                                     Snackbar.with(getActivity(), null)
                                             .type(Type.ERROR)
-                                            .message("Please try with differnt aaganwadi data,this vo is not mapped with cc")
+                                            .message("Please try with different aaganwadi data,this vo is not mapped with cc")
                                             .duration(Duration.SHORT)
                                             .fillParent(true)
                                             .textAlign(Align.CENTER)
                                             .show();
-                                }
-
-
+                               }
                             }
                         }
                     } catch (JSONException e) {
@@ -492,6 +470,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                 }
 
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 DialogUtil.stopProgressDisplay();
