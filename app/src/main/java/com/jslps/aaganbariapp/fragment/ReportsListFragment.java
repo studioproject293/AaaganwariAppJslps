@@ -15,6 +15,7 @@ import com.chootdev.csnackbar.Align;
 import com.chootdev.csnackbar.Duration;
 import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
+import com.google.gson.Gson;
 import com.jeevandeshmukh.fancybottomsheetdialoglib.FancyBottomSheetDialog;
 import com.jslps.aaganbariapp.Constant;
 import com.jslps.aaganbariapp.R;
@@ -36,6 +37,7 @@ public class ReportsListFragment extends BaseFragment implements OnFragmentListI
     private View rootView;
     RecyclerView recyclerViewPanchyat;
     ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSends;
+    ArrayList<ImageSaveModel> imageSaveModels;
 
     public ReportsListFragment() {
         // Required empty public constructor

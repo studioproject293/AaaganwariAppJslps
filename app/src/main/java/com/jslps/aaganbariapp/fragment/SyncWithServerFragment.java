@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -216,12 +217,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     benifisheryDataModelDbSend.setPanchyatname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getPanchyatname());
                     benifisheryDataModelDbSend.setAaganwariname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getAaganwariname());
                     benifisheryDataModelDbSend.setVoname(benifisheryDataModelDbSendArrayListSendToServer.get(l).getVoname());
-                                /*benifisheryDataModelDbSend.setCheckboxdal(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxdal());
-                                benifisheryDataModelDbSend.setCheckboxjaggery(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxjaggery());
-                                benifisheryDataModelDbSend.setCheckboxpenauts(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpenauts());
-                                benifisheryDataModelDbSend.setCheckboxpotato(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxpotato());
-                                benifisheryDataModelDbSend.setCheckboxrice(benifisheryDataModelDbSendArrayListSendToServer.get(l).getCheckboxrice());
-                                benifisheryDataModelDbSend.setChexkboxchickpea(benifisheryDataModelDbSendArrayListSendToServer.get(l).getChexkboxchickpea());*/
+
                     newArrr.add(benifisheryDataModelDbSend);
                 }
                 for (int j = 0; j < benifisheryDataModelDbSendArrayListSendToServer.size(); j++) {
@@ -231,12 +227,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     benifisheryDataModelDbSendArrayListSendToServer.get(j).setId(null);
                     benifisheryDataModelDbSendArrayListSendToServer.get(j).setCreatedon(null);
                     benifisheryDataModelDbSendArrayListSendToServer.get(j).setIsuploadtoserver(null);
-                                /*benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxdal(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxjaggery(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpenauts(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxpotato(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setCheckboxrice(null);
-                                benifisheryDataModelDbSendArrayListSendToServer.get(j).setChexkboxchickpea(null);*/
+
                 }
                 dataModelDbSendArrayListData.addAll(benifisheryDataModelDbSendArrayListSendToServer);
             }
@@ -252,12 +243,13 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                     for (int j = 0; j < benifisheryDataModelDbSendArrayListImage.size(); j++) {
                         benifisheryDataModelDbSendArrayListImage.get(j).setId(null);
                         benifisheryDataModelDbSendArrayListImage.get(j).setIsuploadtoserver(null);
+
                     }
                     dataModelDbSendArrayListImageSendServer.addAll(benifisheryDataModelDbSendArrayListImage);
 
                 }
             }
-            String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + "," + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
+            String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + "," + "\"AganwadiImages\"" + " :" + new Gson().toJson(benifisheryDataModelDbSendArrayListImage) + " }";
 //            String data1 = "{" + "\"AganwadiImages\"" + " :" + new Gson().toJson(dataModelDbSendArrayListImageSendServer) + " }";
 
             Call<String> imageDatUpload = apiServices.imageUpload(data);
@@ -266,6 +258,7 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                 public void onResponse(Call<String> call, Response<String> response) {
                     DialogUtil.stopProgressDisplay();
                     String fullResponse = response.body();
+
                     String XmlString = fullResponse.substring(fullResponse.indexOf("\">") + 2);
                     String result = XmlString.replaceAll("<string/>", "");
                     try {
@@ -277,7 +270,9 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
 //                        String imageError = jresponse.getString("ImageError");
 //                        String sucess = jresponse.getString("Sucesses");
                         if (!TextUtils.isEmpty(status)) {
+                            Toast.makeText(getActivity(), "status"+status, Toast.LENGTH_SHORT).show();
                             if (status.equals("1")) {
+
                                 for (int i = 0; i < dataModelDbSendArrayListImageSendServer.size(); i++) {
                                     dataModelDbSendArrayListImageSendServer.get(i).setIsuploadtoserver("true");
                                     dataModelDbSendArrayListImageSendServer.get(i).save();
@@ -289,16 +284,39 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
                                     dataModelDbSendArrayListData.get(j).setVoname(newArrr.get(j).getVoname());
                                     dataModelDbSendArrayListData.get(j).save();
                                 }
+                                Snackbar.with(getActivity(), null)
+                                        .type(Type.SUCCESS)
+                                        .message(getString(R.string.save_message))
+                                        .duration(Duration.SHORT)
+                                        .fillParent(true)
+                                        .textAlign(Align.CENTER)
+                                        .show();
+                                onResume();
+                            } else {
+                            if (!TextUtils.isEmpty(duplicate)) {
+                                Snackbar.with(getActivity(), null)
+                                        .type(Type.ERROR)
+                                        .message("Please try with different aaganwadi data " + duplicate + " data is already exist")
+                                        .duration(Duration.SHORT)
+                                        .fillParent(true)
+                                        .textAlign(Align.CENTER)
+                                        .show();
+                            } else {
+                                if (jsonArray.toString().contains("NotVO")) {
+                                    String notVo = jresponse.getString("NotVO");
+                                    Snackbar.with(getActivity(), null)
+                                            .type(Type.ERROR)
+                                            .message("Please try with different aaganwadi data,this vo is not mapped with cc")
+                                            .duration(Duration.SHORT)
+                                            .fillParent(true)
+                                            .textAlign(Align.CENTER)
+                                            .show();
+                                }
                             }
-                            Snackbar.with(getActivity(), null)
-                                    .type(Type.SUCCESS)
-                                    .message(getString(R.string.save_message))
-                                    .duration(Duration.SHORT)
-                                    .fillParent(true)
-                                    .textAlign(Align.CENTER)
-                                    .show();
+                        }
 
-                            onResume();
+
+
                         } else {
                             if (!TextUtils.isEmpty(duplicate)) {
                                 Snackbar.with(getActivity(), null)
@@ -406,7 +424,6 @@ public class SyncWithServerFragment extends BaseFragment implements OnFragmentLi
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.API_BASE_URL).addConverterFactory(ScalarsConverterFactory.create()).client(client).build();
         BenifisheryDataUpload apiServices = retrofit.create(BenifisheryDataUpload.class);
         String data = "{" + "\"AganwadiData\"" + " :" + new Gson().toJson(dataModelDbSendArrayListData) + " }";
-        System.out.println("jdfjhjds" + data);
         Call<String> benifisherydataUpload = apiServices.benificeryDataUpload(data);
         benifisherydataUpload.enqueue(new Callback<String>() {
             @Override

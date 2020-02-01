@@ -338,8 +338,8 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
             public void onClick(View view) {
                 /*if (checkBoxPotato.isChecked() || checkBoxRice.isChecked() || checkBoxDal.isChecked() || checkBoxJaggery.isChecked() || checkBoxChickpea.isChecked()
                         || checkBoxPenauts.isChecked()) {*/
-                if (Integer.parseInt(yearSelect) <= year) {
-                    if (monthSeleted - 1 <= month) {
+//                if (Integer.parseInt(yearSelect) <= year) {
+//                    if (monthSeleted - 1 <= month) {
                         if (switchtrue.isChecked()) {
                             ArrayList<BenifisheryDataModelDbSendNew> benifisheryDataModelDbSendss = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
                                     .where(Condition.prop("panchyatcode").eq(prefManager.getPrefPanchyatCode()),
@@ -474,14 +474,14 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
                             }
                         }
 
-                    } else {
+                   /* } else {
                         Toast.makeText(getActivity(), "Please Select current month", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
                     Toast.makeText(getActivity(), "Please Select current Year", Toast.LENGTH_SHORT).show();
 
-                }
+                }*/
                 /*if (switchtrue.isChecked()) {
                     String id = UUID.randomUUID().toString();
                     BenifisheryDataModelDbSend benifisheryDataModelDbSend = new BenifisheryDataModelDbSend();
@@ -834,7 +834,7 @@ public class EntryFormFragmentNew extends BaseFragment implements OnFragmentList
             Constant.finaltypes.add("jpeg");
             Constant.finalsizes.add(fileSizeInBytes);
             Constant.finalBitmap.add(bmp);
-            System.out.println("dchHIU" + new Gson().toJson(Constant.finalbytes));
+
         } else if (requestCode == 1 && resultCode == -1) {
 
 

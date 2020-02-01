@@ -90,10 +90,11 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
     ArrayList<BenifisheryDataModelDbSendNew> arrayList;
     static ReportDisplayFormModel BenifisheryDataModelDbSendRec;
     PrefManager prefManager;
-    LinearLayout totalLyout, tableLayout, butonLayout,switchLayout;
+    LinearLayout totalLyout, tableLayout, butonLayout, switchLayout;
     public static TextView totalNoofbef, totalRice, totalArharDal, totalPenauts, totalChana,
             totalJaggery, totalPotatao;
     Switch switchtrue;
+
     public EntryFormFragmentEditNew() {
         // Required empty public constructor
     }
@@ -113,7 +114,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                     .where(Condition.prop("panchyatcode").eq(BenifisheryDataModelDbSendRec.getPancayatcode()),
                             Condition.prop("vocode").eq(BenifisheryDataModelDbSendRec.getVocode()),
                             Condition.prop("aaganwaricode").eq(BenifisheryDataModelDbSendRec.getAaganwaricode())
-                            ,Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
+                            , Condition.prop("month").eq(BenifisheryDataModelDbSendRec.getMonth()),
                             Condition.prop("year").eq(BenifisheryDataModelDbSendRec.getYear())).list();
 
             arrayList = (ArrayList<BenifisheryDataModelDbSendNew>) Select.from(BenifisheryDataModelDbSendNew.class)
@@ -125,7 +126,8 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
 
 
         }
-        editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
+        if (!TextUtils.isEmpty(benifisheryDataModelDbArrayList.get(0).getRemarks()))
+            editTextRemarks.setText(benifisheryDataModelDbArrayList.get(0).getRemarks());
 
         if (Constant.editFlag) {
             editTextRemarks.setVisibility(View.VISIBLE);
@@ -989,7 +991,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
                     if (Constant.finalbytes.size() < Constant.maxAttachment) {
                         /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(intent, 1);*/
-                        String fileName = System.currentTimeMillis()+".jpg";
+                        String fileName = System.currentTimeMillis() + ".jpg";
                         ContentValues values = new ContentValues();
                         values.put(MediaStore.Images.Media.TITLE, fileName);
                         fileuri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -1231,6 +1233,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
         }*/
 
     }
+
     private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
         BitmapFactory.Options o = new BitmapFactory.Options();
 
@@ -1241,14 +1244,12 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
 
         final int REQUIRED_SIZE = 400;
 
-        int width_tmp = o.outWidth,  height_tmp = o.outHeight;
+        int width_tmp = o.outWidth, height_tmp = o.outHeight;
 
         int scale = 1;
 
-        while (true)
-        {
-            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
-            {
+        while (true) {
+            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE) {
                 break;
             }
             width_tmp /= 2;
@@ -1267,6 +1268,7 @@ public class EntryFormFragmentEditNew extends BaseFragment implements
 
         return bitmap;
     }
+
     String encodedBase64;
     Uri fileuri;
 

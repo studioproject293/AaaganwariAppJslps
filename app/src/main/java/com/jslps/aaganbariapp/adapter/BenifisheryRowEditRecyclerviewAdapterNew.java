@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,13 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
 
     @Override
     public void onBindViewHolder(@NonNull final BenifisheryRowEditRecyclerviewAdapterNew.ViewHolder holder, final int position) {
+        holder.benifisheryName.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.rice.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.potato.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.jaggery.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.arharDal.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.penauts.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.chana.setKeyListener(DigitsKeyListener.getInstance(true,true));
         final BenifisheryDataModelDbSendNew benifisheryDataModelDb = benifisheryDataModelDbArrayList.get(position);
         holder.benifisheryName.setText(benifisheryDataModelDb.getBenfname());
         holder.noOfBenifishery.setText(benifisheryDataModelDb.getNoofbenf());
@@ -404,6 +412,14 @@ public class BenifisheryRowEditRecyclerviewAdapterNew extends RecyclerView.Adapt
             arharDal = itemView.findViewById(R.id.dalArhar);
             penauts = itemView.findViewById(R.id.penauts);
             chana = itemView.findViewById(R.id.chana);
+            benifisheryName.setKeyListener(DigitsKeyListener.getInstance(true,true));
+            rice.setKeyListener(DigitsKeyListener.getInstance(true,true));
+            potato.setKeyListener(DigitsKeyListener.getInstance(true,true));
+            jaggery.setKeyListener(DigitsKeyListener.getInstance(true,true));
+            arharDal.setKeyListener(DigitsKeyListener.getInstance(true,true));
+            penauts.setKeyListener(DigitsKeyListener.getInstance(true,true));
+            chana.setKeyListener(DigitsKeyListener.getInstance(true,true));
         }
+
     }
 }

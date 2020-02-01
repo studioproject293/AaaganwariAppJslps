@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<BenifisheryRowRecyclerviewAdapterNew.ViewHolder> {
     private Activity context;
-    OnFragmentListItemSelectListener onFragmentListItemSelectListener;
+    OnFragmentListItemSelectListener  onFragmentListItemSelectListener;
     ArrayList<BenifisheryDataModelDbNew> benifisheryDataModelDbArrayList;
 
     public BenifisheryRowRecyclerviewAdapterNew(Activity activity, ArrayList<BenifisheryDataModelDbNew> benifisheryDataModelDbArrayList) {
@@ -38,6 +39,13 @@ public class BenifisheryRowRecyclerviewAdapterNew extends RecyclerView.Adapter<B
 
     @Override
     public void onBindViewHolder(@NonNull final BenifisheryRowRecyclerviewAdapterNew.ViewHolder holder, final int position) {
+        holder.benifisheryName.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.rice.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.potato.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.jaggery.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.arharDal.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.penauts.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        holder.chana.setKeyListener(DigitsKeyListener.getInstance(true,true));
         final BenifisheryDataModelDbNew benifisheryDataModelDb = benifisheryDataModelDbArrayList.get(position);
         holder.benifisheryName.setText(benifisheryDataModelDb.getBenfname());
         holder.noOfBenifishery.setText(benifisheryDataModelDb.getNoofbenf());

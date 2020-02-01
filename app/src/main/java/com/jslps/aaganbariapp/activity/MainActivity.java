@@ -1,9 +1,12 @@
 package com.jslps.aaganbariapp.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.jslps.aaganbariapp.Constant;
@@ -40,6 +45,12 @@ import com.jslps.aaganbariapp.model.PanchyatDataModelDb;
 import com.jslps.aaganbariapp.model.ReportDisplayFormModel;
 import com.jslps.aaganbariapp.model.VOListDataModelDb;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
@@ -52,8 +63,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public static RadioGroup radioGroup;
     PrefManager prefManager;
     RadioButton button_bank_connection, button_brand_connection;
-    public static boolean newCall=false;
-    public static boolean newCall1=false;
+    public static boolean newCall = false;
+    public static boolean newCall1 = false;
+    private static final int REQUEST_PERMISSIONS = 101;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -62,11 +75,30 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*String dbname = "Aaaganbari.db";
+        String dbname = "Aaaganbari.db";
         File dbpath = this.getDatabasePath(dbname);
         System.out.print("");
-        backup(dbpath);
-        backupToSugar(dbpath);*/
+//
+        if ((ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
+                (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+            if ((ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA))) {
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSIONS);
+            }
+        } else {
+           backupToSugar(dbpath);
+//            backup(dbpath);
+        }
+
         setContentView(R.layout.activity_main);
         prefManager = PrefManager.getInstance();
         toolbar_home = findViewById(R.id.toolbar_home);
@@ -120,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     prefManager.setPrefLangaugeSelection("english");
                     if (mCurrentFragment == Constant.HOME_FRAGMENT)
                         gotoHomePage();
-
                 } else {
                     button_bank_connection.setBackgroundResource(R.drawable.radio_background);
                     button_brand_connection.setBackgroundResource(R.drawable.radio_button_style);
@@ -143,7 +174,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         else radioGroup.setVisibility(View.GONE);
 
     }
-        @Override
+
+    @Override
     public void onFragmentInteraction(int fragmentId, Object data) {
         mFragmentManager = getSupportFragmentManager();
         mCurrentFragment = fragmentId;
@@ -290,50 +322,51 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }
     }
 
-      /*  private void copyDatabase() throws IOException {
+    /*  private void copyDatabase() throws IOException {
 
-        File actualFile = new File(new SugarDb(MainActivity.this).getDB().getPath());
-        File cuurentfile = new File(actualFile.toString());
-        Log.e("actualPath", "vsfkvsk" + actualFile.toString());
+      File actualFile = new File(new SugarDb(MainActivity.this).getDB().getPath());
+      File cuurentfile = new File(actualFile.toString());
+      Log.e("actualPath", "vsfkvsk" + actualFile.toString());
 
 
-        File newFile = createTempFile("sugarFiles", ".db", Environment.getExternalStorageDirectory());
+      File newFile = createTempFile("sugarFiles", ".db", Environment.getExternalStorageDirectory());
 
-        Log.e("newPath", "gbgkjfdk" + newFile.toString());
+      Log.e("newPath", "gbgkjfdk" + newFile.toString());
 
-        boolean yes = copyFile(cuurentfile, newFile);
+      boolean yes = copyFile(cuurentfile, newFile);
 
-        if (yes) {
-            Log.e("result", "" + true);
-        }
-
-    }*/
-     /* public void backup(File dbpath) {
-          try {
-              File sdcard = Environment.getExternalStorageDirectory();
-              File outputFile = new File(sdcard, "THR");
-
-              if (!outputFile.exists())
-                  outputFile.createNewFile();
-
-              File data = Environment.getDataDirectory();
-              File inputFile = dbpath;
-              InputStream input = new FileInputStream(inputFile);
-              OutputStream output = new FileOutputStream(outputFile);
-              byte[] buffer = new byte[1024];
-
-              int length;
-              while ((length = input.read(buffer)) > 0) {
-                  output.write(buffer, 0, length);
-              }
-              output.flush();
-              output.close();
-              input.close();
-          } catch (IOException e) {
-              e.printStackTrace();
-              throw new Error("Copying Failed");
-          }
+      if (yes) {
+          Log.e("result", "" + true);
       }
+
+  }*/
+    public void backup(File dbpath) {
+        try {
+            File sdcard = Environment.getExternalStorageDirectory();
+            File outputFile = new File(sdcard, "THR");
+
+            if (!outputFile.exists())
+                outputFile.createNewFile();
+
+            File data = Environment.getDataDirectory();
+            File inputFile = dbpath;
+            InputStream input = new FileInputStream(inputFile);
+            OutputStream output = new FileOutputStream(outputFile);
+            byte[] buffer = new byte[1024];
+
+            int length;
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+            output.flush();
+            output.close();
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error("Copying Failed");
+        }
+    }
+
     public void backupToSugar(File dbpath) {
         try {
             File sdcard = Environment.getExternalStorageDirectory();
@@ -359,5 +392,5 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             e.printStackTrace();
             throw new Error("Copying Failed");
         }
-    }*/
+    }
 }

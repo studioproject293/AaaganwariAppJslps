@@ -31,8 +31,6 @@ public  class BenifisheryDataModelDbNew extends SugarRecord {
         this.noofbenf = noofbenf;
     }
 
-
-
     public String getBenfid() {
         return benfid;
     }
