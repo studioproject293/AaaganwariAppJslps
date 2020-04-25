@@ -227,25 +227,25 @@ public class WelcomeActivity extends AppCompatActivity {
                     showError(editTextPassword);
                 } else {
                     DialogUtil.hideKeyboard(sigiin, WelcomeActivity.this);
-                    dialog.cancel();
-                    ArrayList<LoginModelDb> arrayListVillage1 = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class)
-                            .where(Condition.prop("username").eq(editTextUserName.getText().toString()),
-                                    Condition.prop("password").eq(editTextPassword.getText().toString())).list();
-                    System.out.println("LogInDbsdfsdfs" + new Gson().toJson(arrayListVillage1));
-                    if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
+                            dialog.cancel();
+                            ArrayList<LoginModelDb> arrayListVillage1 = (ArrayList<LoginModelDb>) Select.from(LoginModelDb.class)
+                                    .where(Condition.prop("username").eq(editTextUserName.getText().toString()),
+                                            Condition.prop("password").eq(editTextPassword.getText().toString())).list();
+                            System.out.println("LogInDbsdfsdfs" + new Gson().toJson(arrayListVillage1));
+                            if (arrayListVillage1 != null && arrayListVillage1.size() > 0) {
 
-                        if (arrayListVillage1.get(0).getUsername().equals(editTextUserName.getText().toString()) ||
-                                arrayListVillage1.get(0).getUsername().equals(editTextPassword.getText().toString())) {
-                            if (checkboxRember.isChecked()) {
-                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                SharedPreferences.Editor editor = pref.edit();
-                                editor.putString("userName", editTextUserName.getText().toString());
-                                editor.putString("Password", editTextPassword.getText().toString());
-                                editor.apply();
-                            }
-                            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
+                                if (arrayListVillage1.get(0).getUsername().equals(editTextUserName.getText().toString()) ||
+                                        arrayListVillage1.get(0).getUsername().equals(editTextPassword.getText().toString())) {
+                                    if (checkboxRember.isChecked()) {
+                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                        SharedPreferences.Editor editor = pref.edit();
+                                        editor.putString("userName", editTextUserName.getText().toString());
+                                        editor.putString("Password", editTextPassword.getText().toString());
+                                        editor.apply();
+                                    }
+                                    Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else {
                             if (DialogUtil.isConnectionAvailable(WelcomeActivity.this)) {
                                 DialogUtil.displayProgress(WelcomeActivity.this);
                                 Gson gson = new GsonBuilder().setLenient().create();
@@ -810,7 +810,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
         alertDialogBuilder.show();
     }
-        public void forceUpdate() {
+    public void forceUpdate() {
             PackageManager packageManager = getPackageManager();
             PackageInfo packageInfo = null;
             try {

@@ -46,5 +46,4 @@
     <string name="update_data_toServer">Data Update Successfully</string>
     <string name="data_download_from_server">Data Download From Server</string>
     <string name="update" translatable="false">Update</string>
-    <string name="youAreNotUpdatedMessage" translatable="false">A new version of THR app is available. Please update to new version now.</string>
-</resources>
+    update</resources>
